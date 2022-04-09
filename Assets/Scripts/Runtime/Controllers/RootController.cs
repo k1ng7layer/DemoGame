@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Runtime.Configs;
+using Assets.Scripts.Runtime.GameActions;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using UnityEngine;
 
 namespace Assets.Scripts.Runtime.Controllers
 {
+
     public class RootController:MonoBehaviour
     {
         public CameraController cameraController { get; private set; }
@@ -41,6 +43,7 @@ namespace Assets.Scripts.Runtime.Controllers
 
         private void Start()
         {
+            ActionConfig.ConfigureActions();
             foreach (var controller in _gameControllers)
             {
                 controller.InitializeController();

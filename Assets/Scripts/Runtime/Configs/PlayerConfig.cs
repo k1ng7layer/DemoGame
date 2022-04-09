@@ -9,8 +9,15 @@ namespace Assets.Scripts.Runtime.Configs
 {
     public abstract class PlayerConfig : ScriptableObject
     {
+        [Header("Player Prefab Parameters")]
         [SerializeField] protected PlayerView playerPrefab;
+        [field: SerializeField] protected GameObject defaultWeaponParentObject => playerPrefab.gameObject.GetComponentInChildren<DefaultWeaponParent>().gameObject;
+        [field: SerializeField] protected GameObject armedWeaponParentObject => playerPrefab.gameObject.GetComponentInChildren<ArmedWeaponParent>().gameObject;
+
+        [Header("Player Input Parameters")]
         [SerializeField] protected InputTypeBase playerInputType;
+
+        [Header("Player Inventory Parameters")]
         [SerializeField] protected InventoryDTO playerInventoryData;
         public PlayerView SpawnedPlayerViewObject { get; private set; }
         
@@ -22,11 +29,8 @@ namespace Assets.Scripts.Runtime.Configs
         }
         public abstract MovementModel BuildMovementModel(Rigidbody rigidbody);
         public abstract InputTypeBase BuildInputType();
-        public abstract InventoryManager GetInventoryManager();
-        //public InventoryDTO GetInventoryDTO()
-        //{
-        //    return playerInventoryData;
-        //} 
+        public abstract InventoryManagerBase GetInventoryManager();
+        
     }
 }
 

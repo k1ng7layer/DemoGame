@@ -12,8 +12,10 @@ namespace Assets.Scripts.Runtime.Inventory
         {
 
         }
+        
         protected abstract bool TryAddItem(ItemDTO item, int quantity);
         protected abstract bool TryGetInventoryItem(int id, out InventoryItem inventoryItem);
         protected abstract void RemoveItem(int id);
+        public abstract void OpenInventory();
     }
 }

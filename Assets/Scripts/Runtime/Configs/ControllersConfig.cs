@@ -14,19 +14,25 @@ namespace Assets.Scripts.Runtime.Configs
     {
         private CameraView _cameraView;
         private PlayerHandler playerHandler;
+        private UIController _uiController;
         
-        [SerializeField] private PlayerConfig playerСonfig;
+        [SerializeField] private PlayerConfig _playerConfig;
+        [SerializeField] private UIConfig _uIConfig;
         private List<IController> _controllers;
         public override List<IController> GetControllers()
         {
             _cameraView = FindObjectOfType<CameraView>();
             _cameraController = new ThirdPersonCamera(_cameraView);
-            var player = playerСonfig.SpawnPlayerViewObject();
+            var player = _playerConfig.SpawnPlayerViewObject();
             _cameraController.SetTarget(player.gameObject);
-            playerHandler = new PlayerHandler(playerСonfig);
+            playerHandler = new PlayerHandler(_playerConfig);
+            _uiController = new UIController(_uIConfig);
             _controllers = new List<IController>();
+
+            //Добавление контроллеров
             _controllers.Add(playerHandler);
             _controllers.Add(_cameraController);
+            _controllers.Add(_uiController);
             
             return _controllers;
         }

@@ -17,7 +17,7 @@ namespace Assets.Scripts.Runtime.Controllers.PlayerControllers
         {
             return playerInputType;
         }
-
+        
         public override MovementModel BuildMovementModel(Rigidbody rigidbody)
         {
             //Rigidbody _rb;
@@ -32,7 +32,7 @@ namespace Assets.Scripts.Runtime.Controllers.PlayerControllers
             return new RigidBodyMovementModel(rigidbody);
         }
 
-        public override InventoryManager GetInventoryManager()
+        public override InventoryManagerBase GetInventoryManager()
         {
             return new InventoryManager(playerInventoryData);
         }

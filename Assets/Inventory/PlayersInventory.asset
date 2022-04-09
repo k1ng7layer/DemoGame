@@ -14,5 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _inventoryItems:
   - _item: {fileID: 11400000, guid: 067baed1702bd4f4c977cac3589a71be, type: 2}
-    _quantity: 1
-  Capacity: 0
+    _quantity: 10
+  - _item: {fileID: 11400000, guid: f7ce8def5404ce24da82f4f4c155d3e9, type: 2}
+    _quantity: 4
+  Capacity: 10

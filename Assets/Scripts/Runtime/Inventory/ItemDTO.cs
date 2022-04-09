@@ -14,5 +14,6 @@ namespace Assets.Scripts.Runtime.Inventory
         [SerializeField][TextArea(0,10)] private string _description;
         public string Name => _name;
         public string Description => _description;
+        public int Id => GetInstanceID();
     }
 }

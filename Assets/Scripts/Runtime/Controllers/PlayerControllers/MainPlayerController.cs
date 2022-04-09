@@ -1,10 +1,12 @@
 ﻿using Assets.Scripts.Runtime.Configs;
+using Assets.Scripts.Runtime.GameActions;
 using Assets.Scripts.Runtime.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UISystem.Common;
 using UnityEngine;
 
 namespace Assets.Scripts.Runtime.Controllers
@@ -27,16 +29,22 @@ namespace Assets.Scripts.Runtime.Controllers
             _movementModel.SetAnimator(_playerAnimator);
             _input.OnMovement += MovePlayer;
             _input.OnJump += Jump;
+            _input.OnInventoryOpen += OpenInventory;
             //_inventoryManager.RemoveItem(0);
         }
         public override void OnDestroyController()
         {
             _input.OnMovement -= MovePlayer;
             _input.OnJump -= Jump;
+            _input.OnInventoryOpen -= OpenInventory;
         }
         public override void MovePlayer(Vector3 direction)
         {
             _movementModel.MovePlayer(direction.x, direction.z);
+        }
+        private void OpenInventory()
+        {
+            _inventoryManager.OpenInventory();
         }
         private void Jump()
         {

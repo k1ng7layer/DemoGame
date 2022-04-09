@@ -1,5 +1,12 @@
 {
   "dependencies": {
+    "com.paata.simpleuisystem": {
+      "version": "https://github.com/k1ng7layer/SimpleUISystem.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "590ad4eb8eb2a4b121b57111116b3a3707ee8248"
+    },
     "com.unity.collab-proxy": {
       "version": "1.15.12",
       "depth": 0,

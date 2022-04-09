@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b230b44329bb854e9d5a79ae0687cac, type: 3}
+  m_Name: UIConfig
+  m_EditorClassIdentifier: 
+  singleItemCellPrefab: {fileID: 3607719717550989876, guid: 8c9e2ecff746c9749bbf5042e5af3d83, type: 3}
+  windows:
+  - {fileID: 5171312888124158908, guid: a3487303c31e59745b2b50bcc0504282, type: 3}
+  uIActionBars: []
+  mouseFollowerPrefab: {fileID: 6359120604344650419, guid: da7c848a6b4ceba46ad644360ec1c8da, type: 3}

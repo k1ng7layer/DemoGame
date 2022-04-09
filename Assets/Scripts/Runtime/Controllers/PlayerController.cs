@@ -14,7 +14,7 @@ namespace Assets.Scripts.Runtime.Controllers
     {
         protected MovementModel _movementModel;
         protected InputTypeBase _input;
-        protected InventoryManager _inventoryManager;
+        protected InventoryManagerBase _inventoryManager;
         public PlayerController(PlayerConfig playerConfig)
         {
             //_movementModel = playerConfig.BuildMovementModel();
