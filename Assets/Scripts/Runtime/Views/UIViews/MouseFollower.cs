@@ -43,6 +43,11 @@ namespace Assets.Scripts.Runtime.Views.UIViews
         {
             this.gameObject.SetActive(value);
         }
+
+        public SingleItemCellView GetAttachedItem()
+        {
+            return _item;
+        }
     }
 }
             

@@ -97,21 +97,28 @@ namespace Assets.Scripts.Runtime.Views.UIViews
         private void OnItemSwap(ItemCellViewEventArgs eventArgs)
         {
             var currentDragedItemIndex = _displayedItems.IndexOf(_currentDraggedItem);
-            var selectedItem = _displayedItems.Where(i => i.Id == eventArgs.Id).FirstOrDefault();
-            var index = _displayedItems.IndexOf(selectedItem);
-            SingleItemCellView singleItem = _currentDraggedItem;
-            //_displayedItems[currentDragedItemIndex] = _displayedItems[index];
-            _displayedItems[currentDragedItemIndex].SetItemData(selectedItem.itemImage, int.Parse(selectedItem.QuantityText.text));
-            _displayedItems[index].SetItemData(selectedItem.itemImage, int.Parse(selectedItem.QuantityText.text));
+            var item2 = _displayedItems.Where(i => i.Id == eventArgs.Id).FirstOrDefault();
+            var index = _displayedItems.IndexOf(item2);
+
+            SingleItemCellView tempItem = _currentDraggedItem;
+
+
+            //_displayedItems[currentDragedItemIndex] = item2;
+            _displayedItems[currentDragedItemIndex].SetItemData(item2.itemImage, int.Parse(item2.QuantityText.text));
+            _currentDraggedItem.Id = item2.Id;
+            // _displayedItems[index] =
+            item2.SetItemData(_mouseFollower.GetAttachedItem().itemImage, int.Parse(_mouseFollower.GetAttachedItem().QuantityText.text));
+            item2.Id = _mouseFollower.GetAttachedItem().Id;
+            //_displayedItems[currentDragedItemIndex].SetItemData(selectedItem.itemImage, int.Parse(selectedItem.QuantityText.text));
+            //_displayedItems[index] = tempItem;
+            //tempItem.SetItemData(selectedItem.itemImage, int.Parse(selectedItem.QuantityText.text));
+           
 
 
 
 
-            //_displayedItems[currentDragedItemIndex].SetItemData(selectedItem.itemImage, int.Parse(selectedItem.QuantityText.text.ToString()));
-            //_displayedItems[index].SetItemData(_currentDraggedItem.itemImage, int.Parse(_currentDraggedItem.QuantityText.text.ToString()));
-            //currentDraggedItem.SetItemData(selectedItem.itemImage, int.Parse(selectedItem.QuantityText.text.ToString()));
-          
-            Debug.Log($"DROP ON = {selectedItem}");
+
+            Debug.Log($"DROP ON = {item2}");
         }
         private void OnItemBeginDrag(ItemCellViewEventArgs eventArgs)
         {
