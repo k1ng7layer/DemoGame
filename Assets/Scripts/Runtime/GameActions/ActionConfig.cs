@@ -31,10 +31,16 @@ namespace Assets.Scripts.Runtime.GameActions
                 UIActionContainer.AddAction<OpenLootWindowAction>();
                 UIActionContainer.AddAction<CloseLootWindowAction>();
                 UIActionContainer.AddAction<DisplayLootItemsAction>();
-
-
+                UIActionContainer.AddAction<SwapInventoryItemsAction>();
+                UIActionContainer.AddAction<ItemEquipAction>();
+                UIActionContainer.AddAction<ItemEquipRequestAction>();
             }
             _isConfigured = true;
         }
     }
 }
+
+                
+                
+
+

@@ -13,13 +13,17 @@ namespace Assets.Scripts.Runtime.Views.UIViews
 {
     public class SingleItemCellView : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler,IEndDragHandler, IDropHandler
     {
-        public event Action<ItemCellViewEventArgs> OnItemClick;
-        public event Action<ItemCellViewEventArgs> OnItemBegindDrag;
-        public event Action<ItemCellViewEventArgs> OnItemDrag;
-        public event Action<ItemCellViewEventArgs> OnItemEndDrag;
-        public event Action<ItemCellViewEventArgs> OnItemDrop;
+        public virtual event Action<SingleItemCellView> OnItemClick;
+        public virtual event Action<SingleItemCellView> OnItemBegindDrag;
+        public virtual event Action<SingleItemCellView> OnItemDrag;
+        public virtual event Action<SingleItemCellView> OnItemEndDrag;
+        public virtual event Action<SingleItemCellView> OnItemDrop;
         [SerializeField] private Image _border;
         [SerializeField] private TextMeshProUGUI _quantityText;
+        public bool IsStatic;
+        public bool IsActive;
+        public SlotType TypeOfSlot;
+
         public Image Border { get => _border; }
         public Image itemImage;
         public TextMeshProUGUI QuantityText => _quantityText;
@@ -39,43 +43,89 @@ namespace Assets.Scripts.Runtime.Views.UIViews
 
         
 
-        public void OnPointerClick(PointerEventData eventData)
+        public virtual void OnPointerClick(PointerEventData eventData)
         {
-            Debug.Log($"Click Time = {eventData.clickTime} ");
-            Debug.Log($"Click Count = {eventData.clickCount} ");
-            ItemCellViewEventArgs eventArgs = new ItemCellViewEventArgs(itemImage, Border, int.Parse(QuantityText.text), Id);
-            OnItemClick?.Invoke(eventArgs);
+            //Debug.Log($"Click Time = {eventData.clickTime} ");
+            //Debug.Log($"Click Count = {eventDats.clickCount} ");
+            int quantity;
+            if (QuantityText.text == string.Empty)
+            {
+                quantity = 0;
+            }
+            else
+            {
+                quantity = int.Parse(QuantityText.text);
+            }
+            ItemCellViewEventArgs eventArgs = new ItemCellViewEventArgs(itemImage, Border, quantity, Id);
+            OnItemClick?.Invoke(this);
+            
         }
-        public void OnDrag(PointerEventData eventData)
+        public virtual void OnDrag(PointerEventData eventData)
         {
-            ItemCellViewEventArgs eventArgs = new ItemCellViewEventArgs(itemImage, Border,int.Parse(QuantityText.text), Id);
-            OnItemDrag?.Invoke(eventArgs);
+            int quantity;
+            if (QuantityText.text == string.Empty)
+            {
+                quantity = 0;
+            }
+            else
+            {
+                quantity = int.Parse(QuantityText.text);
+            }
+            ItemCellViewEventArgs eventArgs = new ItemCellViewEventArgs(itemImage, Border, quantity, Id);
+            OnItemDrag?.Invoke(this);
         }
 
-        public void OnEndDrag(PointerEventData eventData)
+        public virtual void OnEndDrag(PointerEventData eventData)
         {
-            ItemCellViewEventArgs eventArgs = new ItemCellViewEventArgs(itemImage, Border, int.Parse(QuantityText.text), Id);
-            OnItemEndDrag?.Invoke(eventArgs);
+            int quantity;
+            if (QuantityText.text == string.Empty)
+            {
+                quantity = 0;
+            }
+            else
+            {
+                quantity = int.Parse(QuantityText.text);
+            }
+            ItemCellViewEventArgs eventArgs = new ItemCellViewEventArgs(itemImage, Border, quantity, Id);
+            OnItemEndDrag?.Invoke(this);
         }
 
-        public void OnBeginDrag(PointerEventData eventData)
+        public virtual void OnBeginDrag(PointerEventData eventData)
         {
             Debug.Log($"BEGIN DRAG");
-            ItemCellViewEventArgs eventArgs = new ItemCellViewEventArgs(itemImage, Border, int.Parse(QuantityText.text), Id);
-            OnItemBegindDrag?.Invoke(eventArgs);
+            int quantity;
+            if (QuantityText.text == string.Empty)
+            {
+                quantity = 0;
+            }
+            else
+            {
+                quantity = int.Parse(QuantityText.text);
+            }
+            ItemCellViewEventArgs eventArgs = new ItemCellViewEventArgs(itemImage, Border, quantity, Id);
+            OnItemBegindDrag?.Invoke(this);
         }
 
-        public void SetItemData(Image image, int quantity)
+        public virtual void SetItemData(Image image, int quantity)
         {
-            itemImage = image;
+            itemImage.sprite = image.sprite;
             QuantityText.text = quantity.ToString();
         }
 
-        public void OnDrop(PointerEventData eventData)
+        public virtual void OnDrop(PointerEventData eventData)
         {
             Debug.Log($"ON DROP");
-            ItemCellViewEventArgs eventArgs = new ItemCellViewEventArgs(itemImage, Border, int.Parse(QuantityText.text), Id);
-            OnItemDrop?.Invoke(eventArgs);
+            int quantity;
+            if (QuantityText.text == string.Empty)
+            {
+                quantity = 0;
+            }
+            else
+            {
+                quantity = int.Parse(QuantityText.text);
+            }
+            ItemCellViewEventArgs eventArgs = new ItemCellViewEventArgs(itemImage, Border, quantity, Id);
+            OnItemDrop?.Invoke(this);
         }
     }
 }

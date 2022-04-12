@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59e4a214945697249a2b500256bd1640, type: 3}
   m_Name: Spear
   m_EditorClassIdentifier: 
-  _name: 
-  _description: 
+  _name: Spear
+  _description: Simple spear
+  _itemImage: {fileID: 21300000, guid: 7250044204fe1ee459fac663e7cdb93a, type: 3}
+  _isStackable: 0
   _itemPrefab: {fileID: 0}
   _damage: 0

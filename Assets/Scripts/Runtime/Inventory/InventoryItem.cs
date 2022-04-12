@@ -35,8 +35,16 @@ namespace Assets.Scripts.Runtime.Inventory
                 _quantity = 0,
             };
         }
-          
-       
-        
+
+        public InventoryItem ChangeQuantity(int quantity)
+        {
+            return new InventoryItem
+            {
+                _item = this.Item,
+                _quantity = quantity,
+            };
+            
+        }
+
     }
 }

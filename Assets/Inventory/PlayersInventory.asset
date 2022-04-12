@@ -13,8 +13,12 @@ MonoBehaviour:
   m_Name: PlayersInventory
   m_EditorClassIdentifier: 
   _inventoryItems:
-  - _item: {fileID: 11400000, guid: 067baed1702bd4f4c977cac3589a71be, type: 2}
-    _quantity: 10
+  - _item: {fileID: 11400000, guid: aa356ae04e8f99143a2bf4f4e847f9f5, type: 2}
+    _quantity: 1
   - _item: {fileID: 11400000, guid: f7ce8def5404ce24da82f4f4c155d3e9, type: 2}
-    _quantity: 4
+    _quantity: 5
+  - _item: {fileID: 11400000, guid: fc1193b9c4854fc4daaf41d034db103b, type: 2}
+    _quantity: 1
+  - _item: {fileID: 11400000, guid: c580f4834d1e07b4ba0e6ead9d179943, type: 2}
+    _quantity: 1
   Capacity: 10

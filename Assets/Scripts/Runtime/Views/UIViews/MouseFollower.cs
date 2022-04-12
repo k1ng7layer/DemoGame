@@ -24,6 +24,20 @@ namespace Assets.Scripts.Runtime.Views.UIViews
         {
             _item.SetItemData(image, quantity);
         }
+        public void SetItemData(SingleItemCellView singleItemCell)
+        {
+            int quantity;
+            if (singleItemCell.QuantityText.text == string.Empty)
+            {
+                quantity = 0;
+            }
+            else
+            {
+                quantity = int.Parse(singleItemCell.QuantityText.text);
+            }
+            _item.SetItemData(singleItemCell.itemImage, quantity);
+            _item.Id = singleItemCell.Id;
+        }
 
         private void Update()
         {

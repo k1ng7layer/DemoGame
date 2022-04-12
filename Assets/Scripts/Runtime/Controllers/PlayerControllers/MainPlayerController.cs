@@ -30,8 +30,9 @@ namespace Assets.Scripts.Runtime.Controllers
             _input.OnMovement += MovePlayer;
             _input.OnJump += Jump;
             _input.OnInventoryOpen += OpenInventory;
-            //_inventoryManager.RemoveItem(0);
+            _inventoryManager.InitializeController();
         }
+          
         public override void OnDestroyController()
         {
             _input.OnMovement -= MovePlayer;

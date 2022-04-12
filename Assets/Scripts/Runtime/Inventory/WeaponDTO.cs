@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Assets.Scripts.Runtime.Inventory
 {
@@ -12,8 +13,10 @@ namespace Assets.Scripts.Runtime.Inventory
     {
         [SerializeField] private GameObject _itemPrefab;
         [SerializeField] private float _damage;
+        
         public float Damagr => _damage;
         public GameObject Prefab => _itemPrefab;
+        
         
     }
 }
