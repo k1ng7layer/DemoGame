@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UISystem.Common;
+using UnityEngine;
 
 namespace Assets.Scripts.Runtime.Inventory
 {
@@ -42,11 +43,14 @@ namespace Assets.Scripts.Runtime.Inventory
         {
             UIActionContainer.ResolveAction<SwapInventoryItemsAction>().AddListener(SwapInventoryItems);
             UIActionContainer.ResolveAction<ItemEquipRequestAction>().AddListener(EquipItem);
+            UIActionContainer.ResolveAction<ItemDescriptonRequestAction>().AddListener(DisplayItemDescription);
         }
+            
         public override void OnDestroyController()
         {
             UIActionContainer.ResolveAction<SwapInventoryItemsAction>().RemoveListener(SwapInventoryItems);
             UIActionContainer.ResolveAction<ItemEquipRequestAction>().RemoveListener(EquipItem);
+            UIActionContainer.ResolveAction<ItemDescriptonRequestAction>().RemoveListener(DisplayItemDescription);
         }
         public override void OpenInventory()
         {
@@ -87,6 +91,7 @@ namespace Assets.Scripts.Runtime.Inventory
         }
         protected override void SwapInventoryItems(OnItemSwapEventArgs eventArgs)
         {
+            //Debug.Log($"TRY TO SWAP = A = {eventArgs.ItemA_Index}, B ={eventArgs.ItemB_Index} ");
             var temp = _inventoryItems[eventArgs.ItemA_Index];
             var itemB = _inventoryItems[eventArgs.ItemB_Index];
             _inventoryItems[eventArgs.ItemA_Index] = itemB;
@@ -119,9 +124,15 @@ namespace Assets.Scripts.Runtime.Inventory
                 }
                 ItemEquipEventArgs equipEventArgs = new ItemEquipEventArgs(item.Item.Id, item.Item.Slot);
                 UIActionContainer.ResolveAction<ItemEquipAction>().Dispatch(equipEventArgs);
-
             }
         }
+        private void DisplayItemDescription(ItemDescriptionRequestEventArgs eventArgs)
+        {
+            var item = _inventoryItems.Where(i => i.Item.Id == eventArgs.Item_id).FirstOrDefault();
+            DisplayItemDescriptionEventArgs displayItem = new DisplayItemDescriptionEventArgs(item.Item.Id, item.Item.Name, item.Item.Description);
+            UIActionContainer.ResolveAction<DisplayItemDescriptionAction>().Dispatch(displayItem);
+        }
+
 
     }
 }

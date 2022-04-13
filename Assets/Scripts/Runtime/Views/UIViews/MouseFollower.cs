@@ -27,16 +27,25 @@ namespace Assets.Scripts.Runtime.Views.UIViews
         public void SetItemData(SingleItemCellView singleItemCell)
         {
             int quantity;
-            if (singleItemCell.QuantityText.text == string.Empty)
+            if (singleItemCell.QuantityText != null)
             {
-                quantity = 0;
+                if (singleItemCell.QuantityText.text == string.Empty)
+                {
+                    quantity = 0;
+                }
+                else
+                {
+                    quantity = int.Parse(singleItemCell.QuantityText.text);
+                }
             }
             else
             {
-                quantity = int.Parse(singleItemCell.QuantityText.text);
+                quantity = 0;
             }
+          
+            _item.AttachedItem_ID = singleItemCell.AttachedItem_ID;
             _item.SetItemData(singleItemCell.itemImage, quantity);
-            _item.Id = singleItemCell.Id;
+            //_item.Id = singleItemCell.Id;
         }
 
         private void Update()

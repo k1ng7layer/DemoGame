@@ -19,6 +19,7 @@ namespace Assets.Scripts.Runtime.Views.UIViews
         public virtual event Action<SingleItemCellView> OnItemEndDrag;
         public virtual event Action<SingleItemCellView> OnItemDrop;
         [SerializeField] private Image _border;
+        [SerializeField] private Image _defaultImage;
         [SerializeField] private TextMeshProUGUI _quantityText;
         public bool IsStatic;
         public bool IsActive;
@@ -26,20 +27,23 @@ namespace Assets.Scripts.Runtime.Views.UIViews
 
         public Image Border { get => _border; }
         public Image itemImage;
+        public Image DefaultImage => _defaultImage;
         public TextMeshProUGUI QuantityText => _quantityText;
         private bool IsSelected;
-        private int _id;
-        public int Id
-        {
-            get
-            {
-                return _id;
-            }
-            set
-            {
-                _id = value;
-            }
-        }
+        //private int _id;
+        //public int Id
+        //{
+        //    get
+        //    {
+        //        return _id;
+        //    }
+        //    set
+        //    {
+        //        _id = value;
+        //    }
+        //}
+        public int Id => GetInstanceID();
+        public int AttachedItem_ID;
 
         
 
@@ -110,6 +114,16 @@ namespace Assets.Scripts.Runtime.Views.UIViews
         {
             itemImage.sprite = image.sprite;
             QuantityText.text = quantity.ToString();
+        }
+        public void ResetData()
+        {
+            itemImage.sprite = DefaultImage.sprite;
+        }
+        public virtual void SetItemData(Image image, int quantity, SlotType slotType)
+        {
+            itemImage.sprite = image.sprite;
+            QuantityText.text = quantity.ToString();
+            TypeOfSlot = slotType;
         }
 
         public virtual void OnDrop(PointerEventData eventData)

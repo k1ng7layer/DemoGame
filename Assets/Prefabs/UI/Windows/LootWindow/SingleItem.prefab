@@ -265,7 +265,10 @@ MonoBehaviour:
   _border: {fileID: 7046878104702936028}
   _quantityText: {fileID: 2590528952102225391}
   IsStatic: 0
+  IsActive: 0
+  TypeOfSlot: 0
   itemImage: {fileID: 8975565039531372600}
+  AttachedItem_ID: 0
 --- !u!1 &7748451359900568911
 GameObject:
   m_ObjectHideFlags: 0
@@ -324,7 +327,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.9716981, g: 0.5271004, b: 0.650633, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

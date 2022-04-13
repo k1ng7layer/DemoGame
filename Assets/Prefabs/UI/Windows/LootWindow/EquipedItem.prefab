@@ -51,8 +51,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _border: {fileID: 5295560886697103650}
+  _defaultImage: {fileID: 6069033724051047110}
   _quantityText: {fileID: 0}
+  IsStatic: 0
+  IsActive: 0
+  TypeOfSlot: 0
   itemImage: {fileID: 6069033724051047110}
+  AttachedItem_ID: 0
 --- !u!1 &2499871014883650034
 GameObject:
   m_ObjectHideFlags: 0

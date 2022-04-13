@@ -22,6 +22,6 @@ namespace Assets.Scripts.Runtime.Inventory
         public Sprite ItemImage => _itemImage;
         public bool IsStackable => _isStackable;
         public SlotType Slot => _slotType;
-        public int Id => GetInstanceID();
+       [SerializeField] public int Id => GetInstanceID();
     }
 }

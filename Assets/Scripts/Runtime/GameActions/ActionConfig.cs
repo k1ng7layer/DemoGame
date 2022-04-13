@@ -34,6 +34,8 @@ namespace Assets.Scripts.Runtime.GameActions
                 UIActionContainer.AddAction<SwapInventoryItemsAction>();
                 UIActionContainer.AddAction<ItemEquipAction>();
                 UIActionContainer.AddAction<ItemEquipRequestAction>();
+                UIActionContainer.AddAction<DisplayItemDescriptionAction>();
+                UIActionContainer.AddAction<ItemDescriptonRequestAction>();
             }
             _isConfigured = true;
         }

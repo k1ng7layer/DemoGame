@@ -27,8 +27,10 @@ namespace Assets.Scripts.Runtime.Views.UIViews
         [SerializeField] private SingleItemCellView _singleItemCellprefab;
         [SerializeField] private TextMeshProUGUI _itemNameText;
         [SerializeField] private TextMeshProUGUI _itemDescriptionText;
-        [SerializeField] private RectTransform _contentFiled;
+        [SerializeField] private InventoryContentView _contentFiled;
         [SerializeField] private MouseFollower _mouseFollower;
+        [SerializeField] private InventoryScrollView _inventoryScrollView;
+
         public event Action<OnItemSwapEventArgs> OnItemSwap;
 
 
@@ -40,17 +42,36 @@ namespace Assets.Scripts.Runtime.Views.UIViews
             _displayedItems = new List<SingleItemCellView>();
             UIActionContainer.ResolveAction<DisplayInventoryItemsAction>().AddListener(DisplayItems);
             UIActionContainer.ResolveAction<ItemEquipAction>().AddListener(ItemEquipHandle);
-            
-            base.Init();
-        }
-        public override void Open()
-        {
-            
-            base.Open();
-            Debug.Log($"Opening 22222222222");
+            UIActionContainer.ResolveAction<DisplayItemDescriptionAction>().AddListener(DisplayItemInfo);
             _equipedWeaponItemCell.OnItemDrop += ItemEquipRequest;
             _equipedHelmetItemCell.OnItemDrop += ItemEquipRequest;
             _equipedBootsItemCell.OnItemDrop += ItemEquipRequest;
+            _equipedWeaponItemCell.OnItemEndDrag += EquipedItemEndDrag;
+            _equipedHelmetItemCell.OnItemEndDrag += OnItemEndDrag;
+            _equipedBootsItemCell.OnItemEndDrag += OnItemEndDrag;
+            _equipedWeaponItemCell.OnItemBegindDrag += EquipedItemBeginDrag;
+            _equipedHelmetItemCell.OnItemBegindDrag += EquipedItemBeginDrag;
+            _equipedBootsItemCell.OnItemBegindDrag += EquipedItemBeginDrag;
+            _inventoryScrollView.OnContentViewItemDrop += HandleCurrentDraggedItemDropOnContentField;
+            base.Init();
+        }
+        private void OnDestroy()
+        {
+            UIActionContainer.ResolveAction<DisplayInventoryItemsAction>().RemoveListener(DisplayItems);
+            UIActionContainer.ResolveAction<ItemEquipAction>().RemoveListener(ItemEquipHandle);
+            UIActionContainer.ResolveAction<DisplayItemDescriptionAction>().RemoveListener(DisplayItemInfo);
+            _equipedWeaponItemCell.OnItemEndDrag -= EquipedItemEndDrag;
+            _equipedHelmetItemCell.OnItemEndDrag -= OnItemEndDrag;
+            _equipedBootsItemCell.OnItemEndDrag -= OnItemEndDrag;
+            _equipedWeaponItemCell.OnItemBegindDrag -= EquipedItemBeginDrag;
+            _equipedWeaponItemCell.OnItemDrop -= ItemEquipRequest;
+            _equipedHelmetItemCell.OnItemDrop -= ItemEquipRequest;
+            _equipedBootsItemCell.OnItemDrop -= ItemEquipRequest;
+            _contentFiled.OnContentViewItemDrop -= HandleCurrentDraggedItemDropOnContentField;
+        }
+        public override void Open()
+        {
+            base.Open();
         }
         public override void Close()
         {
@@ -63,63 +84,31 @@ namespace Assets.Scripts.Runtime.Views.UIViews
                 obj.OnItemDrop -= ItemSwapRequest;
                 GameObject.Destroy(obj.gameObject);
             }
-            //_equipedWeaponItemCell.OnItemDrop -= OnItemSwap;
             _itemDescriptionText.text = string.Empty;
             _itemNameText.text = string.Empty;
             _displayedItems.Clear();
-            Debug.Log($"Closing 22222222222");
             base.Close();
         } 
         private void DisplayItems(DisplayPlayerInventoryEventArgs eventArgs)
         {
             _mouseFollower = eventArgs.MouseFollower;
             _source = eventArgs.InventoryItems;
+            var contentRectTransform = _contentFiled.GetComponent<RectTransform>();
             for (int i = 0; i < _source.Count; i++)
             {
-                var slot = GameObjectFactory.InstantiateObject<SingleItemCellView>(_singleItemCellprefab, Vector3.zero, _contentFiled, Quaternion.identity);
+                var slot = GameObjectFactory.InstantiateObject<SingleItemCellView>(_singleItemCellprefab, Vector3.zero, contentRectTransform, Quaternion.identity);
                 _displayedItems.Add(slot);
                 slot.OnItemClick += OnItemClick;
                 slot.OnItemBegindDrag += OnItemBeginDrag;
                 slot.OnItemDrag += OnItemDrag;
                 slot.OnItemEndDrag += OnItemEndDrag;
                 slot.OnItemDrop += ItemSwapRequest;
-                slot.Id = _source[i].Item.Id;
                 slot.QuantityText.text = _source[i].Quantity.ToString();
                 slot.itemImage.sprite = _source[i].Item.ItemImage;
+                slot.AttachedItem_ID = _source[i].Item.Id;
             }
-            //var stackableItems = eventArgs.InventoryItems.Where(i=>i.Item.IsStackable==true).ToList();
-            //for (int i = 0; i < stackableItems.Count; i++)
-            //{
-            //    var slot = GameObjectFactory.InstantiateObject<SingleItemCellView>(_singleItemCellprefab, Vector3.zero, _contentFiled, Quaternion.identity);
-            //    _displayedItems.Add(slot);
-            //    slot.OnItemClick += OnItemClick;
-            //    slot.OnItemBegindDrag += OnItemBeginDrag;
-            //    slot.OnItemDrag += OnItemDrag;
-            //    slot.OnItemEndDrag += OnItemEndDrag;
-            //    slot.OnItemDrop += ItemSwapRequest;
-            //    slot.Id = _source[i].Item.Id;
-            //    slot.QuantityText.text = _source[i].Quantity.ToString();
-            //    slot.itemImage.sprite = _source[i].Item.ItemImage;
-            //}
-            //var notStackableItems = eventArgs.InventoryItems.Where(i => i.Item.IsStackable == false).ToList();
-            //foreach (var item in notStackableItems)
-            //{
-            //    for (int i = 0; i < item.Quantity; i++)
-            //    {
-            //        var slot = GameObjectFactory.InstantiateObject<SingleItemCellView>(_singleItemCellprefab, Vector3.zero, _contentFiled, Quaternion.identity);
-            //        _displayedItems.Add(slot);
-            //        slot.OnItemClick += OnItemClick;
-            //        slot.OnItemBegindDrag += OnItemBeginDrag;
-            //        slot.OnItemDrag += OnItemDrag;
-            //        slot.OnItemEndDrag += OnItemEndDrag;
-            //        slot.OnItemDrop += ItemSwapRequest;
-            //        slot.Id = item.Item.Id;
-            //        slot.QuantityText.text = "";
-            //        slot.itemImage.sprite = item.Item.ItemImage;
-            //    }
-            //}
-
         }
+           
         private void DisableBordersExcept(SingleItemCellView singleItem)
         {
             var otherItems = _displayedItems.Where(i => i.Id != singleItem.Id);
@@ -132,7 +121,7 @@ namespace Assets.Scripts.Runtime.Views.UIViews
             else
             {
                 singleItem.Border.gameObject.SetActive(true);
-                DisplayItemInfo(singleItem);
+                ItemInfoRequest(singleItem);
             }
             foreach (var item in otherItems)
             {
@@ -151,7 +140,6 @@ namespace Assets.Scripts.Runtime.Views.UIViews
             if (selectedItem != null)
                 DisableBordersExcept(selectedItem);
         }
-
 
         //private void OnItemSwap(ItemCellViewEventArgs eventArgs)
         //{
@@ -248,52 +236,61 @@ namespace Assets.Scripts.Runtime.Views.UIViews
         //    UIActionContainer.ResolveAction<SwapInventoryItemsAction>().Dispatch(itemCell);
         //    OnItemSwap?.Invoke(itemCell);
         //}
-
         private void ItemSwapRequest(SingleItemCellView arg)
         {
             var currentDragedItemIndex = _displayedItems.IndexOf(_currentDraggedItem);
             var swappingItemIndex = _displayedItems.IndexOf(arg);
+            if (currentDragedItemIndex == -1)
+            {
+                HandleCurrentDraggedItemDropOnContentField();
+                return;
+            }
+            Debug.Log($"TRY TO SWAP = A = {currentDragedItemIndex}, B ={swappingItemIndex} ");
             OnItemSwapEventArgs itemCell = new OnItemSwapEventArgs(currentDragedItemIndex, swappingItemIndex);
             UIActionContainer.ResolveAction<SwapInventoryItemsAction>().Dispatch(itemCell);
             OnItemSwap?.Invoke(itemCell);
-            //_displayedItems[currentDragedItemIndex].Id = arg.Id;
-            //_displayedItems[currentDragedItemIndex].SetItemData(arg.itemImage, int.Parse(arg.QuantityText.text));
-            //arg.Id = _mouseFollower.GetAttachedItem().Id;
-            //arg.SetItemData(_mouseFollower.GetAttachedItem().itemImage, int.Parse(_mouseFollower.GetAttachedItem().QuantityText.text));
             SwapUIItems(_currentDraggedItem,arg, equipAction:false);
-
         }
-
         private void ItemEquipRequest(SingleItemCellView arg)
         {
-            ItemEquipRequestEventArgs eventArgs = new ItemEquipRequestEventArgs(_currentDraggedItem.Id,arg.TypeOfSlot);
+            ItemEquipRequestEventArgs eventArgs = new ItemEquipRequestEventArgs(_currentDraggedItem.AttachedItem_ID, arg.TypeOfSlot);
+            Debug.Log($"TRY TO EQUIP ITEM = {eventArgs.ItemId}, SLOT TYPE = {arg.TypeOfSlot}");
             UIActionContainer.ResolveAction<ItemEquipRequestAction>().Dispatch(eventArgs);
         }
         private void SwapUIItems(SingleItemCellView source, SingleItemCellView target, bool equipAction)
         {
-          
             if (equipAction)
             {
                 target.SetItemData(source.itemImage, 0);
+                target.AttachedItem_ID = source.AttachedItem_ID;
+                var item = _displayedItems.Where(i => i.AttachedItem_ID == source.AttachedItem_ID).FirstOrDefault();
+                Debug.Log($"SOURCE ID = {item.GetInstanceID()}, SOURCE ITEM = {item}");
+                _mouseFollower.ToggleFollower(false);
+                item.gameObject.SetActive(false);
             }
             else
             {
-                source.Id = target.Id;
-                source.SetItemData(target.itemImage, int.Parse(target.QuantityText.text));
-                target.Id = _mouseFollower.GetAttachedItem().Id;
-                target.SetItemData(_mouseFollower.GetAttachedItem().itemImage, int.Parse(_mouseFollower.GetAttachedItem().QuantityText.text));
-            }
-          
-        }
-           
+                var sourceViewId = source.Id;
+                if (_displayedItems.Where(i => i.Id == sourceViewId).FirstOrDefault() == null)
+                    return;
 
+                source.AttachedItem_ID = target.AttachedItem_ID;
+                source.SetItemData(target.itemImage, int.Parse(target.QuantityText.text));
+                target.AttachedItem_ID = _mouseFollower.GetAttachedItem().AttachedItem_ID;
+                target.SetItemData(_mouseFollower.GetAttachedItem().itemImage, int.Parse(_mouseFollower.GetAttachedItem().QuantityText.text));
+                DisableBordersExcept(target);
+                
+                _currentDraggedItem = null;
+                
+            }
+        }
         private void ItemEquipHandle(ItemEquipEventArgs eventArgs)
         {
-            Debug.Log("ITEM EQUIPED");
             switch (eventArgs.Slot)
             {
                 case SlotType.WEAPON:
                     SwapUIItems(_mouseFollower.GetAttachedItem(), _equipedWeaponItemCell, equipAction:true);
+           
                     break;
                 case SlotType.HELMET:
                     SwapUIItems(_mouseFollower.GetAttachedItem(), _equipedHelmetItemCell, equipAction:true);
@@ -311,34 +308,17 @@ namespace Assets.Scripts.Runtime.Views.UIViews
                     break;
             }
         }
-            
-            
-
-            
-
-
         private void UpdateItemView(int itemId)
         {
 
         }
-
-
-
-
-
-
-
         private void OnItemBeginDrag(SingleItemCellView eventArgs)
         {
-            _currentDraggedItem = _displayedItems.Where(i => i.Id == eventArgs.Id).FirstOrDefault();
-
-            Debug.Log($"BEGIN DRAG INVENTORY ITEM = {_currentDraggedItem.Id}");
+            _currentDraggedItem = eventArgs;
             _mouseFollower.ResetPosition();
             _mouseFollower.ToggleFollower(true);
             _mouseFollower.SetItemData(_currentDraggedItem);
         }
-            
-
         private void OnItemDrag(SingleItemCellView eventArgs)
         {
 
@@ -347,48 +327,71 @@ namespace Assets.Scripts.Runtime.Views.UIViews
         {
             _mouseFollower.ToggleFollower(false);
         }
-
-        //private void OnItemBeginDrag(ItemCellViewEventArgs eventArgs)
-        //{
-        //    _currentDraggedItem = _displayedItems.Where(i => i.Id == eventArgs.Id).FirstOrDefault();
-        //    Debug.Log($"BEGIN DRAG INVENTORY ITEM = {_currentDraggedItem.Id}");
-        //    _mouseFollower.ResetPosition();
-        //    _mouseFollower.ToggleFollower(true);
-        //    //_mouseFollower.SetItemData(eventArgs.ItemImage, eventArgs.Quantity);
-        //    _mouseFollower.SetItemData(_currentDraggedItem);
-        //}
-
-        //private void OnItemDrag(ItemCellViewEventArgs eventArgs)
-        //{
-
-        //}
-        //private void OnItemEndDrag(ItemCellViewEventArgs eventArgs)
-        //{
-        //    _mouseFollower.ToggleFollower(false);
-        //}
-        private void DisplayItemInfo(SingleItemCellView singleItem)
+        private void EquipedItemEndDrag(SingleItemCellView eventArgs)
         {
-
-            var itemModel = _source.Where(i => i.Item.Id == singleItem.Id).FirstOrDefault();
-            _itemNameText.text = itemModel.Item.Name;
-            _itemDescriptionText.text = itemModel.Item.Description;
-
+            Debug.Log($"END DRAG OF EQ = {eventArgs.GetInstanceID()}");
+            _mouseFollower.ToggleFollower(false);
         }
-        private void OnDestroy()
+                
+        private void EquipedItemBeginDrag(SingleItemCellView eventArgs)
         {
-            UIActionContainer.ResolveAction<DisplayInventoryItemsAction>().RemoveListener(DisplayItems);
-            UIActionContainer.ResolveAction<ItemEquipAction>().RemoveListener(ItemEquipHandle);
+            _currentDraggedItem = eventArgs;
+            _mouseFollower.ResetPosition();
+            _mouseFollower.ToggleFollower(true);
+            _mouseFollower.SetItemData(_currentDraggedItem);
+            eventArgs.ResetData();
         }
-        //private void DisplayItemInfo(SingleItemCellView singleItem)
-        //{
+        private void HandleCurrentDraggedItemDropOnContentField()
+        {
+            if (_currentDraggedItem != null)
+            {
+                var item = _displayedItems.Where(i => i.AttachedItem_ID == _currentDraggedItem.AttachedItem_ID).FirstOrDefault();
+                _currentDraggedItem = null;
+                item.gameObject.SetActive(true);
+            }
+        }
 
-        //    var itemModel = _source.Where(i => i.Item.Id == singleItem.Id).FirstOrDefault();
-        //    _itemNameText.text = itemModel.Item.Name;
-        //    _itemDescriptionText.text = itemModel.Item.Description;
-
-        //}
+        private void ItemInfoRequest(SingleItemCellView singleItem)
+        {
+            ItemDescriptionRequestEventArgs eventArgs = new ItemDescriptionRequestEventArgs(singleItem.AttachedItem_ID);
+            UIActionContainer.ResolveAction<ItemDescriptonRequestAction>().Dispatch(eventArgs);
+        }
+        private void DisplayItemInfo(DisplayItemDescriptionEventArgs eventArgs)
+        {
+            _itemNameText.text = eventArgs.ItemName;
+            _itemDescriptionText.text = eventArgs.Description;
+        }
     }
+      
 }
+    
+     
+
+          
+
+
+           
+
+
+
+          
+          
+           
+
+            
+            
+
+            
+
+
+
+
+
+
+
+
+            
+
           
            
 
