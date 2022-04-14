@@ -21,4 +21,6 @@ MonoBehaviour:
     _quantity: 1
   - _item: {fileID: 11400000, guid: c580f4834d1e07b4ba0e6ead9d179943, type: 2}
     _quantity: 1
+  - _item: {fileID: 11400000, guid: 25d1e913767cfde4bb03561029668a45, type: 2}
+    _quantity: 1
   Capacity: 10

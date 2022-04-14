@@ -1,4 +1,7 @@
-﻿using Assets.Scripts.Runtime.GameActions;
+﻿using Assets.Scripts.Runtime.Configs;
+using Assets.Scripts.Runtime.Configs.Inventory;
+using Assets.Scripts.Runtime.Controllers;
+using Assets.Scripts.Runtime.GameActions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +14,13 @@ namespace Assets.Scripts.Runtime.Inventory
 {
     public sealed class InventoryManager : InventoryManagerBase
     {
+        //Temp
+        private GameObject _defaultWeaponParentObject;
+        private GameObject _armedWeaponParentObject;
+
+
         private List<InventoryItem> _inventoryItems;
+        private Dictionary<ItemDTO, GameObject> _instantiatedEquipedItems;
         private ItemDTO _equipedWeapon;
         private ItemDTO _equipedHelmet;
         private ItemDTO _equipedBoots;
@@ -20,8 +29,9 @@ namespace Assets.Scripts.Runtime.Inventory
 
         private int _inventoryCapacity;
         
-        public InventoryManager(InventoryDTO inventoryData):base(inventoryData)
+        public InventoryManager(InventoryDTO inventoryData) :base(inventoryData)
         {
+            _instantiatedEquipedItems = new Dictionary<ItemDTO, GameObject>();
             _inventoryItems = new List<InventoryItem>(inventoryData.Capacity);
             _inventoryCapacity = inventoryData.Capacity;
             var stackableItems = inventoryData.GetInventoryItems().Where(i => i.Item.IsStackable == true).ToList();
@@ -41,9 +51,12 @@ namespace Assets.Scripts.Runtime.Inventory
 
         public override void InitializeController()
         {
+            _defaultWeaponParentObject = playerObj.GetComponentInChildren<DefaultWeaponParent>().gameObject;
+            _armedWeaponParentObject = playerObj.GetComponentInChildren<ArmedWeaponParent>().gameObject;
             UIActionContainer.ResolveAction<SwapInventoryItemsAction>().AddListener(SwapInventoryItems);
             UIActionContainer.ResolveAction<ItemEquipRequestAction>().AddListener(EquipItem);
             UIActionContainer.ResolveAction<ItemDescriptonRequestAction>().AddListener(DisplayItemDescription);
+            UIActionContainer.ResolveAction<HideEquipedItemAction>().AddListener(HandleItemHideAction);
         }
             
         public override void OnDestroyController()
@@ -51,6 +64,7 @@ namespace Assets.Scripts.Runtime.Inventory
             UIActionContainer.ResolveAction<SwapInventoryItemsAction>().RemoveListener(SwapInventoryItems);
             UIActionContainer.ResolveAction<ItemEquipRequestAction>().RemoveListener(EquipItem);
             UIActionContainer.ResolveAction<ItemDescriptonRequestAction>().RemoveListener(DisplayItemDescription);
+            UIActionContainer.ResolveAction<HideEquipedItemAction>().RemoveListener(HandleItemHideAction);
         }
         public override void OpenInventory()
         {
@@ -106,6 +120,8 @@ namespace Assets.Scripts.Runtime.Inventory
                 {
                     case Views.UIViews.SlotType.WEAPON:
                         _equipedWeapon = item.Item;
+                        var weaponGameObject = CreateWeaponInstance(_equipedWeapon);
+                        _instantiatedEquipedItems.Add(_equipedWeapon, weaponGameObject);
                         break;
                     case Views.UIViews.SlotType.HELMET:
                         _equipedHelmet = item.Item;
@@ -122,8 +138,28 @@ namespace Assets.Scripts.Runtime.Inventory
                     default:
                         break;
                 }
+                
                 ItemEquipEventArgs equipEventArgs = new ItemEquipEventArgs(item.Item.Id, item.Item.Slot);
                 UIActionContainer.ResolveAction<ItemEquipAction>().Dispatch(equipEventArgs);
+            }
+        }
+        
+        private GameObject CreateWeaponInstance(ItemDTO item)
+        {
+            var weaponTransformData = WeaponPositionsHandler.GetWeaponData(CharacterType.CHIBI, WeaponType.SWORD);
+            var weapon = GameObjectFactory.Instantiate<GameObject>(item.Prefab, _defaultWeaponParentObject.transform);
+            weapon.transform.localPosition = weaponTransformData.DefaultPosition;
+            weapon.transform.localRotation = Quaternion.Euler(weaponTransformData.DefaultRotation);
+            weapon.transform.localScale = weaponTransformData.DefaultScale;
+            return weapon;
+        }
+        private void HandleItemHideAction(ItemInfoRequestEventArgs eventArgs)
+        {
+            var item = _inventoryItems.Where(i => i.Item.Id == eventArgs.ItemId).FirstOrDefault();
+            if(_instantiatedEquipedItems.TryGetValue(item.Item, out GameObject obj))
+            {
+                GameObject.Destroy(obj);
+                _instantiatedEquipedItems.Remove(item.Item);
             }
         }
         private void DisplayItemDescription(ItemDescriptionRequestEventArgs eventArgs)

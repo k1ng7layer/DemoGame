@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35472b3b95d313644b0f6f202ea6db76, type: 3}
-  m_Name: WeaponTable
+  m_Script: {fileID: 11500000, guid: 46a4a6dcb6f73864eba43434eb21a7fc, type: 3}
+  m_Name: WeaponPosConfig
   m_EditorClassIdentifier: 
-  _weaponPositionsConfigs:
+  _weaponTransformData:
   - {fileID: 11400000, guid: ba6e3ceba48397d4fbce0f6358a7d845, type: 2}

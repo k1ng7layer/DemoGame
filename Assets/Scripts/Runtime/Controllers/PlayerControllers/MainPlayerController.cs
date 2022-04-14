@@ -15,12 +15,14 @@ namespace Assets.Scripts.Runtime.Controllers
     {
         private Animator _playerAnimator;
         private PlayerView _playerView;
+        private GameObject _playerObject;
         public MainPlayerController(PlayerConfig playerConfig) : base(playerConfig)
         {
             _input = playerConfig.BuildInputType();
             _playerView = playerConfig.SpawnedPlayerViewObject;
             _movementModel = playerConfig.BuildMovementModel(_playerView.GetComponent<Rigidbody>());
             _inventoryManager = playerConfig.GetInventoryManager();
+            _inventoryManager.AttachPlayerObject(_playerView.gameObject);
         }
 
         public override void InitializeController()

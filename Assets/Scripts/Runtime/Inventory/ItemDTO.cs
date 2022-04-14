@@ -12,16 +12,19 @@ namespace Assets.Scripts.Runtime.Inventory
     [CreateAssetMenu(fileName = "new_Item", menuName = "Inventory/ItemDTO")]
     public class ItemDTO:ScriptableObject
     {
+        [SerializeField] private GameObject _itemPrefab;
         [SerializeField] private string _name;
         [SerializeField][TextArea(0,10)] private string _description;
         [SerializeField] private Sprite _itemImage;
         [SerializeField] private bool _isStackable;
         [SerializeField] private SlotType _slotType;
+        
         public string Name => _name;
         public string Description => _description;
         public Sprite ItemImage => _itemImage;
         public bool IsStackable => _isStackable;
         public SlotType Slot => _slotType;
-       [SerializeField] public int Id => GetInstanceID();
+        public GameObject Prefab => _itemPrefab;
+        [SerializeField] public int Id => GetInstanceID();
     }
 }

@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Runtime.Controllers;
+﻿using Assets.Scripts.Runtime.Configs.Inventory;
+using Assets.Scripts.Runtime.Controllers;
 using Assets.Scripts.Runtime.Views;
 using System;
 using System.Collections.Generic;
@@ -16,11 +17,14 @@ namespace Assets.Scripts.Runtime.Configs
         private PlayerHandler playerHandler;
         private UIController _uiController;
         
+
+        [SerializeField] CharactrerWeaponPositionConfig _WeaponpositionConfig;
         [SerializeField] private PlayerConfig _playerConfig;
         [SerializeField] private UIConfig _uIConfig;
         private List<IController> _controllers;
         public override List<IController> GetControllers()
         {
+            WeaponPositionsHandler.Initialize(_WeaponpositionConfig.WeaponTransformData);
             _cameraView = FindObjectOfType<CameraView>();
             _cameraController = new ThirdPersonCamera(_cameraView);
             var player = _playerConfig.SpawnPlayerViewObject();

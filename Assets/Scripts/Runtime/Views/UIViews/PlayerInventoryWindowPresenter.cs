@@ -346,6 +346,7 @@ namespace Assets.Scripts.Runtime.Views.UIViews
             if (_currentDraggedItem != null)
             {
                 var item = _displayedItems.Where(i => i.AttachedItem_ID == _currentDraggedItem.AttachedItem_ID).FirstOrDefault();
+                UIActionContainer.ResolveAction<HideEquipedItemAction>().Dispatch(new ItemInfoRequestEventArgs(item.AttachedItem_ID));
                 _currentDraggedItem = null;
                 item.gameObject.SetActive(true);
             }

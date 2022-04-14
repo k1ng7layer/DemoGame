@@ -4,16 +4,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Assets.Scripts.Runtime.Inventory
 {
     public abstract class InventoryManagerBase:IController
     {
+        protected GameObject playerObj;
         public InventoryManagerBase(InventoryDTO inventoryDTO)
         {
 
         }
-        
+        public void AttachPlayerObject(GameObject playerObj)
+        {
+            this.playerObj = playerObj;
+        }
         protected abstract bool TryAddItem(ItemDTO item, int quantity);
         protected abstract bool TryGetInventoryItem(int id, out InventoryItem inventoryItem);
         protected abstract void RemoveItem(int id);

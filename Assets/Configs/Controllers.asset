@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b378bd8458f0cb4abc27cad95f69537, type: 3}
   m_Name: Controllers
   m_EditorClassIdentifier: 
+  _WeaponpositionConfig: {fileID: 11400000, guid: e1f9fcb268537494a86ca7b237f5f00b, type: 2}
   _playerConfig: {fileID: 11400000, guid: 7988ed32bad2faf40b1a1f54d1ead14e, type: 2}
   _uIConfig: {fileID: 11400000, guid: e78b5df0f97be63469bf8a62f100ee37, type: 2}

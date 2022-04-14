@@ -14,17 +14,17 @@ public enum WeaponType
     SPEAR,
     STAFF,
 }
-[CreateAssetMenu(fileName ="new_weapon_config", menuName = "Configs/Weapon Positions Config")]
-public class WeaponPositionTable : ScriptableObject
+[CreateAssetMenu(fileName ="new_weapon_config", menuName = "Configs/WeaponPositionTableDTO")]
+public class WeaponPositionTableDTO : ScriptableObject
 {
     [SerializeField] CharacterType _characterType;
     [SerializeField] WeaponType _weaponType;
-    [SerializeField] public Vector3 _defaultPosition;
-    [SerializeField] public Vector3 _armedPosition;
-    [SerializeField] public Vector3 _defaultRotation;
-    [SerializeField] public Vector3 _armedRotation;
-    [SerializeField] public Vector3 _defaultScale;
-    [SerializeField] public Vector3 _armedScale;
+    [SerializeField] private Vector3 _defaultPosition;
+    [SerializeField] private Vector3 _armedPosition;
+    [SerializeField] private Vector3 _defaultRotation;
+    [SerializeField] private Vector3 _armedRotation;
+    [SerializeField] private Vector3 _defaultScale;
+    [SerializeField] private Vector3 _armedScale;
     public CharacterType CharacterModelType => _characterType;
     public WeaponType WeaponType => _weaponType;
     public Vector3 DefaultPosition => _defaultPosition;

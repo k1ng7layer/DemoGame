@@ -36,6 +36,7 @@ namespace Assets.Scripts.Runtime.GameActions
                 UIActionContainer.AddAction<ItemEquipRequestAction>();
                 UIActionContainer.AddAction<DisplayItemDescriptionAction>();
                 UIActionContainer.AddAction<ItemDescriptonRequestAction>();
+                UIActionContainer.AddAction<HideEquipedItemAction>();
             }
             _isConfigured = true;
         }
