@@ -12,6 +12,11 @@ using UnityEngine;
 
 namespace Assets.Scripts.Runtime.Inventory
 {
+    public enum WeaponTransformState
+    {
+        DEFAULT,
+        ARMED,
+    }
     public sealed class InventoryManager : InventoryManagerBase
     {
         //Temp
@@ -21,14 +26,17 @@ namespace Assets.Scripts.Runtime.Inventory
 
         private List<InventoryItem> _inventoryItems;
         private Dictionary<ItemDTO, GameObject> _instantiatedEquipedItems;
-        private ItemDTO _equipedWeapon;
+        //private ItemDTO _equipedWeapon;
+        private WeaponDTO _equipedWeapon;
         private ItemDTO _equipedHelmet;
         private ItemDTO _equipedBoots;
         private ItemDTO _equipedChest;
         private ItemDTO _equipedGloves;
-
         private int _inventoryCapacity;
-        
+
+        public override event Action OnWeaponDraw;
+        public override event Action<WeaponDTO> OnWeaponChanged;
+
         public InventoryManager(InventoryDTO inventoryData) :base(inventoryData)
         {
             _instantiatedEquipedItems = new Dictionary<ItemDTO, GameObject>();
@@ -119,8 +127,19 @@ namespace Assets.Scripts.Runtime.Inventory
                 switch (item.Item.Slot)
                 {
                     case Views.UIViews.SlotType.WEAPON:
-                        _equipedWeapon = item.Item;
+                        if (_equipedWeapon != null)
+                        {
+                            if (_instantiatedEquipedItems.TryGetValue(_equipedWeapon, out GameObject gameObject))
+                            {
+                                GameObject.Destroy(gameObject);
+                            }
+                        }
+                      
+                        _equipedWeapon = (WeaponDTO)item.Item;
                         var weaponGameObject = CreateWeaponInstance(_equipedWeapon);
+                        OnWeaponChanged?.Invoke(_equipedWeapon);
+                        
+                        _instantiatedEquipedItems.Remove(_equipedWeapon);
                         _instantiatedEquipedItems.Add(_equipedWeapon, weaponGameObject);
                         break;
                     case Views.UIViews.SlotType.HELMET:
@@ -143,9 +162,9 @@ namespace Assets.Scripts.Runtime.Inventory
                 UIActionContainer.ResolveAction<ItemEquipAction>().Dispatch(equipEventArgs);
             }
         }
-        
         private GameObject CreateWeaponInstance(ItemDTO item)
         {
+          
             var weaponTransformData = WeaponPositionsHandler.GetWeaponData(CharacterType.CHIBI, WeaponType.SWORD);
             var weapon = GameObjectFactory.Instantiate<GameObject>(item.Prefab, _defaultWeaponParentObject.transform);
             weapon.transform.localPosition = weaponTransformData.DefaultPosition;
@@ -160,6 +179,54 @@ namespace Assets.Scripts.Runtime.Inventory
             {
                 GameObject.Destroy(obj);
                 _instantiatedEquipedItems.Remove(item.Item);
+                _equipedWeapon = null;
+            }
+        }
+        private void DestroyCurrentWeaponObject()
+        {
+
+        }
+        public override void DrawCurrentWeapon()
+        {
+            if (_equipedWeapon != null)
+                ChangeWeaponTransformState(_equipedWeapon, WeaponTransformState.ARMED);
+        }
+        public override void HideCurrentWeapon()
+        {
+            if (_equipedWeapon != null)
+                ChangeWeaponTransformState(_equipedWeapon, WeaponTransformState.DEFAULT);
+        }
+        private void ChangeWeaponTransformState(WeaponDTO weapon, WeaponTransformState transformState)
+        {
+            if (_instantiatedEquipedItems.TryGetValue(_equipedWeapon, out GameObject weaponObj))
+            {
+                var weaponTransformData = WeaponPositionsHandler.GetWeaponData(CharacterType.CHIBI, _equipedWeapon.WeaponType);
+                switch (transformState)
+                {
+                    case WeaponTransformState.DEFAULT:
+                        weaponObj.transform.SetParent(_defaultWeaponParentObject.transform);
+                        weaponObj.transform.localPosition = weaponTransformData.DefaultPosition;
+                        weaponObj.transform.localRotation = Quaternion.Euler(weaponTransformData.DefaultRotation);
+                        weaponObj.transform.localScale = weaponTransformData.DefaultScale;
+                        break;
+                    case WeaponTransformState.ARMED:
+                        weaponObj.transform.SetParent(_armedWeaponParentObject.transform);
+                        weaponObj.transform.localPosition = weaponTransformData.ArmedPosition;
+                        weaponObj.transform.localRotation = Quaternion.Euler(weaponTransformData.ArmedRotation);
+                        weaponObj.transform.localScale = weaponTransformData.ArmedScale;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        private void HandleSwapEquipedItems(ItemDTO item)
+        {
+            
+            if (_instantiatedEquipedItems.TryGetValue(item, out GameObject obj))
+            {
+                GameObject.Destroy(obj);
+                _instantiatedEquipedItems.Remove(item);
             }
         }
         private void DisplayItemDescription(ItemDescriptionRequestEventArgs eventArgs)
@@ -168,10 +235,23 @@ namespace Assets.Scripts.Runtime.Inventory
             DisplayItemDescriptionEventArgs displayItem = new DisplayItemDescriptionEventArgs(item.Item.Id, item.Item.Name, item.Item.Description);
             UIActionContainer.ResolveAction<DisplayItemDescriptionAction>().Dispatch(displayItem);
         }
-
-
+        public override void WeaponDrawRequest()
+        {
+            if (_equipedWeapon != null)
+                OnWeaponDraw?.Invoke();
+        }
     }
 }
+
+
+        
+     
+   
+                       
+          
+          
+
+       
           
             
       

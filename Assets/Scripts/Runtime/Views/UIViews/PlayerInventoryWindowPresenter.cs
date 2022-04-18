@@ -30,7 +30,7 @@ namespace Assets.Scripts.Runtime.Views.UIViews
         [SerializeField] private InventoryContentView _contentFiled;
         [SerializeField] private MouseFollower _mouseFollower;
         [SerializeField] private InventoryScrollView _inventoryScrollView;
-
+        private List<SingleItemCellView> _equipedItems;
         public event Action<OnItemSwapEventArgs> OnItemSwap;
 
 
@@ -40,6 +40,7 @@ namespace Assets.Scripts.Runtime.Views.UIViews
         public override void Init()
         {
             _displayedItems = new List<SingleItemCellView>();
+            _equipedItems = new List<SingleItemCellView>();
             UIActionContainer.ResolveAction<DisplayInventoryItemsAction>().AddListener(DisplayItems);
             UIActionContainer.ResolveAction<ItemEquipAction>().AddListener(ItemEquipHandle);
             UIActionContainer.ResolveAction<DisplayItemDescriptionAction>().AddListener(DisplayItemInfo);
@@ -53,6 +54,9 @@ namespace Assets.Scripts.Runtime.Views.UIViews
             _equipedHelmetItemCell.OnItemBegindDrag += EquipedItemBeginDrag;
             _equipedBootsItemCell.OnItemBegindDrag += EquipedItemBeginDrag;
             _inventoryScrollView.OnContentViewItemDrop += HandleCurrentDraggedItemDropOnContentField;
+            _equipedWeaponItemCell.CellIsEmpty = true;
+            _equipedHelmetItemCell.CellIsEmpty = true;
+            _equipedBootsItemCell.CellIsEmpty = true;
             base.Init();
         }
         private void OnDestroy()
@@ -60,13 +64,15 @@ namespace Assets.Scripts.Runtime.Views.UIViews
             UIActionContainer.ResolveAction<DisplayInventoryItemsAction>().RemoveListener(DisplayItems);
             UIActionContainer.ResolveAction<ItemEquipAction>().RemoveListener(ItemEquipHandle);
             UIActionContainer.ResolveAction<DisplayItemDescriptionAction>().RemoveListener(DisplayItemInfo);
+            _equipedWeaponItemCell.OnItemDrop -= ItemEquipRequest;
+            _equipedHelmetItemCell.OnItemDrop -= ItemEquipRequest;
+            _equipedBootsItemCell.OnItemDrop -= ItemEquipRequest;
             _equipedWeaponItemCell.OnItemEndDrag -= EquipedItemEndDrag;
             _equipedHelmetItemCell.OnItemEndDrag -= OnItemEndDrag;
             _equipedBootsItemCell.OnItemEndDrag -= OnItemEndDrag;
             _equipedWeaponItemCell.OnItemBegindDrag -= EquipedItemBeginDrag;
-            _equipedWeaponItemCell.OnItemDrop -= ItemEquipRequest;
-            _equipedHelmetItemCell.OnItemDrop -= ItemEquipRequest;
-            _equipedBootsItemCell.OnItemDrop -= ItemEquipRequest;
+            _equipedHelmetItemCell.OnItemBegindDrag -= EquipedItemBeginDrag;
+            _equipedBootsItemCell.OnItemBegindDrag -= EquipedItemBeginDrag;
             _contentFiled.OnContentViewItemDrop -= HandleCurrentDraggedItemDropOnContentField;
         }
         public override void Open()
@@ -106,6 +112,13 @@ namespace Assets.Scripts.Runtime.Views.UIViews
                 slot.QuantityText.text = _source[i].Quantity.ToString();
                 slot.itemImage.sprite = _source[i].Item.ItemImage;
                 slot.AttachedItem_ID = _source[i].Item.Id;
+                slot.CellIsEmpty = false;
+            }
+            foreach (var item in _equipedItems)
+            {
+                var inventoryItem = _displayedItems.Where(i => i.AttachedItem_ID == item.AttachedItem_ID).FirstOrDefault();
+                if (inventoryItem!=null)
+                    inventoryItem.gameObject.SetActive(false);
             }
         }
            
@@ -261,12 +274,30 @@ namespace Assets.Scripts.Runtime.Views.UIViews
         {
             if (equipAction)
             {
-                target.SetItemData(source.itemImage, 0);
-                target.AttachedItem_ID = source.AttachedItem_ID;
-                var item = _displayedItems.Where(i => i.AttachedItem_ID == source.AttachedItem_ID).FirstOrDefault();
-                Debug.Log($"SOURCE ID = {item.GetInstanceID()}, SOURCE ITEM = {item}");
-                _mouseFollower.ToggleFollower(false);
-                item.gameObject.SetActive(false);
+                if (target.CellIsEmpty == true)
+                {
+                    target.SetItemData(source.itemImage, 0);
+                    target.AttachedItem_ID = source.AttachedItem_ID;
+                    target.CellIsEmpty = false;
+                    var item = _displayedItems.Where(i => i.AttachedItem_ID == source.AttachedItem_ID).FirstOrDefault();
+                    Debug.Log($"SOURCE ID = {item.GetInstanceID()}, SOURCE ITEM = {item}");
+                    _mouseFollower.ToggleFollower(false);
+                    _equipedItems.Add(item);
+                    item.gameObject.SetActive(false);
+                }
+                else
+                {
+                    var prevItem = _displayedItems.Where(i => i.AttachedItem_ID == target.AttachedItem_ID).FirstOrDefault();
+                    var displayedItem = _displayedItems.Where(i => i.AttachedItem_ID == source.AttachedItem_ID).FirstOrDefault();
+                    _equipedItems.Remove(_equipedItems.Find(i=>i.AttachedItem_ID==target.AttachedItem_ID));
+                    prevItem.gameObject.SetActive(true);
+                    target.SetItemData(source.itemImage, 0);
+                    target.AttachedItem_ID = source.AttachedItem_ID;
+                    _equipedItems.Add(target);
+                    displayedItem.gameObject.SetActive(false);
+                    _mouseFollower.ToggleFollower(false);
+                }
+              
             }
             else
             {
@@ -346,7 +377,9 @@ namespace Assets.Scripts.Runtime.Views.UIViews
             if (_currentDraggedItem != null)
             {
                 var item = _displayedItems.Where(i => i.AttachedItem_ID == _currentDraggedItem.AttachedItem_ID).FirstOrDefault();
+                var item2 = _equipedItems.Where(i => i.AttachedItem_ID == item.AttachedItem_ID).FirstOrDefault();
                 UIActionContainer.ResolveAction<HideEquipedItemAction>().Dispatch(new ItemInfoRequestEventArgs(item.AttachedItem_ID));
+                _equipedItems.Remove(item2);
                 _currentDraggedItem = null;
                 item.gameObject.SetActive(true);
             }

@@ -19,6 +19,7 @@ namespace Assets.Scripts.Runtime
         public override event Action OnJump;
         public override event Action OnInventoryOpen;
         public override event Action OnAttack;
+        public override event Action OnDrawWeapon;
 
         public override void OnUpdate()
         {
@@ -52,14 +53,11 @@ namespace Assets.Scripts.Runtime
             if (Input.GetKeyDown(KeyCode.F))
             {
                 withdrawWeapon = true;
+                OnDrawWeapon?.Invoke();
                 //SceneGameManagerView.Instance.CurrentPlayer.playerInput.attack = true;
                 Debug.Log($"jump button true");
             }
-            else
-            {
-                withdrawWeapon = false;
-                //SceneGameManagerView.Instance.CurrentPlayer.playerInput.attack = false;
-            }
+           
 
             if (Input.GetKeyDown(KeyCode.R))
             {

@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 1320174045026533887}
   - component: {fileID: 6563551697782795891}
   - component: {fileID: 5339494908374374496}
+  - component: {fileID: 4320141458578883461}
+  - component: {fileID: 5505001353987285017}
   m_Layer: 8
   m_Name: Male
   m_TagString: Untagged
@@ -98,6 +100,34 @@ CapsuleCollider:
   m_Height: 2.29
   m_Direction: 1
   m_Center: {x: 0, y: 1.13, z: 0}
+--- !u!114 &4320141458578883461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 69395628708165053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5cbadfa61baca334394b1b3923812c06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5505001353987285017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 69395628708165053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95daad2f978e27345bf2e88bb172f692, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _weaponDrawClip: {fileID: -203655887218126122, guid: 9ef0e87fb7ea2cf4793766e6214a5de5, type: 3}
+  _weaponDrawTiming: 0.5
+  _weaponHideClip: {fileID: -203655887218126122, guid: 34b2b25fd440d6e409ce9d57c9941e8f, type: 3}
+  _weaponHideTiming: 1.2
 --- !u!1 &106691235632444823
 GameObject:
   m_ObjectHideFlags: 0

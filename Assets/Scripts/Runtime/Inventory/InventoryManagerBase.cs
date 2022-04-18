@@ -10,6 +10,8 @@ namespace Assets.Scripts.Runtime.Inventory
 {
     public abstract class InventoryManagerBase:IController
     {
+        public abstract event Action OnWeaponDraw;
+        public abstract event Action<WeaponDTO> OnWeaponChanged;
         protected GameObject playerObj;
         public InventoryManagerBase(InventoryDTO inventoryDTO)
         {
@@ -25,36 +27,39 @@ namespace Assets.Scripts.Runtime.Inventory
         protected abstract void SwapInventoryItems(OnItemSwapEventArgs eventArgs);
         protected abstract void EquipItem(ItemEquipRequestEventArgs eventArgs);
         public abstract void OpenInventory();
-
+        public abstract void DrawCurrentWeapon();
+        public abstract void HideCurrentWeapon();
+        public abstract void WeaponDrawRequest();
         public virtual void InitializeController()
         {
             
         }
-
         public void OnUpdateController()
         {
             
         }
-
         public void OnFixedUpdateController()
         {
             
         }
-
         public virtual void OnDestroyController()
         {
             
         }
-
         public void OnDisableController()
         {
             
         }
-
         public void OnLateUpdateController()
         {
             
         }
     }
 }
+
+
+
+
+
+
         

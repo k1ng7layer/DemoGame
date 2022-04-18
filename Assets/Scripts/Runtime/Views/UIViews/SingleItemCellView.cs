@@ -24,24 +24,14 @@ namespace Assets.Scripts.Runtime.Views.UIViews
         public bool IsStatic;
         public bool IsActive;
         public SlotType TypeOfSlot;
+        public bool CellIsEmpty { get; set; }
 
         public Image Border { get => _border; }
         public Image itemImage;
         public Image DefaultImage => _defaultImage;
         public TextMeshProUGUI QuantityText => _quantityText;
         private bool IsSelected;
-        //private int _id;
-        //public int Id
-        //{
-        //    get
-        //    {
-        //        return _id;
-        //    }
-        //    set
-        //    {
-        //        _id = value;
-        //    }
-        //}
+  
         public int Id => GetInstanceID();
         public int AttachedItem_ID;
 
@@ -118,6 +108,7 @@ namespace Assets.Scripts.Runtime.Views.UIViews
         public void ResetData()
         {
             itemImage.sprite = DefaultImage.sprite;
+            CellIsEmpty = true;
         }
         public virtual void SetItemData(Image image, int quantity, SlotType slotType)
         {
