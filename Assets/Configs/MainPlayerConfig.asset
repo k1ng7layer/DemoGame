@@ -15,3 +15,8 @@ MonoBehaviour:
   playerPrefab: {fileID: 1320174045026533887, guid: 08f0b4b3acc33514cb50cd6f0cf2ca7e, type: 3}
   playerInputType: {fileID: 11400000, guid: 6f754e066c184704b8760e6bfa470e51, type: 2}
   playerInventoryData: {fileID: 11400000, guid: 3ed6e5c9997de4a4ca34c6bc685a0669, type: 2}
+  _stateMchineConfig: {fileID: 0}
+  _initialHP: 500
+  _targetLayer:
+    serializedVersion: 2
+    m_Bits: 512

@@ -17,6 +17,7 @@ namespace Assets.Scripts.Runtime.Models
         public override float FollowSpeed { get; set; }
         public override float Angle { get; set; }
         public override Vector3 Offset { get; set; }
+        private Vector3 _velocity = Vector3.zero;
 
 
 
@@ -28,7 +29,9 @@ namespace Assets.Scripts.Runtime.Models
                 Debug.Log($"speed = {FollowSpeed}, angle = {Angle}, offset = {Offset}");
                 Quaternion rotation = Quaternion.Euler(new Vector3(xAngle, yAngle, zAngle));
                 Camera.transform.rotation = rotation;
-                Camera.transform.position = Vector3.Lerp(Camera.transform.position, target.transform.position + Offset, FollowSpeed * Time.deltaTime);
+                //Camera.transform.position = Vector3.Lerp(Camera.transform.position, target.transform.position + Offset, FollowSpeed * Time.deltaTime);
+                //Camera.transform.Translate(Vector3.Lerp(Camera.transform.position, target.transform.position + Offset, FollowSpeed * Time.deltaTime));
+                Camera.transform.position = Vector3.SmoothDamp(Camera.transform.position,target.transform.position+Offset,ref _velocity, FollowSpeed*Time.deltaTime);
             }
         }
 

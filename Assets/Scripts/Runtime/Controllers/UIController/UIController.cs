@@ -20,10 +20,15 @@ namespace Assets.Scripts.Runtime.Controllers
     {
 
         [SerializeField] MainLayerPresenter MainLayer;
-        private Canvas _indicatorsCanvas;
+      
         private UIActionConfigurator ActionConfigurator { get; set; }
         private Scene _currentScene;
         private Canvas _mainCanvas;
+        private static Canvas _playerIndicatorsCanvas;
+        public static Canvas PlayerIndicatorsCanvas => _playerIndicatorsCanvas;
+
+
+
         private bool _isInventoryOpen;
         private UIConfig ui_Config;
         private MouseFollower _mouseFollower;
@@ -46,14 +51,14 @@ namespace Assets.Scripts.Runtime.Controllers
             var mainCanvasScaler = mainCanvas.AddComponent<CanvasScaler>();
             mainCanvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
             mainCanvasScaler.referenceResolution = new Vector2(1920, 1080);
-
-            GameObject indicatorsCanvas = new GameObject("IndicatorCanvas");
-            _indicatorsCanvas = indicatorsCanvas.AddComponent<Canvas>();
-            indicatorsCanvas.AddComponent<GraphicRaycaster>();
-            _indicatorsCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
-            var indicatorCanvasScaler = indicatorsCanvas.AddComponent<CanvasScaler>();
-            indicatorCanvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-            indicatorCanvasScaler.referenceResolution = new Vector2(1920, 1080);
+            _playerIndicatorsCanvas = GameObject.Instantiate<Canvas>(ui_Config.indicatorsCanvas);
+            //GameObject indicatorsCanvas = new GameObject("IndicatorCanvas");
+            //_indicatorsCanvas = indicatorsCanvas.AddComponent<Canvas>();
+            //indicatorsCanvas.AddComponent<GraphicRaycaster>();
+            //_indicatorsCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            //var indicatorCanvasScaler = indicatorsCanvas.AddComponent<CanvasScaler>();
+            //indicatorCanvasScaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+            //indicatorCanvasScaler.referenceResolution = new Vector2(1920, 1080);
         }
 
             
@@ -81,11 +86,11 @@ namespace Assets.Scripts.Runtime.Controllers
         }
         private void DisableIndicators()
         {
-            if (_indicatorsCanvas != null)
+            if (_playerIndicatorsCanvas != null)
             {
-                if (_indicatorsCanvas.gameObject.activeSelf)
-                    _indicatorsCanvas.gameObject.SetActive(false);
-                else _indicatorsCanvas.gameObject.SetActive(true);
+                if (_playerIndicatorsCanvas.gameObject.activeSelf)
+                    _playerIndicatorsCanvas.gameObject.SetActive(false);
+                else _playerIndicatorsCanvas.gameObject.SetActive(true);
             }
         }
         private void OpenWindow(string id)
@@ -120,6 +125,7 @@ namespace Assets.Scripts.Runtime.Controllers
         }
         public void InitializeController()
         {
+           
             //_mainCanvas = UISettings.Instance.MainCanvas;
             ActionConfigurator = new UIActionConfigurator();
             //ActionConfigurator.Configure();

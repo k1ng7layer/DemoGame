@@ -11,6 +11,7 @@ namespace Assets.Scripts.Runtime.Controllers
 {
     public class PlayerHandler:IController
     {
+        private bool _isDead;
         private PlayerController _player;
         public PlayerHandler(PlayerConfig config)
         {
@@ -19,14 +20,21 @@ namespace Assets.Scripts.Runtime.Controllers
         }
         public void InitializeController()
         {
-            
             _player.InitializeController();
+            _player.OnPlayerDeath += HandleDeath;
         }
-
         public void OnDestroyController()
         {
+            _player.OnPlayerDeath -= HandleDeath;
             _player.OnDestroyController();
         }
+
+        private void HandleDeath()
+        {
+            _isDead = true;
+        }
+     
+            
 
         public void OnDisableController()
         {
@@ -35,17 +43,20 @@ namespace Assets.Scripts.Runtime.Controllers
 
         public void OnFixedUpdateController()
         {
-            _player.OnFixedUpdateController();
+            if (!_isDead)
+                _player.OnFixedUpdateController();
         }
 
         public void OnLateUpdateController()
         {
-            _player.OnLateUpdateController();
+            if (!_isDead)
+                _player.OnLateUpdateController();
         }
 
         public void OnUpdateController()
         {
-            _player.OnUpdateController();
+            if (!_isDead)
+                _player.OnUpdateController();
         }
     }
 }

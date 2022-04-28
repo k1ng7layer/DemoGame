@@ -14,6 +14,7 @@ namespace Assets.Scripts.Runtime.Inventory
         
         [SerializeField] private float _damage;
         [SerializeField] private WeaponType _weaponType;
+
         public float Damagr => _damage;
         public WeaponType WeaponType => _weaponType;
         

@@ -18,5 +18,6 @@ namespace Assets.Scripts.Runtime.Configs
         public List<UIActionBar> uIActionBars;
 
         public MouseFollower mouseFollowerPrefab;
+        public Canvas indicatorsCanvas;
     }
 }

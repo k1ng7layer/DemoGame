@@ -15,13 +15,18 @@ namespace Assets.Scripts.Runtime.Controllers
         protected MovementModel _movementModel;
         protected InputTypeBase _input;
         protected InventoryManagerBase _inventoryManager;
+        public event Action OnPlayerDeath;
         public PlayerController(PlayerConfig playerConfig)
         {
             //_movementModel = playerConfig.BuildMovementModel();
         }
 
         public abstract void MovePlayer(Vector3 direction);
-       
+        
+        protected void SetPlayerDeath()
+        {
+            OnPlayerDeath?.Invoke();
+        }
         public virtual void InitializeController()
         {
             

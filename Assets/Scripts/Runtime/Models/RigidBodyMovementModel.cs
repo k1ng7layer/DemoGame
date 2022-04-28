@@ -10,19 +10,26 @@ using UnityEngine;
 
 namespace Assets.Scripts.Runtime.Models
 {
-    public class RigidBodyMovementModel:MovementModel
+    public class RigidBodyMovementModel : MovementModel
     {
+
         private readonly Rigidbody _rb;
         const float LocomotionSmoothTime = .1f;
         float turnSmoothVelocity;
         public float turnSmoothTime = 0.1f;
         private bool _isGrounded;
+        public override bool IsGrounded => _isGrounded;
+   
         private Transform groundCheck;
         private LayerMask layerMask;
         private Vector3 _currentDirection;
         private bool _dash;
         private Collider _playerCollider;
         private bool _canJump = true;
+
+        public override event Action OnGroundAction;
+
+        //
         public RigidBodyMovementModel(Rigidbody rigidbody)
         {
             _rb = rigidbody;
@@ -45,26 +52,61 @@ namespace Assets.Scripts.Runtime.Models
         }
         public override Vector3 Velocity { get; protected set; }
 
-        public override void Jump()
+        //public override void Jump(float jumpforce)
+        //{
+
+        //    if (GroundCheck()&& _canJump)
+        //    {
+        //        if (_currentDirection.magnitude > 0.1f)
+        //        {
+        //            var force = new Vector3(0f, jumpforce, 0f) + _rb.transform.forward * jumpforce;
+        //            _rb.AddForce(force);
+        //            _canJump = false;
+        //            _isGrounded = false;
+        //            RootController.Instance.RunCoroutine(CheckCanJumpCoroutine());
+        //            Debug.Log($"rb velocityw {_rb.velocity.magnitude}");
+        //        }
+        //        else
+        //        {
+        //            _rb.AddForce(new Vector3(0f, jumpforce, 0f));
+        //            _isGrounded = false;
+        //            _canJump = false;
+        //            RootController.Instance.RunCoroutine(CheckCanJumpCoroutine());
+        //        }
+        //        IsJumped = true;
+
+        //        _animator.SetBool("Jump", true);
+
+        //    }
+        //}
+
+        //Метод для прыжка
+
+
+        public override void Jump(float jumpforce)
         {
 
-            if (GroundCheck()&& _canJump)
+            if (IsGrounded && _canJump)
             {
                 if (_currentDirection.magnitude > 0.1f)
                 {
-                    var force = new Vector3(0f, 200f, 0f) + _rb.transform.forward * 200f;
+                    var force = new Vector3(0f, jumpforce, 0f) + _rb.transform.forward * jumpforce;
                     _rb.AddForce(force);
+                    Velocity = _rb.velocity;
                     _canJump = false;
+                    _isGrounded = false;
                     RootController.Instance.RunCoroutine(CheckCanJumpCoroutine());
                     Debug.Log($"rb velocityw {_rb.velocity.magnitude}");
                 }
                 else
                 {
-                    _rb.AddForce(new Vector3(0f, 200f, 0f));
-                    
+                    _rb.AddForce(new Vector3(0f, jumpforce, 0f));
+                    Velocity = _rb.velocity;
+                    _isGrounded = false;
                     _canJump = false;
                     RootController.Instance.RunCoroutine(CheckCanJumpCoroutine());
                 }
+                IsJumped = true;
 
                 _animator.SetBool("Jump", true);
 
@@ -90,9 +132,10 @@ namespace Assets.Scripts.Runtime.Models
                 _rb.transform.rotation = Quaternion.Euler(0f, angle, 0f);
                 _currentDirection = moveDirection;
                 _rb.MovePosition(_rb.transform.position + moveDirection * 3f * Time.fixedDeltaTime);
+                Velocity = _rb.velocity;
                 _animator.SetFloat("Movement", direction.normalized.magnitude, LocomotionSmoothTime, Time.fixedDeltaTime);
             }
-            Velocity = _rb.velocity;
+          
         }
 
 
@@ -101,36 +144,59 @@ namespace Assets.Scripts.Runtime.Models
 
 
 
+        //public override void MovePlayer(float x, float z, float speed)
+        //{
+        //    _animator.SetFloat("Movement", 0f, LocomotionSmoothTime, Time.fixedDeltaTime);
+        //    var direction = new Vector3(x, 0f, z);
+        //    if (direction.magnitude > 0.1f)
+        //    {
+        //        float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+        //        float angle = Mathf.SmoothDampAngle(_rb.transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+        //        Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+        //        _rb.transform.rotation = Quaternion.Euler(0f, angle, 0f);
+        //        _rb.velocity = new Vector3(moveDirection.x * speed, _rb.velocity.y, moveDirection.z * speed);
+        //        _animator.SetFloat("Movement", direction.normalized.magnitude, LocomotionSmoothTime, Time.fixedDeltaTime);
+        //    }
+        //    Velocity = _rb.velocity;
+        //}
         public override void MovePlayer(float x, float z, float speed)
         {
             _animator.SetFloat("Movement", 0f, LocomotionSmoothTime, Time.fixedDeltaTime);
             var direction = new Vector3(x, 0f, z);
+            _currentDirection = direction;
             if (direction.magnitude > 0.1f)
             {
                 float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
                 float angle = Mathf.SmoothDampAngle(_rb.transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
                 Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
                 _rb.transform.rotation = Quaternion.Euler(0f, angle, 0f);
-                _rb.velocity = new Vector3(moveDirection.x * speed, _rb.velocity.y, moveDirection.z * speed);
-                _animator.SetFloat("Movement", direction.normalized.magnitude, LocomotionSmoothTime, Time.fixedDeltaTime);
+                _currentDirection = moveDirection;
+                _rb.MovePosition(_rb.transform.position + moveDirection * speed * Time.fixedDeltaTime);
+                Velocity = _rb.velocity;
+                _animator.SetFloat("Movement", direction.normalized.magnitude* speed, LocomotionSmoothTime, Time.fixedDeltaTime);
             }
-            Velocity = _rb.velocity;
+            
         }
 
         public override bool GroundCheck()
         {
             
-            if (Physics.CheckSphere(new Vector3(_rb.transform.position.x, _playerCollider.bounds.center.y-_playerCollider.bounds.size.y/2, _rb.transform.position.z), 0.1f, layerMask))
+            if (Physics.CheckSphere(new Vector3(_rb.transform.position.x, _playerCollider.bounds.center.y-_playerCollider.bounds.size.y/2, _rb.transform.position.z), 0.01f, layerMask))
             {
+                OnGroundAction?.Invoke();
                 _isGrounded = true;
-                Debug.Log($"Is grounded =  {_isGrounded}");
+                IsJumped = false;
+                Debug.Log($"_movementModel.IsGrounded =  {IsGrounded}");
+              
                 return true;
             }
             else
             {
+               
                 _isGrounded = false;
-                Debug.Log($"Is grounded =  {_isGrounded}");
-                _animator.SetBool("Jump", false);
+                OnGroundAction?.Invoke();
+                Debug.Log($"_movementModel.IsGrounded =  {IsGrounded}");
+                //_animator.SetBool("Jump", false);
                 return false; 
             }
 

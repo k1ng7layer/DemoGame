@@ -27,12 +27,21 @@ namespace Assets.Scripts.Runtime.Controllers
 
         public override void OnFixedUpdateController()
         {
+          
+        }
+        public override void OnLateUpdateController()
+        {
             cameraModel.xAngle = cameraView.X_Angle;
             cameraModel.yAngle = cameraView.Y_Angle;
             cameraModel.zAngle = cameraView.Z_Angle;
             cameraModel.FollowSpeed = cameraView.Speed;
             cameraModel.Offset = cameraView.Offset;
             cameraModel.FollowTarget();
+
+        }
+        public override void OnUpdateController()
+        {
+          
         }
     }
 

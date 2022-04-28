@@ -1,7 +1,10 @@
 ﻿using Assets.Scripts.Runtime.Configs;
 using Assets.Scripts.Runtime.Configs.Inventory;
 using Assets.Scripts.Runtime.Controllers;
+using Assets.Scripts.Runtime.Controllers.Combat;
 using Assets.Scripts.Runtime.GameActions;
+using Assets.Scripts.Runtime.GameActions.EventArgs;
+using Assets.Scripts.Runtime.Views.UIViews;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,9 +36,11 @@ namespace Assets.Scripts.Runtime.Inventory
         private ItemDTO _equipedChest;
         private ItemDTO _equipedGloves;
         private int _inventoryCapacity;
+        private WeaponTransformState _currentWeaponTransformState;
 
-        public override event Action OnWeaponDraw;
-        public override event Action<WeaponDTO> OnWeaponChanged;
+        public override event Action<bool> OnWeaponDrawRequest;
+        public override event Action<bool> OnWeaponStateChanged;
+        public override event Action<WeaponCombatModel> OnWeaponViewAssign;
 
         public InventoryManager(InventoryDTO inventoryData) :base(inventoryData)
         {
@@ -137,8 +142,10 @@ namespace Assets.Scripts.Runtime.Inventory
                       
                         _equipedWeapon = (WeaponDTO)item.Item;
                         var weaponGameObject = CreateWeaponInstance(_equipedWeapon);
-                        OnWeaponChanged?.Invoke(_equipedWeapon);
-                        
+                        var weaponView = weaponGameObject.GetComponent<WeaponView>();
+                        OnWeaponViewAssign?.Invoke(new WeaponCombatModel(weaponGameObject, _equipedWeapon.Damagr, _equipedWeapon.WeaponType, 2f));
+                        //OnWeaponStateChanged?.Invoke(weaponView);
+
                         _instantiatedEquipedItems.Remove(_equipedWeapon);
                         _instantiatedEquipedItems.Add(_equipedWeapon, weaponGameObject);
                         break;
@@ -190,11 +197,13 @@ namespace Assets.Scripts.Runtime.Inventory
         {
             if (_equipedWeapon != null)
                 ChangeWeaponTransformState(_equipedWeapon, WeaponTransformState.ARMED);
+            OnWeaponStateChanged?.Invoke(true);
         }
         public override void HideCurrentWeapon()
         {
             if (_equipedWeapon != null)
                 ChangeWeaponTransformState(_equipedWeapon, WeaponTransformState.DEFAULT);
+            OnWeaponStateChanged?.Invoke(false);
         }
         private void ChangeWeaponTransformState(WeaponDTO weapon, WeaponTransformState transformState)
         {
@@ -218,6 +227,7 @@ namespace Assets.Scripts.Runtime.Inventory
                     default:
                         break;
                 }
+                _currentWeaponTransformState = transformState;
             }
         }
         private void HandleSwapEquipedItems(ItemDTO item)
@@ -238,7 +248,18 @@ namespace Assets.Scripts.Runtime.Inventory
         public override void WeaponDrawRequest()
         {
             if (_equipedWeapon != null)
-                OnWeaponDraw?.Invoke();
+            {
+                if(_currentWeaponTransformState == WeaponTransformState.ARMED)
+                        OnWeaponDrawRequest?.Invoke(false);
+                else if(_currentWeaponTransformState == WeaponTransformState.DEFAULT)
+                    OnWeaponDrawRequest?.Invoke(true);
+            }
+               
+        }
+
+        public override void WeaponHideRequest()
+        {
+            
         }
     }
 }

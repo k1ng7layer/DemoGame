@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 5339494908374374496}
   - component: {fileID: 4320141458578883461}
   - component: {fileID: 5505001353987285017}
+  - component: {fileID: 3445183020694537040}
   m_Layer: 8
   m_Name: Male
   m_TagString: Untagged
@@ -53,7 +54,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!114 &1320174045026533887
 MonoBehaviour:
@@ -67,6 +68,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac928aeab2705b04eb1780a6734cfab4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isPlayer: 1
 --- !u!95 &6563551697782795891
 Animator:
   serializedVersion: 3
@@ -128,6 +130,34 @@ MonoBehaviour:
   _weaponDrawTiming: 0.5
   _weaponHideClip: {fileID: -203655887218126122, guid: 34b2b25fd440d6e409ce9d57c9941e8f, type: 3}
   _weaponHideTiming: 1.2
+  _attackClip1: {fileID: -203655887218126122, guid: 522259001a2f6294698399ccfb9a26b5, type: 3}
+  _attackTiming_Clip1_BEGIN: 1.21
+  _attackTiming_Clip1_END: 1.31
+  _attackClip2: {fileID: -203655887218126122, guid: d8dd70dcd3fbb6f41b4908f6896466fc, type: 3}
+  _attackTiming_Clip2_BEGIN: 0.89
+  _attackTiming_Clip2_END: 1
+  _jumpAttackClip: {fileID: -203655887218126122, guid: 00a5d180b83b5fb4f90e7c58420084c2, type: 3}
+  _attackTiming_jumpAttackClip_BEGIN: 1.78
+  _attackTiming_jumpAttackClip_END: 2
+  animator: {fileID: 6563551697782795891}
+--- !u!114 &3445183020694537040
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 69395628708165053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51655b10bae65b241b8d3fa39404a48f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rb: {fileID: 6080105129233941508}
+  _playerCollider: {fileID: 5339494908374374496}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 64
+  IsGrounded: 0
 --- !u!1 &106691235632444823
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,0 +1,117 @@
+﻿using Assets.Scripts.Runtime.Controllers.Animation;
+using Assets.Scripts.Runtime.Controllers.Combat;
+using Assets.Scripts.Runtime.Extensions;
+using Assets.Scripts.Runtime.Inventory;
+using Assets.Scripts.Runtime.Models;
+using Assets.Scripts.Runtime.Views;
+using System;
+using UnityEngine;
+using UnityEngine.AI;
+
+namespace Assets.Scripts.Runtime.Controllers.AIControllers
+{
+    public class NpcPresenter:IController
+    {
+        private NpcView _npcView;
+        private AIBehaviour.Tree _behaviourTree;
+        private AnimationEventManager _animationEventManager;
+        private CombatManager _combatManager;
+        public event Action<NpcPresenter> OnDeath;
+        private TargetChaseModel _targetChaseModel;
+        private Animator _animator;
+        public event Action OnDeathNpc;
+        private NpcInventoryManager _npcInventoryManager;
+        public NpcPresenter(NpcView npcView)
+        {
+            _npcView = npcView;
+            _behaviourTree = _npcView.Config.BehaviourConfig.CreateBehaviourTree(npcView.transform);
+            _animator = _npcView.transform.GetOrCreateComponent<Animator>();
+            _combatManager = new NpcCombatManager(_animator, _npcView.Config);
+            _npcInventoryManager = new NpcInventoryManager(_npcView.Config.Weapon, _npcView.gameObject);
+        }
+            
+        private void SetNpcDeath()
+        {
+            OnDeath?.Invoke(this);
+        }
+
+        public void InitializeController()
+        {
+            _npcView.CreateGraphics();
+            var agent = _npcView.GetComponent<NavMeshAgent>();
+            var _rb = _npcView.GetOrCreateComponent<Rigidbody>();
+            var animator = _npcView.GetOrCreateComponent<Animator>();
+            _npcInventoryManager.OnWeaponViewAssign += _combatManager.SetWeapon;
+            _npcInventoryManager.Initialize();
+            //_targetChaseModel = new SingleNavMeshTargetChaseModel(agent, _rb, animator);
+            _targetChaseModel = new NavMeshTargetChaseModel(agent, _rb, animator);
+            _animationEventManager = _npcView.GetOrCreateComponent<NpcAnimationEventManager>();
+            _animationEventManager.OnStartDealingDamage += _combatManager.HandleAttackBegin;
+            _animationEventManager.OnEndDealingDamage += _combatManager.HandleAttackEnd;
+            _behaviourTree.Initialize();
+            _behaviourTree.OnAttackTarget += _combatManager.PerformAttackRequest;
+            _combatManager.OnTakingDamage += _behaviourTree.HandleTakingDamage;
+            _behaviourTree.OnMovingToTarget += _targetChaseModel.ChaseTarget;
+            _npcView.OnTakeDamage += _combatManager.HandleIncomeDamage;
+            
+            //_npcView.TakeDamageAction?
+            _combatManager.OnHealthChanged += _npcView.HpBar.SetHealth;
+            _combatManager.OnDeath += SetNpcDeath;
+            _animationEventManager.OnWeaponDraw += _npcInventoryManager.DrawWeapon;
+            _animationEventManager.OnWeaponHide += _npcInventoryManager.HideCurrentWeapon;
+            CreateUiElements();
+        }
+        private void CreateUiElements()
+        {
+            
+        }
+       
+        public void OnDestroyController()
+        {
+            _behaviourTree.OnAttackTarget -= _combatManager.PerformAttackRequest;
+            _behaviourTree.OnMovingToTarget -= _targetChaseModel.ChaseTarget;
+            _npcView.TakeDamageAction -= _behaviourTree.HandleTakingDamage;
+            _npcView.OnTakeDamage -= _combatManager.HandleIncomeDamage;
+            _combatManager.OnHealthChanged -= _npcView.HpBar.SetHealth;
+            _behaviourTree.OnDestroy();
+            _combatManager.OnDeath -= SetNpcDeath;
+            _animationEventManager.OnWeaponDraw -= _npcInventoryManager.DrawWeapon;
+            _animationEventManager.OnStartDealingDamage -= _combatManager.HandleAttackBegin;
+            _animationEventManager.OnEndDealingDamage -= _combatManager.HandleAttackEnd;
+            _animationEventManager.OnWeaponHide -= _npcInventoryManager.HideCurrentWeapon;
+            _npcInventoryManager.OnWeaponViewAssign -= _combatManager.SetWeapon;
+        }
+        public void OnUpdateController()
+        {
+            _behaviourTree.Update();
+           
+
+        }
+
+        public void OnFixedUpdateController()
+        {
+            Debug.Log($"Chase model = {_targetChaseModel}");
+            _targetChaseModel.UpdateModel();
+
+
+        }
+        public void OnDisableController()
+        {
+            
+        }
+
+        public void OnLateUpdateController()
+        {
+           
+        }
+    }
+}
+           
+            
+
+
+            
+
+
+
+      

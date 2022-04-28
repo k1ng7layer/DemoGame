@@ -1,4 +1,7 @@
-﻿using Assets.Scripts.Runtime.GameActions;
+﻿using Assets.Scripts.Runtime.Controllers.Combat;
+using Assets.Scripts.Runtime.GameActions;
+using Assets.Scripts.Runtime.GameActions.EventArgs;
+using Assets.Scripts.Runtime.Views.UIViews;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,8 +13,9 @@ namespace Assets.Scripts.Runtime.Inventory
 {
     public abstract class InventoryManagerBase:IController
     {
-        public abstract event Action OnWeaponDraw;
-        public abstract event Action<WeaponDTO> OnWeaponChanged;
+        public abstract event Action<bool> OnWeaponDrawRequest;
+        public abstract event Action<bool> OnWeaponStateChanged;
+        public abstract event Action<WeaponCombatModel> OnWeaponViewAssign;
         protected GameObject playerObj;
         public InventoryManagerBase(InventoryDTO inventoryDTO)
         {
@@ -30,6 +34,7 @@ namespace Assets.Scripts.Runtime.Inventory
         public abstract void DrawCurrentWeapon();
         public abstract void HideCurrentWeapon();
         public abstract void WeaponDrawRequest();
+        public abstract void WeaponHideRequest();
         public virtual void InitializeController()
         {
             

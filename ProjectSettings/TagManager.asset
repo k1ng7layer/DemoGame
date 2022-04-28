@@ -14,8 +14,8 @@ TagManager:
   - Ground
   - GroundCheck
   - Player
-  - 
-  - 
+  - Enemy
+  - Weapon
   - 
   - 
   - 

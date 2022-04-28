@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Runtime.Models;
 using Assets.Scripts.Runtime.Views;
+using Assets.Scripts.Runtime.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,13 @@ namespace Assets.Scripts.Runtime.Controllers
     {
         protected CameraModel cameraModel;
         protected CameraView cameraView;
+        public Camera CameraObject
+        {
+            get
+            {
+                return cameraView.transform.GetOrCreateComponent<Camera>();
+            }
+        }
         public GameObject CurrentTarget { get; set; }
         //protected CameraView CameraObject { get; set; }
 
@@ -54,7 +62,7 @@ namespace Assets.Scripts.Runtime.Controllers
 
         }
 
-        public void OnLateUpdateController()
+        public virtual void OnLateUpdateController()
         {
 
         }

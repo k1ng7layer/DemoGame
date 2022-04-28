@@ -19,6 +19,17 @@ namespace Assets.Scripts.Runtime.Configs
 
         [Header("Player Inventory Parameters")]
         [SerializeField] protected InventoryDTO playerInventoryData;
+
+        [Header("StateMachineConfig")]
+        [SerializeField] StateMachineConfig _stateMchineConfig;
+
+        [Header("Player Initial Stats")]
+        [SerializeField] private float _initialHP;
+
+        [Header("Combat presets")]
+        [SerializeField] private LayerMask _targetLayer;
+        public LayerMask TargetLayers => _targetLayer;
+        public float InitialHp => _initialHP;
         public PlayerView SpawnedPlayerViewObject { get; private set; }
         
         public PlayerView PlayerViewPrefab => playerPrefab;

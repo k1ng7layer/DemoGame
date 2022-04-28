@@ -15,6 +15,7 @@ namespace Assets.Scripts.Runtime.Controllers
     {
         public CameraController cameraController { get; private set; }
         private static RootController _instance;
+        [SerializeField] float _timeScale = 1;
         public static RootController Instance
         {
             get
@@ -33,6 +34,8 @@ namespace Assets.Scripts.Runtime.Controllers
         
         private void Awake()
         {
+            
+            Time.timeScale = _timeScale;
             var rootAsset = Resources.Load<RootAsset>("Root/Root");
             
             _gameControllers = rootAsset.controllersConfig.GetControllers();
@@ -52,6 +55,7 @@ namespace Assets.Scripts.Runtime.Controllers
 
         private void Update()
         {
+            Time.timeScale = _timeScale;
             foreach (var controller in _gameControllers)
             {
                 controller.OnUpdateController();

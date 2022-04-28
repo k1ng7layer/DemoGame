@@ -13,6 +13,7 @@ namespace Assets.Scripts.Runtime.Controllers.PlayerControllers
     [CreateAssetMenu(fileName ="new player congif", menuName ="Configs/PlayerConfig")]
     public class MainPlayerControllerConfig : PlayerConfig
     {
+        
         public override InputTypeBase BuildInputType()
         {
             return playerInputType;

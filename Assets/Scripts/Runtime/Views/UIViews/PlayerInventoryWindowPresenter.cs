@@ -315,6 +315,7 @@ namespace Assets.Scripts.Runtime.Views.UIViews
                 
             }
         }
+        
         private void ItemEquipHandle(ItemEquipEventArgs eventArgs)
         {
             switch (eventArgs.Slot)

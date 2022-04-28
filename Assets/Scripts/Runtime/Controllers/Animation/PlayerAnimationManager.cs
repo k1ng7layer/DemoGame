@@ -14,11 +14,12 @@ namespace Assets.Scripts.Runtime.Controllers.Animation
         {
             _callbacks = new List<Action>();
         }
-        public void DrawOrHideWeapon()
+        public void DrawOrHideWeapon(bool value)
         {
-            if (_animator.GetBool("WeaponWithdraw") == false)
-                    _animator.SetBool("WeaponWithdraw", true);
-            else _animator.SetBool("WeaponWithdraw", false);
+            //if (_animator.GetBool("WeaponWithdraw") == false)
+            //        _animator.SetBool("WeaponWithdraw", true);
+            //else _animator.SetBool("WeaponWithdraw", false);
+            _animator.SetBool("WeaponWithdraw", value);
         }
         public void EnableAttackAnimation(int index)
         {

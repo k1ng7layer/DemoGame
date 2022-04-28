@@ -17,6 +17,6 @@ MonoBehaviour:
   _defaultPosition: {x: 0.063, y: 0.028, z: -0.017}
   _armedPosition: {x: -0.033, y: 0.069, z: 0.038}
   _defaultRotation: {x: -22.642, y: 0, z: 163.9}
-  _armedRotation: {x: 38.66, y: 88.983, z: 17.565}
+  _armedRotation: {x: 21.039, y: 89.986, z: -29.814}
   _defaultScale: {x: 0.5418105, y: 0.7937188, z: 0.8222473}
   _armedScale: {x: 0.5418105, y: 0.7937188, z: 0.8222473}
