@@ -30,6 +30,8 @@ namespace Assets.Scripts.Runtime.Controllers.Animation
         public override event Action OnWeaponHide;
         public override event Action<AttackType> OnStartDealingDamage;
         public override event Action OnEndDealingDamage;
+        public override event Action OnThrowWeapon;
+
         public Animator animator;
 
         private void Awake()

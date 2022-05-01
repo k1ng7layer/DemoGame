@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59e4a214945697249a2b500256bd1640, type: 3}
   m_Name: GreatSword
   m_EditorClassIdentifier: 
-  _itemPrefab: {fileID: -927199367670048503, guid: dd0682cd55d7f8342b8026ebb1cfc4a5, type: 3}
+  _itemPrefab: {fileID: 3269501867981500484, guid: 7d8c814f27d7a194ca684a0d9d490e1a, type: 3}
   _name: 
   _description: GreatSword
   _itemImage: {fileID: 21300000, guid: 490de5b67a54a914088038c8d2c8282f, type: 3}
   _isStackable: 0
   _slotType: 0
-  _damage: 0
+  _damage: 50
+  _weaponType: 0
+  _weaponAttackType: 0

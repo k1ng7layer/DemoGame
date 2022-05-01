@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fadfb2d476f92246bebda5487c0546d, type: 3}
+  m_Name: HumanSpearTable
+  m_EditorClassIdentifier: 
+  _characterType: 1
+  _weaponType: 2
+  _defaultPosition: {x: 0, y: 0, z: -0.065}
+  _armedPosition: {x: 0.084, y: -0.026, z: 0.049}
+  _defaultRotation: {x: 0, y: 0, z: -12.216}
+  _armedRotation: {x: -176.774, y: 91.32, z: 65.454}
+  _defaultScale: {x: 0.8452243, y: 1.238201, z: 1.282705}
+  _armedScale: {x: 0.8452243, y: 1.2382008, z: 1.2827052}

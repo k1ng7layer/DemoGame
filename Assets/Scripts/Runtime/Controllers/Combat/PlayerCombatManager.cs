@@ -1,7 +1,9 @@
 ﻿using Assets.Scripts.Runtime.Configs;
+using Assets.Scripts.Runtime.Inventory;
 using Assets.Scripts.Runtime.Models.Combat;
 using Assets.Scripts.Runtime.Views.UIViews;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -33,10 +35,10 @@ namespace Assets.Scripts.Runtime.Controllers.Combat
 
         private float _damagePoints;
 
-        public PlayerCombatManager(Animator animator, PlayerConfig playerConfig)
+        public PlayerCombatManager(Animator animator, PlayerConfig playerConfig, InventoryManagerBase inventoryManagerBase):base(inventoryManagerBase,playerConfig.SpawnedPlayerViewObject.transform)
         {
             _healthModel = new StatsModel(playerConfig.InitialHp);
-            _combatModel = new MeleeCombaModel();
+            //_combatModel = new MeleeCombaModel();
             _animator = animator;
             _targetLayer = playerConfig.TargetLayers;
         }
@@ -50,7 +52,7 @@ namespace Assets.Scripts.Runtime.Controllers.Combat
         {
             if (hasWeaponEquiped)
             {
-                _combatModel.PerformAttack();
+                //_combatModel.PerformAttack();
                 //Debug.Log($"ATTACK IN JUMP");
                 OnAttack?.Invoke(1);
                 //_canAttack = false;
@@ -119,6 +121,38 @@ namespace Assets.Scripts.Runtime.Controllers.Combat
             Debug.Log("END DEALING DAMAGE");
             currentWeaponView.EndDealDamage();
             _canAttack = true;
+        }
+        
+        public override void DrawWeapon()
+        {
+            
+        }
+
+        public override void SetTarget(Transform target)
+        {
+            
+        }
+
+        public override void RestoreHealth(float value, float time)
+        {
+            //_healthModel.RestoreStat
+            RootController.Instance.RunCoroutine(RestoreStatCoroutine(value, time, _healthModel));
+        }
+
+        private IEnumerator RestoreStatCoroutine(float value, float time, StatsModel statsModel)
+        {
+            var calculatedHealth = statsModel.Value + value;
+            Debug.Log($"calculated Health = {calculatedHealth}");
+            while (statsModel.Value != calculatedHealth)
+            {
+
+                yield return new WaitForSeconds(0.5f);
+                //initialValue += (value / time);
+                statsModel.IncreaseStatInstant(value / time);
+                OnHealthChanged?.Invoke(statsModel.Value);
+                Debug.Log($"calculated Health in one tick = {value / time}");
+                Debug.Log($"current Health = {statsModel.Value}");
+            }
         }
     }
 }

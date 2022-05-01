@@ -33,7 +33,7 @@ namespace Assets.Scripts.Runtime.Controllers
             _playerView = playerConfig.SpawnedPlayerViewObject;
             _playerAnimator = _playerView.GetComponent<Animator>();
             _movementModel = playerConfig.BuildMovementModel(_playerView.GetComponent<Rigidbody>());
-            _combatManager = new PlayerCombatManager(_playerAnimator, playerConfig);
+            _combatManager = new PlayerCombatManager(_playerAnimator, playerConfig, _inventoryManager);
             _inventoryManager = playerConfig.GetInventoryManager();
             _inventoryManager.AttachPlayerObject(_playerView.gameObject);
         }
@@ -73,9 +73,9 @@ namespace Assets.Scripts.Runtime.Controllers
         private void SetMovementActions()
         {
             _movementModel.SetAnimator(_playerAnimator);
-            _input.OnMovement += MovePlayer;
-            _input.OnJump += Jump;
         }
+        
+            
       
         private void SetInventoryActions()
         {
@@ -96,22 +96,17 @@ namespace Assets.Scripts.Runtime.Controllers
             _playerAnimationEventManager.OnStartDealingDamage += _combatManager.HandleAttackBegin;
             _playerAnimationEventManager.OnEndDealingDamage += _combatManager.HandleAttackEnd;
             _playerView.OnTakeDamage += _combatManager.HandleIncomeDamage;
+            _playerView.OnHealthRestore += _combatManager.RestoreHealth;
             _combatManager.OnHealthChanged += _playerView.HpBar.SetHealth;
             _combatManager.OnDeath += _playerView.HandleDeath;
             _combatManager.OnDeath += SetPlayerDeath;
-            //_combatManager.OnAttack += _playerAnimationManager.EnableAttackAnimation;
-            //_combatManager.OnAttack += Attack;
         }
+       
 
-        
-        private void Attack(int index)
-        {
-            _stateMachine.ChangeState("Attack");
-        }
         public override void OnDestroyController()
         {
-            _input.OnMovement -= MovePlayer;
-            _input.OnJump -= Jump;
+         
+           
             _input.OnDrawWeapon -= _inventoryManager.WeaponDrawRequest;
             _playerAnimationEventManager.OnWeaponDraw -= _inventoryManager.DrawCurrentWeapon;
             _playerAnimationEventManager.OnWeaponHide -= _inventoryManager.HideCurrentWeapon;
@@ -119,7 +114,6 @@ namespace Assets.Scripts.Runtime.Controllers
             _input.OnDrawWeapon -= _inventoryManager.WeaponDrawRequest;
             _input.OnAttack -= _combatManager.PerformAttackRequest;
             _combatManager.OnAttack -= _playerAnimationManager.EnableAttackAnimation;
-            //_combatManager.OnAttack -= Attack;
             _inventoryManager.OnWeaponStateChanged -= _combatManager.SetWeaponReady;
             _inventoryManager.OnWeaponViewAssign -= _combatManager.SetWeapon;
             _playerAnimationEventManager.OnStartDealingDamage -= _combatManager.HandleAttackBegin;
@@ -128,21 +122,15 @@ namespace Assets.Scripts.Runtime.Controllers
             _combatManager.OnHealthChanged -= _playerView.HpBar.SetHealth;
             _combatManager.OnDeath -= SetPlayerDeath;
             _combatManager.OnDeath -= _playerView.HandleDeath;
+            _playerView.OnHealthRestore -= _combatManager.RestoreHealth;
         }
-        public override void MovePlayer(Vector3 direction)
-        {
-            //_movementModel.MovePlayer(direction.x, direction.z);
-            //_stateMachine.ChangeState("Walk");
-        }
+       
+     
         private void OpenInventory()
         {
             _inventoryManager.OpenInventory();
         }
-        private void Jump()
-        {
-            //_movementModel.Jump();
-            //_stateMachine.ChangeState("Jump");
-        }
+    
         public override void OnUpdateController()
         {
             _input.OnUpdate();

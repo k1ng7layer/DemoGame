@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Runtime.Configs;
+using Assets.Scripts.Runtime.Inventory;
 using Assets.Scripts.Runtime.Models.Combat;
 using System;
 using System.Collections.Generic;
@@ -17,12 +18,17 @@ namespace Assets.Scripts.Runtime.Controllers.Combat
         public override event Action<bool> OnTakingDamage;
         public override event Action<float> OnHealthChanged;
         public override event Action OnDeath;
-        private LayerMask _targetLayers;
+        private Transform _currentTarget;
+      
 
         private Animator _animator;
         private StatsModel _healthModel;
 
-        public NpcCombatManager(Animator animator, NpcConfig npcConfig)
+        //public NpcCombatManager(InventoryManager inventoryManager, Transform playerTransform) : base(inventoryManager, playerTransform)
+        //{
+        //}
+
+        public NpcCombatManager(Animator animator, NpcConfig npcConfig, InventoryManagerBase inventoryManager, Transform playerTransform) : base(inventoryManager, playerTransform)
         {
             _healthModel = new StatsModel(npcConfig.MaxHp);
             _animator = animator;
@@ -30,22 +36,8 @@ namespace Assets.Scripts.Runtime.Controllers.Combat
         }
         public override void HandleAttackBegin(AttackType attackType)
         {
-            Debug.Log("START DEALING DAMAGE");
-
-            List<DamageUnit> damageUnits = new List<DamageUnit>();
-            switch (attackType)
-            {
-                case AttackType.STAND:
-                    damageUnits.Add(new DamageUnit(DamageType.PHYSCICAL, currentCombatWeapon.WeaponDamagePoints, 0f));
-                    break;
-                case AttackType.JUMP:
-                    damageUnits.Add(new DamageUnit(DamageType.PHYSCICAL, currentCombatWeapon.WeaponDamagePoints, 0.8f));
-                    break;
-                default:
-                    break;
-            }
-            //damageUnits.Add(new DamageUnit(DamageType.PHYSCICAL, currentCombatWeapon.WeaponDamagePoints, currentCombatWeapon.DamageMultiplier));
-            currentWeaponView.StartDealDamage(damageUnits, attackType, _targetLayers);
+           
+            _combatModel.PerformAttack(attackType,_currentTarget);
         }
         public override void HandleAttackEnd()
         {
@@ -88,6 +80,21 @@ namespace Assets.Scripts.Runtime.Controllers.Combat
             else HandleTakingDamageEnd();
         }
         public override void PerformAttackRequest()
+        {
+            
+        }
+
+        public override void DrawWeapon()
+        {
+            _combatModel.DrawWeapon();
+        }
+
+        public override void SetTarget(Transform target)
+        {
+            _currentTarget = target;
+        }
+
+        public override void RestoreHealth(float value, float time)
         {
             
         }

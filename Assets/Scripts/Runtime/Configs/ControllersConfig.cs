@@ -35,8 +35,9 @@ namespace Assets.Scripts.Runtime.Configs
             _uiController = new UIController(_uIConfig);
             _controllers = new List<IController>();
             _npcController = new NpcController();
-
+            GameStateController stateController = new GameStateController();
             //Добавление контроллеров
+            _controllers.Add(stateController);
             _controllers.Add(playerHandler);
             _controllers.Add(_cameraController);
             _controllers.Add(_uiController);

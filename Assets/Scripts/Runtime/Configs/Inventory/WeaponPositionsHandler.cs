@@ -20,18 +20,28 @@ namespace Assets.Scripts.Runtime.Configs.Inventory
             foreach (var table in positionTableDTOs)
             {
                 var transformTable = new WeaponPositionTable();
-                transformTable.AddTransformData(table.WeaponType, new WeaponTransformData(
+                var weaponTransformData = new WeaponTransformData(
                     table.DefaultPosition,
                     table.ArmedPosition,
                     table.DefaultRotation,
                     table.ArmedRotation,
                     table.DefaultScale,
-                    table.ArmedScale));
-                AddWeaponData(table.CharacterModelType, transformTable);
+                    table.ArmedScale);
+                transformTable.AddTransformData(table.WeaponType, weaponTransformData);
+                if(_characterWeaponPos.TryGetValue(table.CharacterModelType, out WeaponPositionTable positionTable))
+                {
+                    positionTable.AddTransformData(table.WeaponType, weaponTransformData);
+                }
+                else
+                {
+                    AddWeaponData(table.CharacterModelType, transformTable);
+                }
+               
             }
         }
         public static void AddWeaponData(CharacterType characterType, WeaponPositionTable weaponPositionTable)
         {
+          
             _characterWeaponPos.Add(characterType, weaponPositionTable);
         }
         public static WeaponTransformData GetWeaponData(CharacterType characterType, WeaponType weaponType)

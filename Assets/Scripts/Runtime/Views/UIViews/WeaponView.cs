@@ -30,6 +30,7 @@ namespace Assets.Scripts.Runtime.Views.UIViews
 
         public void StartDealDamage(List<DamageUnit> damageUnits, AttackType attackType, LayerMask targetLayer)
         {
+            Debug.Log($"StartDealDamage");
             _damageUnits = damageUnits;
             _dealingDamage = true;
             _hitLayer = targetLayer;
@@ -51,7 +52,7 @@ namespace Assets.Scripts.Runtime.Views.UIViews
         private void Update()
         {
             //Debug.Log($"position of weapon ={transform.position} ");
-            Debug.DrawRay(transform.position, -transform.forward* _length, Color.yellow);
+            //Debug.DrawRay(transform.position, -transform.forward* _length, Color.yellow);
             Debug.Log($"AAAAAAAAAAAAA");
             if (_dealingDamage)
             {

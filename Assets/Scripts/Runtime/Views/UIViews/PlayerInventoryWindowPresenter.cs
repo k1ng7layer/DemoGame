@@ -93,6 +93,8 @@ namespace Assets.Scripts.Runtime.Views.UIViews
             _itemDescriptionText.text = string.Empty;
             _itemNameText.text = string.Empty;
             _displayedItems.Clear();
+            if(_mouseFollower!=null)
+                _mouseFollower.ToggleFollower(false);
             base.Close();
         } 
         private void DisplayItems(DisplayPlayerInventoryEventArgs eventArgs)

@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Runtime.Controllers;
 using Assets.Scripts.Runtime.Controllers.Combat;
+using Assets.Scripts.Runtime.Interfaces;
 using Assets.Scripts.Runtime.Views.UIViews;
 using System;
 using System.Collections.Generic;
@@ -12,10 +13,11 @@ namespace Assets.Scripts.Runtime.Views
 {
     [RequireComponent(typeof(Rigidbody))]
     [RequireComponent(typeof(Animator))]
-    public class PlayerView:MonoBehaviour, IHittable
+    public class PlayerView:MonoBehaviour, IHittable, IStatRestorable
     {
         public event Action<List<DamageUnit>, bool> OnTakeDamage;
         public event Action<bool> TakeDamageAction;
+        public event Action<float, float> OnHealthRestore;
         public HpBarView HpBar { get; private set; }
 
         [SerializeField] bool _isPlayer;
@@ -26,11 +28,7 @@ namespace Assets.Scripts.Runtime.Views
         {
             if (_isPlayer)
             {
-               
-                //var healthbar = UIController.PlayerIndicatorsCanvas.GetComponentInChildren<HpBarView>();
-                //HpBar = healthbar;
 
-               
             }
         }
 
@@ -52,11 +50,35 @@ namespace Assets.Scripts.Runtime.Views
         {
             IsDead = true;
         }
-   
+        
+        
+
         public void EndTakingDamage()
         {
             List<DamageUnit> damageUnits = default;
             OnTakeDamage?.Invoke(damageUnits, false);
+        }
+
+        public void InvokeRestoreHealth(float value, float time)
+        {
+            OnHealthRestore?.Invoke(value, time);
+        }
+
+        public void InvokeRstoreMana(float value, float time)
+        {
+            
+        }
+
+        public void InvokeRestoreArmor(float value, float time)
+        {
+            
+        }
+        private void OnTriggerEnter(Collider other)
+        {
+            if(other.TryGetComponent<IUsable>(out IUsable usable))
+            {
+                usable.Use(this);
+            }
         }
     }
 }

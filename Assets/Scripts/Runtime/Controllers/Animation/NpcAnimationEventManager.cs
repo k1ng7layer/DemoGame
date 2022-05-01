@@ -14,6 +14,8 @@ namespace Assets.Scripts.Runtime.Controllers.Animation
         public override event Action OnWeaponHide;
         public override event Action<AttackType> OnStartDealingDamage;
         public override event Action OnEndDealingDamage;
+        public override event Action OnThrowWeapon;
+
         [SerializeField] private Animator _animator;
         [Header("Combat Settigns")]
         [SerializeField] private float _weaponDrawTiming;
@@ -32,6 +34,7 @@ namespace Assets.Scripts.Runtime.Controllers.Animation
         }
         private void Start()
         {
+            _animator = this.GetComponent<Animator>();
             var weaponDrawClip = _animator.runtimeAnimatorController.animationClips.Where(c => c.name == _weaponDrawClip.name).FirstOrDefault();
             AnimationEvent weaponDrawEvent = new AnimationEvent();
             weaponDrawEvent.time = _weaponDrawTiming;

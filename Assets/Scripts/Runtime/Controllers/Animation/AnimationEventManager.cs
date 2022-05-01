@@ -15,7 +15,8 @@ namespace Assets.Scripts.Runtime.Controllers.Animation
         public abstract event Action OnWeaponHide;
         public abstract event Action<AttackType> OnStartDealingDamage;
         public abstract event Action OnEndDealingDamage;
-       
+        public abstract event Action OnThrowWeapon;
+
 
 
     }

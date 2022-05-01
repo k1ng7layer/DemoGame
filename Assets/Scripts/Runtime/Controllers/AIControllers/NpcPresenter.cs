@@ -20,14 +20,15 @@ namespace Assets.Scripts.Runtime.Controllers.AIControllers
         private TargetChaseModel _targetChaseModel;
         private Animator _animator;
         public event Action OnDeathNpc;
-        private NpcInventoryManager _npcInventoryManager;
+        private InventoryManagerBase _npcInventoryManager;
         public NpcPresenter(NpcView npcView)
         {
             _npcView = npcView;
             _behaviourTree = _npcView.Config.BehaviourConfig.CreateBehaviourTree(npcView.transform);
             _animator = _npcView.transform.GetOrCreateComponent<Animator>();
-            _combatManager = new NpcCombatManager(_animator, _npcView.Config);
-            _npcInventoryManager = new NpcInventoryManager(_npcView.Config.Weapon, _npcView.gameObject);
+            _npcInventoryManager = new NpcInventoryManager(_npcView.Config.Weapon, _npcView.gameObject, _npcView.Config.NpcInventory);
+            _combatManager = new NpcCombatManager(_animator, _npcView.Config,_npcInventoryManager,_npcView.transform);
+          
         }
             
         private void SetNpcDeath()
@@ -42,10 +43,12 @@ namespace Assets.Scripts.Runtime.Controllers.AIControllers
             var _rb = _npcView.GetOrCreateComponent<Rigidbody>();
             var animator = _npcView.GetOrCreateComponent<Animator>();
             _npcInventoryManager.OnWeaponViewAssign += _combatManager.SetWeapon;
-            _npcInventoryManager.Initialize();
+            _npcInventoryManager.InitializeController();
+            
+            //_npcInventoryManager.InitializeController();
             //_targetChaseModel = new SingleNavMeshTargetChaseModel(agent, _rb, animator);
             _targetChaseModel = new NavMeshTargetChaseModel(agent, _rb, animator);
-            _animationEventManager = _npcView.GetOrCreateComponent<NpcAnimationEventManager>();
+            _animationEventManager = _npcView.GetOrCreateComponent<AnimationEventManager>();
             _animationEventManager.OnStartDealingDamage += _combatManager.HandleAttackBegin;
             _animationEventManager.OnEndDealingDamage += _combatManager.HandleAttackEnd;
             _behaviourTree.Initialize();
@@ -53,11 +56,13 @@ namespace Assets.Scripts.Runtime.Controllers.AIControllers
             _combatManager.OnTakingDamage += _behaviourTree.HandleTakingDamage;
             _behaviourTree.OnMovingToTarget += _targetChaseModel.ChaseTarget;
             _npcView.OnTakeDamage += _combatManager.HandleIncomeDamage;
+            _behaviourTree.OnTargetLocked += _combatManager.SetTarget;
             
             //_npcView.TakeDamageAction?
             _combatManager.OnHealthChanged += _npcView.HpBar.SetHealth;
             _combatManager.OnDeath += SetNpcDeath;
-            _animationEventManager.OnWeaponDraw += _npcInventoryManager.DrawWeapon;
+            //_animationEventManager.OnWeaponDraw += _npcInventoryManager.DrawCurrentWeapon;
+            _animationEventManager.OnWeaponDraw += _combatManager.DrawWeapon;
             _animationEventManager.OnWeaponHide += _npcInventoryManager.HideCurrentWeapon;
             CreateUiElements();
         }
@@ -75,11 +80,13 @@ namespace Assets.Scripts.Runtime.Controllers.AIControllers
             _combatManager.OnHealthChanged -= _npcView.HpBar.SetHealth;
             _behaviourTree.OnDestroy();
             _combatManager.OnDeath -= SetNpcDeath;
-            _animationEventManager.OnWeaponDraw -= _npcInventoryManager.DrawWeapon;
+            _animationEventManager.OnWeaponDraw -= _npcInventoryManager.DrawCurrentWeapon;
             _animationEventManager.OnStartDealingDamage -= _combatManager.HandleAttackBegin;
             _animationEventManager.OnEndDealingDamage -= _combatManager.HandleAttackEnd;
             _animationEventManager.OnWeaponHide -= _npcInventoryManager.HideCurrentWeapon;
             _npcInventoryManager.OnWeaponViewAssign -= _combatManager.SetWeapon;
+            _animationEventManager.OnWeaponDraw -= _combatManager.DrawWeapon;
+            _behaviourTree.OnTargetLocked -= _combatManager.SetTarget;
         }
         public void OnUpdateController()
         {

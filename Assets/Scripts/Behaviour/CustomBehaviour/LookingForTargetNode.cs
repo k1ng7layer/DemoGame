@@ -46,6 +46,7 @@ namespace AIBehaviour
                 _checkIsRunnig = false;
                 parent.parent.ClearData("target");
                 parent.parent.SetData("target", new NodeData(_target));
+                Handler.InvokeTargetLock(_target);
                 
                 return NodeState.SUCCESS;
             }

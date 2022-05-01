@@ -15,7 +15,7 @@ namespace Assets.Scripts.Runtime.Controllers.Animation
         public override event Action<AttackType> OnStartDealingDamage;
         public override event Action OnEndDealingDamage;
         public event Action OnWeaponSpawn;
-        public event Action OnThrowWeapon;
+        public override event Action OnThrowWeapon;
         [SerializeField] private AnimationClip _drawWeaponClip;
         [SerializeField] float _weaponSpawnTiming;
         [SerializeField] private AnimationClip _weaponThrowClip;
@@ -44,12 +44,13 @@ namespace Assets.Scripts.Runtime.Controllers.Animation
 
         private void HandleSpawnWeapon(int hashCode)
         {
-            OnWeaponSpawn?.Invoke();
+            Debug.Log("SPAWN WEAPON");
+            OnWeaponDraw?.Invoke();
         }
 
         private void HandleThrowWeapon(int hashCode)
         {
-            OnThrowWeapon?.Invoke();
+            OnStartDealingDamage?.Invoke(AttackType.STAND);
         }
 
     }

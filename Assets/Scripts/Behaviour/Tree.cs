@@ -22,6 +22,7 @@ namespace AIBehaviour
         internal event Action<bool> OnTakingDamage;
         public event Action<Transform, bool> OnMovingToTarget;
         public event Action OnWithdrawWeapon;
+        public event Action<Transform> OnTargetLocked;
 
      
        
@@ -61,6 +62,10 @@ namespace AIBehaviour
         internal void InvokeAttackAction()
         {
             OnAttackTarget?.Invoke();
+        }
+        internal void InvokeTargetLock(Transform transform)
+        {
+            OnTargetLocked?.Invoke(transform);
         }
         internal void InvokeTargetChasing(Transform target, bool enabled)
         {

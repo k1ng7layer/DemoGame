@@ -76,16 +76,17 @@ namespace AIBehaviour
             if (target != null)
             {
                 var distance = Vector3.Distance(_playerTransform.position, target.Target.position);
-
+                Debug.Log($"dddddddddddddddddddddddddddddddd ={distance} ");
 
                 if (distance >= _stopDistance)
                 {
                     Handler.InvokeTargetChasing(target.Target, true);
-
+                    Debug.Log("dddddddddddddddddddddddddddddddd");
                     return NodeState.RUNNING;
                 }
                 else
                 {
+                    Debug.Log("dddddddddddddddddddddddddddddddd");
                     Handler.InvokeTargetChasing(target.Target, false);
                     return NodeState.SUCCESS;
                 }

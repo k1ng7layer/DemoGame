@@ -14,6 +14,11 @@ public enum WeaponType
     SPEAR,
     STAFF,
 }
+public enum WeaponAttackType
+{
+    MELEE,
+    RANGE,
+}
 [CreateAssetMenu(fileName ="new_weapon_config", menuName = "Configs/WeaponPositionTableDTO")]
 public class WeaponPositionTableDTO : ScriptableObject
 {

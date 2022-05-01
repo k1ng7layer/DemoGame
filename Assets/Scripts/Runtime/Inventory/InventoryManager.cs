@@ -20,7 +20,7 @@ namespace Assets.Scripts.Runtime.Inventory
         DEFAULT,
         ARMED,
     }
-    public sealed class InventoryManager : InventoryManagerBase
+    public class InventoryManager : InventoryManagerBase
     {
         //Temp
         private GameObject _defaultWeaponParentObject;
@@ -143,7 +143,7 @@ namespace Assets.Scripts.Runtime.Inventory
                         _equipedWeapon = (WeaponDTO)item.Item;
                         var weaponGameObject = CreateWeaponInstance(_equipedWeapon);
                         var weaponView = weaponGameObject.GetComponent<WeaponView>();
-                        OnWeaponViewAssign?.Invoke(new WeaponCombatModel(weaponGameObject, _equipedWeapon.Damagr, _equipedWeapon.WeaponType, 2f));
+                        OnWeaponViewAssign?.Invoke(new WeaponCombatModel(weaponGameObject, _equipedWeapon.Damagr, _equipedWeapon.WeaponType, 2f, _equipedWeapon.WeaponAttackType));
                         //OnWeaponStateChanged?.Invoke(weaponView);
 
                         _instantiatedEquipedItems.Remove(_equipedWeapon);

@@ -29,6 +29,7 @@ namespace Assets.Scripts.Runtime.Models
         {
             _target = target;
             _enabled = enable;
+            Debug.Log($"NavMeshTargetChaseModelNavMeshTargetChaseModel = {enable}");
             //_navMeshAgent.nextPosition = target.position;
             //_navMeshAgent.SetDestination(_target.transform.position);
             //var dir = _navMeshAgent.nextPosition = _rigidBody.transform.position;

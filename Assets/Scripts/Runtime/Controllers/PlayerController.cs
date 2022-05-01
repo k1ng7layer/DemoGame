@@ -21,7 +21,7 @@ namespace Assets.Scripts.Runtime.Controllers
             //_movementModel = playerConfig.BuildMovementModel();
         }
 
-        public abstract void MovePlayer(Vector3 direction);
+       
         
         protected void SetPlayerDeath()
         {

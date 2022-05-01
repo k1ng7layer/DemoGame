@@ -18,10 +18,10 @@ namespace Assets.Scripts.Runtime.Models.Combat
             MaxValue = maxValue;
             Value = maxValue;
         }
-        public void RestoreStat(float value, float time)
-        {
-            RootController.Instance.RunCoroutine(RestoreStatCoroutine(value, time));
-        }
+        //public void RestoreStat(float value, float time)
+        //{
+        //    RootController.Instance.RunCoroutine(RestoreStatCoroutine(value, time));
+        //}
         public void IncreaseMaxValue(float value)
         {
             MaxValue = +value;
@@ -48,17 +48,6 @@ namespace Assets.Scripts.Runtime.Models.Combat
             if (Value <= 0f)
                 Value = 0f;
         }
-        private IEnumerator RestoreStatCoroutine(float value, float time)
-        {
-            var calculatedHealth = Value + value;
-            Debug.Log($"calculated Health = {calculatedHealth}");
-            while (Value != calculatedHealth)
-            {
-
-                yield return new WaitForSeconds(1f);
-                Value += (value / time);
-                Debug.Log($"current Health = {Value}");
-            }
-        }
+        
     }
 }

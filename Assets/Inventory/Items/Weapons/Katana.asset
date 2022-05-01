@@ -18,5 +18,6 @@ MonoBehaviour:
   _itemImage: {fileID: 21300000, guid: f594bf2df7f5c264f96b77d4c5537436, type: 3}
   _isStackable: 0
   _slotType: 0
-  _damage: 100
+  _damage: 90
   _weaponType: 0
+  _weaponAttackType: 0
