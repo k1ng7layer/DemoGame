@@ -42,7 +42,7 @@ namespace Assets.Scripts.Runtime.FSM
         }
         private void HandleJump()
         {
-            _stateMachine.ChangeState("JumpPrepare");
+            //_stateMachine.ChangeState("JumpPrepare");
         }
 
         private void HandleAttack(int a)

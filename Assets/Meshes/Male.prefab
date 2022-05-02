@@ -10,12 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 845931641110867719}
   - component: {fileID: 6080105129233941508}
-  - component: {fileID: 1320174045026533887}
   - component: {fileID: 6563551697782795891}
   - component: {fileID: 5339494908374374496}
   - component: {fileID: 4320141458578883461}
   - component: {fileID: 5505001353987285017}
   - component: {fileID: 3445183020694537040}
+  - component: {fileID: 1246851294391157577}
   m_Layer: 8
   m_Name: Male
   m_TagString: Untagged
@@ -56,19 +56,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &1320174045026533887
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 69395628708165053}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac928aeab2705b04eb1780a6734cfab4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _isPlayer: 1
 --- !u!95 &6563551697782795891
 Animator:
   serializedVersion: 3
@@ -139,6 +126,7 @@ MonoBehaviour:
   _jumpAttackClip: {fileID: -203655887218126122, guid: 00a5d180b83b5fb4f90e7c58420084c2, type: 3}
   _attackTiming_jumpAttackClip_BEGIN: 1.78
   _attackTiming_jumpAttackClip_END: 2
+  _animator: {fileID: 0}
   animator: {fileID: 6563551697782795891}
 --- !u!114 &3445183020694537040
 MonoBehaviour:
@@ -158,6 +146,19 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   IsGrounded: 0
+--- !u!114 &1246851294391157577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 69395628708165053}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f21f0d3c1fc80048ba7430d651d35ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isPlayer: 1
 --- !u!1 &106691235632444823
 GameObject:
   m_ObjectHideFlags: 0

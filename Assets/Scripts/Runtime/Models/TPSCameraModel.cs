@@ -29,9 +29,9 @@ namespace Assets.Scripts.Runtime.Models
                 Debug.Log($"speed = {FollowSpeed}, angle = {Angle}, offset = {Offset}");
                 Quaternion rotation = Quaternion.Euler(new Vector3(xAngle, yAngle, zAngle));
                 Camera.transform.rotation = rotation;
-                //Camera.transform.position = Vector3.Lerp(Camera.transform.position, target.transform.position + Offset, FollowSpeed * Time.deltaTime);
+                //Camera.transform.position = Vector3.Lerp(Camera.transform.position, target.transform.position + Offset, FollowSpeed * Time.fixedDeltaTime);
                 //Camera.transform.Translate(Vector3.Lerp(Camera.transform.position, target.transform.position + Offset, FollowSpeed * Time.deltaTime));
-                Camera.transform.position = Vector3.SmoothDamp(Camera.transform.position,target.transform.position+Offset,ref _velocity, FollowSpeed*Time.deltaTime);
+                Camera.transform.position = Vector3.SmoothDamp(Camera.transform.position,target.transform.position+Offset,ref _velocity, FollowSpeed*Time.fixedDeltaTime);
             }
         }
 

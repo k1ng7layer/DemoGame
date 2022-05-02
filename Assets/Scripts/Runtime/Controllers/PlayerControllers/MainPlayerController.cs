@@ -61,7 +61,7 @@ namespace Assets.Scripts.Runtime.Controllers
             var jumpingState = new JumpingState(_movementModel,_input,_combatManager, _playerView.transform.GetOrCreateComponent<Rigidbody>());
             var attackState = new AttackState(_input, _playerAnimator,_combatManager, _playerAnimationEventManager, _movementModel);
             var attackInJumpState = new AttackInJumpState(_movementModel,_combatManager,_playerAnimationEventManager,_playerAnimator);
-            var jumpPreapreState = new JumpPrepareState(_movementModel, _combatManager);
+            var jumpPreapreState = new JumpPrepareState(_movementModel, _combatManager, _playerAnimator);
             states.Add("Walk", walkingState);
             states.Add("Jump", jumpingState);
             states.Add("JumpPrepare", jumpPreapreState);
@@ -113,7 +113,7 @@ namespace Assets.Scripts.Runtime.Controllers
             _input.OnInventoryOpen -= OpenInventory;
             _input.OnDrawWeapon -= _inventoryManager.WeaponDrawRequest;
             _input.OnAttack -= _combatManager.PerformAttackRequest;
-            _combatManager.OnAttack -= _playerAnimationManager.EnableAttackAnimation;
+            //_combatManager.OnAttack -= _playerAnimationManager.EnableAttackAnimation;
             _inventoryManager.OnWeaponStateChanged -= _combatManager.SetWeaponReady;
             _inventoryManager.OnWeaponViewAssign -= _combatManager.SetWeapon;
             _playerAnimationEventManager.OnStartDealingDamage -= _combatManager.HandleAttackBegin;

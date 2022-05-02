@@ -50,7 +50,7 @@ namespace AIBehaviour
                 _animator.ResetTrigger("Attack");
             }
             
-            _nodeOwner.transform.LookAt(targetData.Target);
+            _nodeOwner.transform.LookAt(targetData.Target,Vector3.up);
             return NodeState.RUNNING;
         }
 

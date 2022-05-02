@@ -1,0 +1,20 @@
+{
+  "name": "com.paata.simpleuisystem",
+  "version": "1.2.3",
+  "displayName": "SimpleUISystem",
+  "description": "This is an example package",
+  "unity": "2019.1",
+  "unityRelease": "0b5",
+  "keywords": [
+    "keyword1",
+    "keyword2",
+    "keyword3"
+  ],
+  "author": {
+    "name": "Paata Baliashvili",
+    "email": "hello@example.com",
+    "url": "https://www.mycompany.com"
+  },
+  "hideInEditor": false
+
+}

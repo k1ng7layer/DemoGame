@@ -13,7 +13,7 @@ namespace Assets.Scripts.Runtime.Views
 {
     [RequireComponent(typeof(Rigidbody))]
     [RequireComponent(typeof(Animator))]
-    public class PlayerView:MonoBehaviour, IHittable, IStatRestorable
+    public class PlayerView:MonoBehaviour, IHittable
     {
         public event Action<List<DamageUnit>, bool> OnTakeDamage;
         public event Action<bool> TakeDamageAction;
@@ -51,6 +51,10 @@ namespace Assets.Scripts.Runtime.Views
             IsDead = true;
         }
         
+        protected void InvokeHealthRestore(float value, float time)
+        {
+            OnHealthRestore?.Invoke(value, time);
+        }
         
 
         public void EndTakingDamage()
@@ -59,27 +63,8 @@ namespace Assets.Scripts.Runtime.Views
             OnTakeDamage?.Invoke(damageUnits, false);
         }
 
-        public void InvokeRestoreHealth(float value, float time)
-        {
-            OnHealthRestore?.Invoke(value, time);
-        }
-
-        public void InvokeRstoreMana(float value, float time)
-        {
-            
-        }
-
-        public void InvokeRestoreArmor(float value, float time)
-        {
-            
-        }
-        private void OnTriggerEnter(Collider other)
-        {
-            if(other.TryGetComponent<IUsable>(out IUsable usable))
-            {
-                usable.Use(this);
-            }
-        }
+       
+       
     }
 }
        

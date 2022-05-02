@@ -55,7 +55,7 @@ namespace Assets.Scripts.Runtime.Controllers
 
         private void Update()
         {
-            Time.timeScale = _timeScale;
+            //Time.timeScale = _timeScale;
             foreach (var controller in _gameControllers)
             {
                 controller.OnUpdateController();

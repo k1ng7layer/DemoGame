@@ -86,11 +86,11 @@ namespace Assets.Scripts.Runtime.Models
         public override void Jump(float jumpforce)
         {
 
-            if (IsGrounded && _canJump)
+            if (GroundCheck() && _canJump)
             {
                 if (_currentDirection.magnitude > 0.1f)
                 {
-                    var force = new Vector3(0f, jumpforce, 0f) + _rb.transform.forward * jumpforce;
+                    var force = new Vector3(0f, jumpforce, 0f) + _rb.transform.forward * jumpforce/4;
                     _rb.AddForce(force);
                     Velocity = _rb.velocity;
                     _canJump = false;
@@ -108,7 +108,7 @@ namespace Assets.Scripts.Runtime.Models
                 }
                 IsJumped = true;
 
-                _animator.SetBool("Jump", true);
+                //_animator.SetBool("Jump", true);
 
             }
         }
@@ -186,7 +186,7 @@ namespace Assets.Scripts.Runtime.Models
                 OnGroundAction?.Invoke();
                 _isGrounded = true;
                 IsJumped = false;
-                Debug.Log($"_movementModel.IsGrounded =  {IsGrounded}");
+                //Debug.Log($"_movementModel.IsGrounded =  {IsGrounded}");
               
                 return true;
             }
@@ -195,7 +195,7 @@ namespace Assets.Scripts.Runtime.Models
                
                 _isGrounded = false;
                 OnGroundAction?.Invoke();
-                Debug.Log($"_movementModel.IsGrounded =  {IsGrounded}");
+                //Debug.Log($"_movementModel.IsGrounded =  {IsGrounded}");
                 //_animator.SetBool("Jump", false);
                 return false; 
             }

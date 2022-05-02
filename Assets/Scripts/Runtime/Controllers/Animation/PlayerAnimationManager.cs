@@ -23,7 +23,7 @@ namespace Assets.Scripts.Runtime.Controllers.Animation
         }
         public void EnableAttackAnimation(int index)
         {
-            _animator.SetTrigger("Attack");
+            //_animator.SetTrigger("Attack");
         }
         
     }

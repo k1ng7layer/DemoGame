@@ -44,7 +44,7 @@ namespace Assets.Scripts.Runtime.FSM
             // _movementModel.OnGroundAction += HandleOnAirState;
             _movementModel.OnGroundAction += HandleOnGround;
             _combatManager.OnAttack += HandleAttack;
-              _movementModel.Jump(320f);
+              //_movementModel.Jump(320f);
             _jumped = true;
         }
 
@@ -88,7 +88,7 @@ namespace Assets.Scripts.Runtime.FSM
                 _stateMachine.ChangeState("AttackInJump");
             }
 
-            if (_isGrounded)
+            if (_movementModel.IsGrounded)
             {
                 _stateMachine.ChangeState("Walk");
             }
