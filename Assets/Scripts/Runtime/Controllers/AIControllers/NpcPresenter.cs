@@ -91,14 +91,15 @@ namespace Assets.Scripts.Runtime.Controllers.AIControllers
         public void OnUpdateController()
         {
             _behaviourTree.Update();
-           
+            _targetChaseModel.UpdateModel();
+            Debug.Log($"Chase model = {_targetChaseModel}");
+            
 
         }
 
         public void OnFixedUpdateController()
         {
-            Debug.Log($"Chase model = {_targetChaseModel}");
-            _targetChaseModel.UpdateModel();
+           
 
 
         }

@@ -9,10 +9,10 @@ using UnityEngine;
 
 namespace Assets.Scripts.Runtime.Controllers
 {
-    public class ThirdPersonCamera : CameraController
+    public class ThirdPersonCameraController : CameraController
     {
 
-        public ThirdPersonCamera(CameraView cameraView) : base( cameraView)
+        public ThirdPersonCameraController(CameraView cameraView) : base( cameraView)
         {
             
             this.cameraView = cameraView;
@@ -21,27 +21,28 @@ namespace Assets.Scripts.Runtime.Controllers
         public override void InitializeController()
         {
             cameraModel = new TPSCameraModel(cameraView.gameObject);
-            cameraModel.SetTarget(CurrentTarget);
+            //cameraModel.SetTarget(CurrentTarget);
         }
 
 
         public override void OnFixedUpdateController()
-        {
-          
-        }
-        public override void OnLateUpdateController()
-        {
-            
-            cameraModel.FollowTarget();
-
-        }
-        public override void OnUpdateController()
         {
             cameraModel.xAngle = cameraView.X_Angle;
             cameraModel.yAngle = cameraView.Y_Angle;
             cameraModel.zAngle = cameraView.Z_Angle;
             cameraModel.FollowSpeed = cameraView.Speed;
             cameraModel.Offset = cameraView.Offset;
+            cameraModel.FollowTarget(CurrentTarget);
+        }
+        public override void OnLateUpdateController()
+        {
+            
+            
+
+        }
+        public override void OnUpdateController()
+        {
+         
         }
     }
 

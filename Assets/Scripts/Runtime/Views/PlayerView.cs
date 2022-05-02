@@ -36,7 +36,7 @@ namespace Assets.Scripts.Runtime.Views
         {
             var healthbar = UIController.PlayerIndicatorsCanvas.GetComponentInChildren<HpBarView>();
             HpBar = healthbar;
-            HpBar.Initialize();
+            HpBar.Initialize(faceToCamera:false);
         }
 
         public void BeginTakeDamage(List<DamageUnit> damageUnits)
@@ -53,6 +53,7 @@ namespace Assets.Scripts.Runtime.Views
         
         protected void InvokeHealthRestore(float value, float time)
         {
+            Debug.Log("INVOKE HEALTH RESTORE");
             OnHealthRestore?.Invoke(value, time);
         }
         

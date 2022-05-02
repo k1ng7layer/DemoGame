@@ -18,7 +18,7 @@ namespace AIBehaviour
         
         private Rigidbody _rb;
         private float _stopDistance;
-        public ChaseTargetNode(Transform transform, NavMeshAgent navMeshAgent, Animator animator, Rigidbody rigidbody, float stopDistance = 1.8f)
+        public ChaseTargetNode(Transform transform, NavMeshAgent navMeshAgent, Animator animator, Rigidbody rigidbody, float stopDistance = 1.9f)
         {
             _rb = rigidbody;
             _playerTransform = transform;

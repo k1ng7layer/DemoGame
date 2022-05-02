@@ -40,9 +40,9 @@ namespace AIBehaviour
             }
 
             Debug.Log("34343434");
-            ChaseTargetNode chaseTargetNode = new ChaseTargetNode(owner, _navMeshAgent, _animator,_rb);
+            ChaseTargetNode chaseTargetNode = new ChaseTargetNode(owner, _navMeshAgent, _animator,_rb,1.7f);
             LookingForTargetNode lookingForTarget = new LookingForTargetNode(_animator,owner.transform, 20f);
-            CheckEnemyInMeleAttackRange checkRange = new CheckEnemyInMeleAttackRange(owner.transform,1.6f,_animator);
+            CheckEnemyInMeleAttackRange checkRange = new CheckEnemyInMeleAttackRange(owner.transform,1.8f,_animator);
             MeleAttackTargetNode attackTarget = new MeleAttackTargetNode(_animator,owner);
             TakeDamageNode takeDamageNode = new TakeDamageNode(owner, _animator);
             Sequence checkEnemyInAttack = new Sequence(new List<Node> {  checkRange, takeDamageNode,  attackTarget });

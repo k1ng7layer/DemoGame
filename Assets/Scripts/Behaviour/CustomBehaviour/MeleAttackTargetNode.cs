@@ -49,8 +49,12 @@ namespace AIBehaviour
             {
                 _animator.ResetTrigger("Attack");
             }
-            
-            _nodeOwner.transform.LookAt(targetData.Target,Vector3.up);
+            Vector3 lookPos = targetData.Target.position - _nodeOwner.position;
+            //Vector3 trueLook = new Vector3(0f, lookPos.y, 0f);
+            lookPos.y = 0;
+            Quaternion lookRotation = Quaternion.LookRotation(lookPos);
+            _nodeOwner.transform.rotation = Quaternion.Slerp(_nodeOwner.transform.rotation, lookRotation,Time.deltaTime*10f);
+            //_nodeOwner.transform.LookAt(targetData.Target,Vector3.up);
             return NodeState.RUNNING;
         }
 

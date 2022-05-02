@@ -44,7 +44,7 @@ namespace Assets.Scripts.Runtime.FSM
             // _movementModel.OnGroundAction += HandleOnAirState;
             _movementModel.OnGroundAction += HandleOnGround;
             _combatManager.OnAttack += HandleAttack;
-              //_movementModel.Jump(320f);
+              _movementModel.Jump(10f);
             _jumped = true;
         }
 

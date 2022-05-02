@@ -51,6 +51,7 @@ namespace Assets.Scripts.Runtime.Models
                 _rigidBody.isKinematic = true;
                 _navMeshAgent.enabled = true;
                 _navMeshAgent.isStopped = false;
+            
                 _navMeshAgent.updatePosition = true;
                 _navMeshAgent.updateRotation = true;
                 _navMeshAgent.speed = 2.5f;

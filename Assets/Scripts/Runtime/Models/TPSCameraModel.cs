@@ -21,17 +21,31 @@ namespace Assets.Scripts.Runtime.Models
 
 
 
+        //public override void FollowTarget()
+        //{
+
+        //    if (Camera != null && target != null)
+        //    {
+        //        Debug.Log($"speed = {FollowSpeed}, angle = {Angle}, offset = {Offset}");
+        //        Quaternion rotation = Quaternion.Euler(new Vector3(xAngle, yAngle, zAngle));
+        //        Camera.transform.rotation = rotation;
+        //        //Camera.transform.position = Vector3.Lerp(Camera.transform.position, target.transform.position + Offset, FollowSpeed * Time.fixedDeltaTime);
+        //        //Camera.transform.Translate(Vector3.Lerp(Camera.transform.position, target.transform.position + Offset, FollowSpeed * Time.deltaTime));
+        //        Camera.transform.position = Vector3.SmoothDamp(Camera.transform.position,target.transform.position+Offset,ref _velocity, FollowSpeed*Time.fixedDeltaTime);
+        //    }
+        //}
         public override void FollowTarget()
         {
 
             if (Camera != null && target != null)
             {
                 Debug.Log($"speed = {FollowSpeed}, angle = {Angle}, offset = {Offset}");
+              
+                Vector3 targetPosition = target.transform.position + Offset;
+                Camera.transform.position = Vector3.SmoothDamp(Camera.transform.position, targetPosition, ref _velocity, FollowSpeed*Time.deltaTime);
                 Quaternion rotation = Quaternion.Euler(new Vector3(xAngle, yAngle, zAngle));
-                Camera.transform.rotation = rotation;
-                //Camera.transform.position = Vector3.Lerp(Camera.transform.position, target.transform.position + Offset, FollowSpeed * Time.fixedDeltaTime);
-                //Camera.transform.Translate(Vector3.Lerp(Camera.transform.position, target.transform.position + Offset, FollowSpeed * Time.deltaTime));
-                Camera.transform.position = Vector3.SmoothDamp(Camera.transform.position,target.transform.position+Offset,ref _velocity, FollowSpeed*Time.fixedDeltaTime);
+                //Camera.transform.rotation = rotation;
+                Camera.transform.LookAt(target.transform);
             }
         }
 

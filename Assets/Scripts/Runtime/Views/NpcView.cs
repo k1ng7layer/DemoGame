@@ -25,7 +25,7 @@ namespace Assets.Scripts.Runtime.Views
             _statusCanvas = GameObject.Instantiate<Canvas>(_npcConfig.StatusCanvasPrefab, this.transform);
             var healthbar = Instantiate(_npcConfig.HpBarViewPrefab, _statusCanvas.transform);
             HpBar = healthbar.AddComponent<HpBarView>();
-            HpBar.Initialize();
+            HpBar.Initialize(faceToCamera:true);
             HpBar.SetMaxHealth(Config.MaxHp);
         }
     }

@@ -37,9 +37,10 @@ namespace Assets.Scripts.Runtime.Models.Combat
         public void IncreaseStatInstant(float value)
         {
             Value += value;
-            if (Value > MaxValue)
+            if (Value >= MaxValue)
             {
                 Value = MaxValue;
+                Debug.Log($"CURRENT VALUE = {Value}");
             }
         }
         public void DecreaseStatInstant(float value)

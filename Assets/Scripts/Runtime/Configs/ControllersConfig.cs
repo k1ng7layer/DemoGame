@@ -28,7 +28,7 @@ namespace Assets.Scripts.Runtime.Configs
         {
             WeaponPositionsHandler.Initialize(_WeaponpositionConfig.WeaponTransformData);
             _cameraView = FindObjectOfType<CameraView>();
-            _cameraController = new ThirdPersonCamera(_cameraView);
+            _cameraController = new ThirdPersonCameraController(_cameraView);
             var player = _playerConfig.SpawnPlayerViewObject();
             _cameraController.SetTarget(player.gameObject);
             playerHandler = new PlayerHandler(_playerConfig);

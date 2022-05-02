@@ -142,16 +142,16 @@ namespace Assets.Scripts.Runtime.Controllers.Combat
         private IEnumerator RestoreStatCoroutine(float value, float time, StatsModel statsModel)
         {
             var calculatedHealth = statsModel.Value + value;
-            Debug.Log($"calculated Health = {calculatedHealth}");
-            while (statsModel.Value != calculatedHealth)
+            Debug.Log($"calculated Health = {calculatedHealth}, current Health = {statsModel.Value}");
+            while (statsModel.Value != calculatedHealth&&statsModel.Value<calculatedHealth)
             {
 
-                yield return new WaitForSeconds(0.5f);
+                yield return new WaitForSeconds(1f);
                 //initialValue += (value / time);
                 statsModel.IncreaseStatInstant(value / time);
                 OnHealthChanged?.Invoke(statsModel.Value);
-                Debug.Log($"calculated Health in one tick = {value / time}");
                 Debug.Log($"current Health = {statsModel.Value}");
+
             }
         }
     }
