@@ -28,6 +28,10 @@ namespace Assets.Scripts.Runtime.Controllers
         {
             
         }
+        public CameraController()
+        {
+
+        }
         public void FollowTarget()
         {
             cameraModel.FollowTarget(CurrentTarget);

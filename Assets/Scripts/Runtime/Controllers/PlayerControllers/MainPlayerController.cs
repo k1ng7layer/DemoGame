@@ -151,7 +151,7 @@ namespace Assets.Scripts.Runtime.Controllers
             }
             //if(_movementModel.IsJumped)
                 _movementModel.GroundCheck();
-
+            //Debug.Log("AAAAAAAAAAAAAAAA");
             _stateMachine.FixedUpdateStateMachine();
         }
            

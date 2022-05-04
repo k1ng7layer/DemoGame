@@ -50,7 +50,7 @@ namespace Assets.Scripts.Runtime.FSM
 
         private void HandleOnGround()
         {
-            Debug.Log("ON GROUND");
+            //Debug.Log("ON GROUND");
         }
         public override void OnStateExit()
         {
@@ -62,7 +62,7 @@ namespace Assets.Scripts.Runtime.FSM
 
         public override void OnStateFixedUpdate()
         {
-            Debug.Log($"_movementModel.IsGrounded ==== {_movementModel.IsGrounded}");
+           // Debug.Log($"_movementModel.IsGrounded ==== {_movementModel.IsGrounded}");
             //if (_movementModel.IsGrounded)
             //_isGrounded = _movementModel.IsGrounded;
             //_stateMachine.ChangeState("Walk");

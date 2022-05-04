@@ -17,6 +17,7 @@ namespace Assets.Scripts.Runtime.Controllers
         private static RootController _instance;
         private bool _run;
         private bool _init;
+        private ControllersConfig _config;
         [SerializeField] float _timeScale = 1;
         public static RootController Instance
         {
@@ -33,25 +34,35 @@ namespace Assets.Scripts.Runtime.Controllers
         private List<IController> _gameControllers;
         
 
-        public void StartRootController(ControllersConfig config)
+        public void StartRootController()
         {
-            _gameControllers = config.GetControllers();
-            cameraController = config.GetCameraController();
+            _gameControllers = _config.GetControllers();
+            cameraController = _config.GetCameraController();
             _init = true;
             _run = true;
+           
+        }
+
+        public void SetUpController(ControllersConfig config)
+        {
+            _config = config;
+        
         }
 
         private void Awake()
         {
-            Time.timeScale = _timeScale;
-            var rootAsset = Resources.Load<RootAsset>("Root/Root");
+            //DontDestroyOnLoad(this.gameObject);
+        
+            //Time.timeScale = 0f;            //Time.timeScale = _timeScale;
+            //var rootAsset = Resources.Load<RootAsset>("Root/Root");
 
-            _gameControllers = rootAsset.controllersConfig.GetControllers();
-            cameraController = rootAsset.controllersConfig.GetCameraController();
-            _init = true;
+            //_gameControllers = rootAsset.controllersConfig.GetControllers();
+            //cameraController = rootAsset.controllersConfig.GetCameraController();
+            //_init = true;
+            //_run = true;
             if (_init)
             {
-                _run = true;
+                //Time.timeScale = 1f;
             }
           
         }
@@ -60,7 +71,7 @@ namespace Assets.Scripts.Runtime.Controllers
 
         private void Start()
         {
-            if (_init)
+            if (_run)
             {
                 ActionConfig.ConfigureActions();
                 foreach (var controller in _gameControllers)

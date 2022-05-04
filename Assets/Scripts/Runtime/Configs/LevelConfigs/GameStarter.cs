@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Runtime.Controllers;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -35,14 +36,33 @@ namespace Assets.Scripts.Runtime.Configs.LevelConfigs
         private void StartLevel(int index)
         {
             var level = _rootAsset.sceneData.gameLevels[index];
-            SceneManager.LoadSceneAsync(level.sceneName);
-            //GameObject gameObject = new GameObject("RootController");
-            //var rootController = Instantiate(gameObject).AddComponent<RootController>();
-            //SceneManager.MoveGameObjectToScene(rootController,)
-            //rootController.StartRootController(level.controllersConfig);
-            _currentLevelIndex = 1;
-        }
+            StartCoroutine(LoadAsyncScene(level));
+          
+
+
             
+
+        }
+        private IEnumerator LoadAsyncScene(GameLevel gameLevel)
+        {
+            var loader = SceneManager.LoadSceneAsync(gameLevel.sceneName);
+            while (!loader.isDone)
+            {
+                yield return null;
+             
+
+            }
+            GameObject obj = new GameObject("RootController");
+            SceneManager.MoveGameObjectToScene(obj, SceneManager.GetSceneByName(gameLevel.sceneName));
+            var controller = obj.AddComponent<RootController>();
+            controller.SetUpController(gameLevel.controllersConfig);
+            Scene scene = SceneManager.GetSceneByName(gameLevel.sceneName);
+            //SceneManager.SetActiveScene(scene);
+            controller.StartRootController();
+        }
+
+
+
     }
 }
 

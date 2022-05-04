@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Assets.Scripts.Runtime.Configs
 {
@@ -26,9 +27,11 @@ namespace Assets.Scripts.Runtime.Configs
         private List<IController> _controllers;
         public override List<IController> GetControllers()
         {
+            Debug.Log($"SCENE  = {SceneManager.GetActiveScene().name}");
             WeaponPositionsHandler.Initialize(_WeaponpositionConfig.WeaponTransformData);
             _cameraView = FindObjectOfType<CameraView>();
             _cameraController = new ThirdPersonCameraController(_cameraView);
+            //_cameraController = new ThirdPersonCameraController();
             var player = _playerConfig.SpawnPlayerViewObject();
             _cameraController.SetTarget(player.gameObject);
             playerHandler = new PlayerHandler(_playerConfig);

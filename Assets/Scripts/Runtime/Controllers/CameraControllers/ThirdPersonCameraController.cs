@@ -18,7 +18,10 @@ namespace Assets.Scripts.Runtime.Controllers
             
             this.cameraView = cameraView;
         }
-
+        public ThirdPersonCameraController()
+        {
+            cameraView = GameObject.FindObjectOfType<CameraView>();
+        }
         public override void InitializeController()
         {
             cameraModel = new TPSCameraModel(cameraView.gameObject);

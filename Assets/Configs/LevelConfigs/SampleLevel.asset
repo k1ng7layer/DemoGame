@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a72a8f50c3617da478d4cb07fa1b065c, type: 3}
   m_Name: SampleLevel
   m_EditorClassIdentifier: 
-  sceneName: SampleLevel
+  sceneName: SampleScene
   controllersConfig: {fileID: 11400000, guid: 07375b9a98e6dff47b73ab66a2cd7743, type: 2}
