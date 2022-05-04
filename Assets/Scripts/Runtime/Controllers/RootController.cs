@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Runtime.Configs;
+using Assets.Scripts.Runtime.Configs.LevelConfigs;
 using Assets.Scripts.Runtime.GameActions;
 using System;
 using System.Collections;
@@ -17,8 +18,9 @@ namespace Assets.Scripts.Runtime.Controllers
         private static RootController _instance;
         private bool _run;
         private bool _init;
-        private ControllersConfig _config;
+        [SerializeField] private ControllersConfig _config;
         [SerializeField] float _timeScale = 1;
+        [SerializeField] bool _developStart;
         public static RootController Instance
         {
             get
@@ -42,6 +44,10 @@ namespace Assets.Scripts.Runtime.Controllers
             _run = true;
            
         }
+        private void OnLevelWasLoaded(int level)
+        {
+            _developStart = false;
+        }
 
         public void SetUpController(ControllersConfig config)
         {
@@ -51,8 +57,12 @@ namespace Assets.Scripts.Runtime.Controllers
 
         private void Awake()
         {
+            var sceneStarter = FindObjectOfType<SceneStarter>();
+
+            if (sceneStarter == null&&_developStart==true)
+                StartRootController();
             //DontDestroyOnLoad(this.gameObject);
-        
+
             //Time.timeScale = 0f;            //Time.timeScale = _timeScale;
             //var rootAsset = Resources.Load<RootAsset>("Root/Root");
 

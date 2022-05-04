@@ -1,7 +1,9 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Assets.Scripts.Runtime.Views
 {
+    [Serializable]
     public class NpcSpawnSpot:MonoBehaviour
     {
         [SerializeField] public bool _spawned;

@@ -5,7 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/TechLevel.unity
     guid: 87c5cde1490c4ff4bab0ec0504f7e9fc
   - enabled: 1

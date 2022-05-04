@@ -10,14 +10,15 @@ namespace Assets.Scripts.Runtime.Views
 {
     public class NpcSpawnTrigger:MonoBehaviour
     {
-        [SerializeField] private List<NpcSpawnSpot> _npcSpawnSpots;
+        [SerializeField] private List<NpcSpawnSpot> _npcSpawnSpots = new List<NpcSpawnSpot>();
+        
         private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.TryGetComponent<PlayerView>(out PlayerView view))
             {
                 if (view.IsPlayer)
                 {
-                    //Debug.Log("21222");
+                   
                     EnemySpawnEventArgs eventArgs = new EnemySpawnEventArgs(_npcSpawnSpots);
                     ActionContainer.ResolveAction<EnemySpawnAction>().Dispatch(eventArgs);
                 }

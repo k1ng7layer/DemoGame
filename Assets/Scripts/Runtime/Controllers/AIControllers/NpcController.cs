@@ -49,10 +49,13 @@ namespace Assets.Scripts.Runtime.Controllers.AIControllers
       
         private void HandleSpawnRequest(EnemySpawnEventArgs eventArgs)
         {
+         
             foreach (var npc in eventArgs.SpawnSpots)
             {
+                Debug.Log("21222");
                 if (npc._spawned == false)
                 {
+                  
                     var npcView = SpawnNpcGameObject(npc.transform, npc.Prefab);
                     NpcPresenter npcPresenter = new NpcPresenter(npcView);
                     RegisterNpcPresenter(npcPresenter);
