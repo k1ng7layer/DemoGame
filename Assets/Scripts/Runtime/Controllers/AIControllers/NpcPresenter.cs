@@ -5,6 +5,7 @@ using Assets.Scripts.Runtime.Inventory;
 using Assets.Scripts.Runtime.Models;
 using Assets.Scripts.Runtime.Views;
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -34,8 +35,15 @@ namespace Assets.Scripts.Runtime.Controllers.AIControllers
         private void SetNpcDeath()
         {
             OnDeath?.Invoke(this);
+            RootController.Instance.RunCoroutine(PrepareToDie());
         }
-
+            
+        private IEnumerator PrepareToDie()
+        {
+            yield return new WaitForSeconds(5f);
+            GameObject.Destroy(_npcView.gameObject);
+        }
+            
         public void InitializeController()
         {
             _npcView.CreateGraphics();
@@ -44,9 +52,6 @@ namespace Assets.Scripts.Runtime.Controllers.AIControllers
             var animator = _npcView.GetOrCreateComponent<Animator>();
             _npcInventoryManager.OnWeaponViewAssign += _combatManager.SetWeapon;
             _npcInventoryManager.InitializeController();
-            
-            //_npcInventoryManager.InitializeController();
-            //_targetChaseModel = new SingleNavMeshTargetChaseModel(agent, _rb, animator);
             _targetChaseModel = new NavMeshTargetChaseModel(agent, _rb, animator);
             _animationEventManager = _npcView.GetOrCreateComponent<AnimationEventManager>();
             _animationEventManager.OnStartDealingDamage += _combatManager.HandleAttackBegin;
@@ -57,20 +62,15 @@ namespace Assets.Scripts.Runtime.Controllers.AIControllers
             _behaviourTree.OnMovingToTarget += _targetChaseModel.ChaseTarget;
             _npcView.OnTakeDamage += _combatManager.HandleIncomeDamage;
             _behaviourTree.OnTargetLocked += _combatManager.SetTarget;
-            
-            //_npcView.TakeDamageAction?
             _combatManager.OnHealthChanged += _npcView.HpBar.SetHealth;
             _combatManager.OnDeath += SetNpcDeath;
-            //_animationEventManager.OnWeaponDraw += _npcInventoryManager.DrawCurrentWeapon;
             _animationEventManager.OnWeaponDraw += _combatManager.DrawWeapon;
             _animationEventManager.OnWeaponHide += _npcInventoryManager.HideCurrentWeapon;
-            CreateUiElements();
         }
-        private void CreateUiElements()
+        private void HandleDestroyPlayerAfterDeath()
         {
-            
+            GameObject.Destroy(_npcView.gameObject);
         }
-       
         public void OnDestroyController()
         {
             _behaviourTree.OnAttackTarget -= _combatManager.PerformAttackRequest;
@@ -92,28 +92,36 @@ namespace Assets.Scripts.Runtime.Controllers.AIControllers
         {
             _behaviourTree.Update();
             _targetChaseModel.UpdateModel();
-            Debug.Log($"Chase model = {_targetChaseModel}");
-            
-
         }
-
         public void OnFixedUpdateController()
         {
-           
-
 
         }
         public void OnDisableController()
         {
             
         }
-
         public void OnLateUpdateController()
         {
            
         }
     }
 }
+            
+        
+            
+            
+            
+            
+       
+
+            
+            
+
+
+           
+
+
            
             
 

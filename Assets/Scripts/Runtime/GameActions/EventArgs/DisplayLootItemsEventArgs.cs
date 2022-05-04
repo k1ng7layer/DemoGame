@@ -11,13 +11,19 @@ namespace Assets.Scripts.Runtime.GameActions
 {
     public class DisplayLootItemsEventArgs
     {
-        public List<InventoryItem> _inventoryItems { get; private set; }
-        public GameObject LootCellPrefab { get; private set; }
+        public LootRepository SourceInventory { get; private set; }
+        
         public MouseFollower MouseFollower { get; private set; }
-        public DisplayLootItemsEventArgs(List<InventoryItem> loot, GameObject cellPrefab, MouseFollower mouseFollower)
+        public List<InventoryItem> InventoryItems { get; private set; }
+        public DisplayLootItemsEventArgs(LootRepository loot, MouseFollower mouseFollower)
         {
-            _inventoryItems = loot;
-            LootCellPrefab = cellPrefab;
+            SourceInventory = loot;
+           
+            MouseFollower = mouseFollower;
+        }
+        public DisplayLootItemsEventArgs(List<InventoryItem> inventoryItems, MouseFollower mouseFollower)
+        {
+            InventoryItems = inventoryItems;
             MouseFollower = mouseFollower;
         }
     }

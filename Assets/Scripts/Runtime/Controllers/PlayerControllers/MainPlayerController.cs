@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Runtime.Configs;
 using Assets.Scripts.Runtime.Controllers.Animation;
 using Assets.Scripts.Runtime.Controllers.Combat;
+using Assets.Scripts.Runtime.Controllers.Interactions;
 using Assets.Scripts.Runtime.Extensions;
 using Assets.Scripts.Runtime.FSM;
 using Assets.Scripts.Runtime.GameActions;
@@ -26,6 +27,7 @@ namespace Assets.Scripts.Runtime.Controllers
         private CombatManager _combatManager;
         private StateMachine _stateMachine;
         private PlayerConfig _config;
+        private InteractionController _interactionController;
         public MainPlayerController(PlayerConfig playerConfig) : base(playerConfig)
         {
             _config = playerConfig;
@@ -36,6 +38,7 @@ namespace Assets.Scripts.Runtime.Controllers
             _combatManager = new PlayerCombatManager(_playerAnimator, playerConfig, _inventoryManager);
             _inventoryManager = playerConfig.GetInventoryManager();
             _inventoryManager.AttachPlayerObject(_playerView.gameObject);
+            _interactionController = playerConfig.GetInteractionController();
         }
            
           
@@ -80,12 +83,14 @@ namespace Assets.Scripts.Runtime.Controllers
         private void SetInventoryActions()
         {
             _inventoryManager.InitializeController();
+            _interactionController.InitializeController();
             _input.OnDrawWeapon += _inventoryManager.WeaponDrawRequest;
             _inventoryManager.OnWeaponDrawRequest += _playerAnimationManager.DrawOrHideWeapon;
             //Установка вызовов при срабатывании событий анимации
             _playerAnimationEventManager.OnWeaponDraw += _inventoryManager.DrawCurrentWeapon;
             _playerAnimationEventManager.OnWeaponHide += _inventoryManager.HideCurrentWeapon;
             _input.OnInventoryOpen += OpenInventory;
+            _input.OnUseButtonPressed += _interactionController.UseItem;
         }
         private void SetCombatActions()
         {
@@ -123,9 +128,11 @@ namespace Assets.Scripts.Runtime.Controllers
             _combatManager.OnDeath -= SetPlayerDeath;
             _combatManager.OnDeath -= _playerView.HandleDeath;
             _playerView.OnHealthRestore -= _combatManager.RestoreHealth;
+            _input.OnUseButtonPressed -= _interactionController.UseItem;
+
         }
-       
-     
+
+
         private void OpenInventory()
         {
             _inventoryManager.OpenInventory();

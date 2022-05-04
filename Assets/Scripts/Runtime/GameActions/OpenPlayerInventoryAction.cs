@@ -7,7 +7,7 @@ using UISystem.Actions;
 
 namespace Assets.Scripts.Runtime.GameActions
 {
-    public class OpenPlayerInventoryAction:GameAction<OpenLootWindowEventArgs>
+    public class OpenPlayerInventoryAction:GameAction<OpenInventoryWindowEventArgs>
     {
     }
 }

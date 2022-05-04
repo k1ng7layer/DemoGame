@@ -17,7 +17,7 @@ namespace Assets.Scripts.Runtime.Views
             {
                 if (view.IsPlayer)
                 {
-                    Debug.Log("21222");
+                    //Debug.Log("21222");
                     EnemySpawnEventArgs eventArgs = new EnemySpawnEventArgs(_npcSpawnSpots);
                     ActionContainer.ResolveAction<EnemySpawnAction>().Dispatch(eventArgs);
                 }

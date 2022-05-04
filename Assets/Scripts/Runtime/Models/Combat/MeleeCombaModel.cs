@@ -47,7 +47,7 @@ namespace Assets.Scripts.Runtime.Models.Combat
 
         public override void PerformAttack(AttackType attackType, Transform target)
         {
-            Debug.Log("START DEALING DAMAGE");
+            //Debug.Log("START DEALING DAMAGE");
 
             List<DamageUnit> damageUnits = new List<DamageUnit>();
             switch (attackType)

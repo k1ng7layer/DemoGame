@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: Root
   m_EditorClassIdentifier: 
   controllersConfig: {fileID: 11400000, guid: 07375b9a98e6dff47b73ab66a2cd7743, type: 2}
+  sceneData: {fileID: 11400000, guid: e2d87874b5f02ca4e9be6dca8f5c9649, type: 2}

@@ -20,7 +20,7 @@ namespace AIBehaviour
         {
             foreach (Node node in _children)
             {
-                Debug.Log($"selector = {this}, selectorState = {this.state}, childName = {node.name}, state =  {node.state}");
+                //Debug.Log($"selector = {this}, selectorState = {this.state}, childName = {node.name}, state =  {node.state}");
                 switch (node.Evaluate())
                 {
                     case NodeState.FAILURE:

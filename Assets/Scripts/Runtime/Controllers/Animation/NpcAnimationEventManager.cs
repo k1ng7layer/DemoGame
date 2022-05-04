@@ -81,7 +81,7 @@ namespace Assets.Scripts.Runtime.Controllers.Animation
 
         private void WeaponDraw(int aniamtorCode)
         {
-            Debug.Log($"WeaponDraw = invoked by animator  = {_animator.GetInstanceID()}, aniamtorCode = {aniamtorCode}");
+            //Debug.Log($"WeaponDraw = invoked by animator  = {_animator.GetInstanceID()}, aniamtorCode = {aniamtorCode}");
             //if (_animator.GetHashCode() == aniamtorCode)
                     OnWeaponDraw?.Invoke();
         }

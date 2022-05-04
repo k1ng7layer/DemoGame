@@ -44,7 +44,7 @@ namespace Assets.Scripts.Runtime.FSM
             // _movementModel.OnGroundAction += HandleOnAirState;
             _movementModel.OnGroundAction += HandleOnGround;
             _combatManager.OnAttack += HandleAttack;
-              _movementModel.Jump(10f);
+              //_movementModel.Jump(10f);
             _jumped = true;
         }
 
@@ -62,14 +62,14 @@ namespace Assets.Scripts.Runtime.FSM
 
         public override void OnStateFixedUpdate()
         {
-            Debug.Log($"JUMP STATE ISGROUNDED ==== {_movementModel.IsGrounded}");
+            Debug.Log($"_movementModel.IsGrounded ==== {_movementModel.IsGrounded}");
             //if (_movementModel.IsGrounded)
-                _isGrounded = _movementModel.IsGrounded;
-                //_stateMachine.ChangeState("Walk");
-                //if (rigidbody1.velocity.y <= 0.5&& rigidbody1.velocity.y >= 0)
-                //{
-                //    _stateMachine.ChangeState("Walk");
-                //}
+            //_isGrounded = _movementModel.IsGrounded;
+            //_stateMachine.ChangeState("Walk");
+            //if (rigidbody1.velocity.y <= 0.5&& rigidbody1.velocity.y >= 0)
+            //{
+            //    _stateMachine.ChangeState("Walk");
+            //}
 
         }
 
@@ -80,7 +80,7 @@ namespace Assets.Scripts.Runtime.FSM
 
         public override void OnStateUpdate()
         {
-           // Debug.Log($"_movementModel.Velocity ==== {rigidbody1.velocity}");
+           
 
             if (attack)
             {
@@ -90,6 +90,7 @@ namespace Assets.Scripts.Runtime.FSM
 
             if (_movementModel.IsGrounded)
             {
+                Debug.Log($"ISGROUNDED");
                 _stateMachine.ChangeState("Walk");
             }
 

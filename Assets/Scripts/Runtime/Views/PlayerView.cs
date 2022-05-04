@@ -1,6 +1,7 @@
 ﻿using Assets.Scripts.Runtime.Controllers;
 using Assets.Scripts.Runtime.Controllers.Combat;
 using Assets.Scripts.Runtime.Interfaces;
+using Assets.Scripts.Runtime.Views.ItemsViews;
 using Assets.Scripts.Runtime.Views.UIViews;
 using System;
 using System.Collections.Generic;
@@ -41,7 +42,7 @@ namespace Assets.Scripts.Runtime.Views
 
         public void BeginTakeDamage(List<DamageUnit> damageUnits)
         {
-            Debug.Log($"TAKING DAMAGE! {this}");
+            //Debug.Log($"TAKING DAMAGE! {this}");
             OnTakeDamage?.Invoke(damageUnits, true);
             TakeDamageAction?.Invoke(true);
         }
@@ -53,7 +54,7 @@ namespace Assets.Scripts.Runtime.Views
         
         protected void InvokeHealthRestore(float value, float time)
         {
-            Debug.Log("INVOKE HEALTH RESTORE");
+            //Debug.Log("INVOKE HEALTH RESTORE");
             OnHealthRestore?.Invoke(value, time);
         }
         
@@ -64,8 +65,16 @@ namespace Assets.Scripts.Runtime.Views
             OnTakeDamage?.Invoke(damageUnits, false);
         }
 
-       
-       
+        private void OnTriggerEnter(Collider other)
+        {
+            if(other.TryGetComponent<RangedWeaponView>(out RangedWeaponView weapon))
+            {
+
+            }
+        }
+
+
+
     }
 }
        

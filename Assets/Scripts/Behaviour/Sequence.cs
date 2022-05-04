@@ -20,7 +20,7 @@ namespace AIBehaviour
             bool childIsRunnig = false;
             foreach (var child in _children)
             {
-                Debug.Log($"sequense = {this}, sequenceState = {this.state}, child = {child.name}, state =  {child.state}");
+                //Debug.Log($"sequense = {this}, sequenceState = {this.state}, child = {child.name}, state =  {child.state}");
                 switch (child.Evaluate())
                 {
                     case NodeState.RUNNING:

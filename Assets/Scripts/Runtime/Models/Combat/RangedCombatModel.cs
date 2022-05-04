@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using Assets.Scripts.Runtime.Views.ItemsViews;
 
 namespace Assets.Scripts.Runtime.Models.Combat
 {
@@ -40,8 +41,13 @@ namespace Assets.Scripts.Runtime.Models.Combat
             if (_currentHandledWeaponInstance == null)
             {
                 var data = WeaponPositionsHandler.GetWeaponData(CharacterType.NORMAL_HUMAN, WeaponType.SPEAR);
-                var weaponView = _itemViewOnPlayersBack.GetComponent<WeaponView>();
-                var weapon = GameObjectFactory.InstantiateObject<WeaponView>(weaponView, _armedWeaponParent);
+                var weaponView = _itemViewOnPlayersBack.GetComponent<RangedWeaponView>();
+                var weapon = GameObjectFactory.InstantiateObject<RangedWeaponView>(weaponView, _armedWeaponParent);
+                //Временно!
+                List<DamageUnit> damageUnits = new List<DamageUnit>();
+                damageUnits.Add(new DamageUnit(DamageType.PHYSCICAL, _weaponCombatModel.WeaponDamagePoints, 0f));
+                weapon.SetDamagePoints(damageUnits);
+                weapon.Setup();
                 _currentHandledWeaponInstance = weapon.transform;
                 var rb = _currentHandledWeaponInstance.GetOrCreateComponent<Rigidbody>();
                 rb.isKinematic = false;

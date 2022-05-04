@@ -20,6 +20,7 @@ namespace Assets.Scripts.Runtime
         public override event Action OnInventoryOpen;
         public override event Action OnAttack;
         public override event Action OnDrawWeapon;
+        public override event Action OnUseButtonPressed;
 
         public override void OnUpdate()
         {
@@ -42,7 +43,7 @@ namespace Assets.Scripts.Runtime
                 jump = true;
                 OnJump?.Invoke();
                 //SceneGameManagerView.Instance.CurrentPlayer.playerInput.jump = true;
-                Debug.Log($"jump button true");
+                //Debug.Log($"jump button true");
             }
             else
             {
@@ -55,7 +56,7 @@ namespace Assets.Scripts.Runtime
                 withdrawWeapon = true;
                 OnDrawWeapon?.Invoke();
                 //SceneGameManagerView.Instance.CurrentPlayer.playerInput.attack = true;
-                Debug.Log($"jump button true");
+                //Debug.Log($"jump button true");
             }
            
 
@@ -71,12 +72,12 @@ namespace Assets.Scripts.Runtime
             if (Input.GetKeyDown(KeyCode.Tab))
             {
                 lockTarget = true;
-                Debug.Log("seeking for target true");
+                //Debug.Log("seeking for target true");
             }
             else
             {
                 lockTarget = false;
-                Debug.Log("seeking for target false");
+                //Debug.Log("seeking for target false");
             }
 
 
@@ -99,11 +100,9 @@ namespace Assets.Scripts.Runtime
             if (Input.GetKeyDown(KeyCode.E))
             {
                 use = true;
+                OnUseButtonPressed?.Invoke();
             }
-            else
-            {
-                use = false;
-            }
+           
 
             if (Input.GetKeyDown(KeyCode.I))
             {

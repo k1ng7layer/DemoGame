@@ -39,7 +39,7 @@ namespace AIBehaviour
                 _animator.SetBool("WeaponWithdraw", false);
                 return NodeState.FAILURE;
             }
-            Debug.Log("ATTACKING TARGET");
+            //Debug.Log("ATTACKING TARGET");
             if (_takingDamage == false&& _canAttack)
             {
                 _animator.SetTrigger("Attack");
@@ -64,7 +64,7 @@ namespace AIBehaviour
             _takingDamage = val;
             if (_takingDamage)
             {
-                Debug.Log($"ATAKING DAMAGE NODE = {val}");
+                //Debug.Log($"ATAKING DAMAGE NODE = {val}");
                 _canAttack = false;
                 RootController.Instance.RunCoroutine(AttackDelay());
             }

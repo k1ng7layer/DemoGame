@@ -35,6 +35,7 @@ namespace Assets.Scripts.Runtime.Controllers
         public void SetTarget(GameObject target)
         {
             CurrentTarget = target;
+            //cameraModel.SetTarget(target);
         }
 
         public virtual void InitializeController()

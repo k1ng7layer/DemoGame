@@ -67,7 +67,7 @@ namespace Assets.Scripts.Runtime.FSM
             //_playerAnimator.SetTrigger("Move");
             dir = new Vector3(x, y, z);
             MovePlayer(dir, 4f);
-            Debug.Log($"dir magnitude = {dir.normalized.magnitude}");
+            //Debug.Log($"dir magnitude = {dir.normalized.magnitude}");
             if (dir.normalized.magnitude > 0f)
                 _playerAnimator.SetBool("Attack1", false);
         }

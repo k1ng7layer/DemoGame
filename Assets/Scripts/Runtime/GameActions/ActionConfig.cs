@@ -17,6 +17,7 @@ namespace Assets.Scripts.Runtime.GameActions
             {
                 ActionContainer.AddAction<EnemySpawnAction>();
                 ActionContainer.AddAction<OpenPlayerInventoryAction>();
+                ActionContainer.AddAction<ChangeCameraTargetAction>();
                 UIActionContainer.AddAction<DisplayInventoryItemsAction>();
                 UIActionContainer.AddAction<ButtonClickAction>();
                 UIActionContainer.AddAction<OpenWindowAction>();
@@ -37,6 +38,7 @@ namespace Assets.Scripts.Runtime.GameActions
                 UIActionContainer.AddAction<DisplayItemDescriptionAction>();
                 UIActionContainer.AddAction<ItemDescriptonRequestAction>();
                 UIActionContainer.AddAction<HideEquipedItemAction>();
+                UIActionContainer.AddAction<ItemAddInInventoryRequestAction>();
             }
             _isConfigured = true;
         }

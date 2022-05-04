@@ -15,6 +15,7 @@ MonoBehaviour:
   singleItemCellPrefab: {fileID: 3607719717550989876, guid: 8c9e2ecff746c9749bbf5042e5af3d83, type: 3}
   windows:
   - {fileID: 5171312888124158908, guid: a3487303c31e59745b2b50bcc0504282, type: 3}
+  - {fileID: 721023403985384573, guid: eb19bf63c5e8bf34c9177a4bf1cac84f, type: 3}
   uIActionBars: []
   mouseFollowerPrefab: {fileID: 6359120604344650419, guid: da7c848a6b4ceba46ad644360ec1c8da, type: 3}
   indicatorsCanvas: {fileID: 840571318663804056, guid: 769c07ebbdf20d647ac4e8d1a8ab865b, type: 3}

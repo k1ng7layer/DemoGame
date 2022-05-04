@@ -45,7 +45,7 @@ namespace AIBehaviour
                 {
                     Handler.HandleWithdrawWeapon();
                     _animator.SetBool("WeaponWithdraw", true);
-                    Debug.Log("GGGGGGGGGGGGGG");
+                    //Debug.Log("GGGGGGGGGGGGGG");
                     if (_target.IsDead)
                     {
                         return NodeState.SUCCESS;
@@ -63,6 +63,7 @@ namespace AIBehaviour
                 }
                 if (_distance <= _attackRange)
                 {
+                    Handler.InvokeTargetChasing(_target.transform, false);
                     return NodeState.SUCCESS;
                 }
                 return NodeState.FAILURE;

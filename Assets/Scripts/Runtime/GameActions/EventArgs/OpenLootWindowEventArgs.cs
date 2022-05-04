@@ -9,10 +9,12 @@ namespace Assets.Scripts.Runtime.GameActions
 {
     public class OpenLootWindowEventArgs
     {
-        public List<InventoryItem> Loot { get; private set; }
-        public OpenLootWindowEventArgs(List<InventoryItem> inventory)
+        public LootRepository Loot { get; private set; }
+        public List<InventoryItem> LootItems { get; private set; }
+        public OpenLootWindowEventArgs(LootRepository inventory, List<InventoryItem> lootItems )
         {
             Loot = inventory;
+            LootItems = lootItems;
         }
     }
     

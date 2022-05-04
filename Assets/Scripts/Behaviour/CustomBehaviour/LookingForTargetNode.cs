@@ -12,7 +12,7 @@ namespace AIBehaviour
         private LayerMask _layer;
         private Transform _target;
         private bool _checkIsRunnig = false;
-        
+
         private Animator _animator;
         public LookingForTargetNode(Animator animator,Transform transform, float checkRadius)
         {
@@ -22,20 +22,19 @@ namespace AIBehaviour
             _checkRadius = checkRadius;
             
         }
-            
+
         public override NodeState Evaluate()
         {
-            Debug.Log("SSSSSSSSS");
-            // if (!_checkIsRunnig)
-            //{
-            //GameController.Instance.RunCoroutine(CheckForTargetCoroutine());
-            RootController.Instance.RunCoroutine(CheckForTargetCoroutine());
-                //return NodeState.RUNNING;
-            //}
+         
+
+         
+            
+        
             var trget = parent.parent.GetData("target");
          
             if (_target == null)
             {
+                RootController.Instance.RunCoroutine(CheckForTargetCoroutine());
                 
                 return NodeState.FAILURE;
             }
@@ -59,24 +58,28 @@ namespace AIBehaviour
         }
         private void CheckForTarget()
         {
-            
-            var targets = Physics.OverlapSphere(_transform.position, _checkRadius, _layer);
-            if (targets != null)
+            if (Time.frameCount % 30 == 0)
             {
-               
-                foreach (var target in targets)
+                var targets = Physics.OverlapSphere(_transform.position, _checkRadius, _layer);
+                if (targets != null)
                 {
-                    if (target.gameObject.TryGetComponent<PlayerView>(out PlayerView view))
+                    foreach (var target in targets)
                     {
-                        if (view.IsPlayer)
+                        //Debug.Log("GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG");
+                        if (target.gameObject.TryGetComponent<PlayerView>(out PlayerView view))
                         {
-                            _target = view.transform;
-                            break;
+                            if (view.IsPlayer)
+                            {
+                                _target = view.transform;
+                                break;
+                            }
                         }
                     }
                 }
             }
+           
         }
+               
             
 
 

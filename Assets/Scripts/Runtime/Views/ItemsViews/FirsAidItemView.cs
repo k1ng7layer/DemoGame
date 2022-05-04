@@ -25,5 +25,9 @@ namespace Assets.Scripts.Runtime.Views.ItemsViews
             Destroy(this.gameObject);
         }
 
+        public void Use(Transform user)
+        {
+            
+        }
     }
 }

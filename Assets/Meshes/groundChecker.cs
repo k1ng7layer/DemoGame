@@ -27,16 +27,7 @@ public class groundChecker : MonoBehaviour
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-    private void FixedUpdate()
-    {
-        Debug.Log($"_movementModel.Velocity ==== {groundChecker.Instance.IsGrounded}");
-        Debug.Log($"CHECKER + {GroundCheck()}");
-    }
+   
     public  bool GroundCheck()
     {
 

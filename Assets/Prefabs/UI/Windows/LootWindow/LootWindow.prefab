@@ -482,7 +482,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.078431375}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -806,6 +806,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8940944952961747118}
   - component: {fileID: 8940944952961747119}
+  - component: {fileID: 2096284304458182445}
   m_Layer: 5
   m_Name: Content
   m_TagString: Untagged
@@ -827,10 +828,10 @@ RectTransform:
   m_Father: {fileID: 8940944952869184737}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 812.4126, y: 761.45374}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &8940944952961747119
 MonoBehaviour:
@@ -856,6 +857,18 @@ MonoBehaviour:
   m_Spacing: {x: 5, y: 5}
   m_Constraint: 0
   m_ConstraintCount: 2
+--- !u!114 &2096284304458182445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8940944952961747113}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8165a39a61151834cbafdabb741b9266, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8940944953046970835
 GameObject:
   m_ObjectHideFlags: 0
@@ -868,7 +881,7 @@ GameObject:
   - component: {fileID: 8940944953046970839}
   - component: {fileID: 8940944953046970838}
   - component: {fileID: 8940944953046970833}
-  - component: {fileID: 8940944953046970836}
+  - component: {fileID: 721023403985384573}
   m_Layer: 5
   m_Name: LootWindow
   m_TagString: Untagged
@@ -918,7 +931,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.9910626, b: 0.8726415, a: 1}
+  m_Color: {r: 1, g: 0.9910626, b: 0.8726415, a: 0.36862746}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -961,7 +974,7 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!114 &8940944953046970836
+--- !u!114 &721023403985384573
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -970,18 +983,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 8940944953046970835}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e39d8a6d0bd67704493ac8911519010e, type: 3}
+  m_Script: {fileID: 11500000, guid: a5dd243ada9fd3640885fab879b5507d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isVisibleOnStart: 0
   _id: lootWindow
   timeScale: 0
-  _singleItemCellprefab: {fileID: 3607719717550989876, guid: 8c9e2ecff746c9749bbf5042e5af3d83,
-    type: 3}
+  _singleItemCellprefab: {fileID: 3607719717550989876, guid: 8c9e2ecff746c9749bbf5042e5af3d83, type: 3}
+  _contentFiled: {fileID: 2096284304458182445}
   _itemNameText: {fileID: 8940944951880675639}
   _itemDescriptionText: {fileID: 8940944952650377333}
-  _playerInventoryInfoText: {fileID: 8940944953413966123}
-  _contentFiled: {fileID: 8940944952961747118}
   _takeItemButton: {fileID: 8940944953828145274}
 --- !u!1 &8940944953187396588
 GameObject:
@@ -1043,7 +1054,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 0.8490566, g: 0, b: 0, a: 0.02745098}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

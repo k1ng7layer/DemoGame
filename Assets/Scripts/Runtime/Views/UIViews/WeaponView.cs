@@ -30,7 +30,7 @@ namespace Assets.Scripts.Runtime.Views.UIViews
 
         public void StartDealDamage(List<DamageUnit> damageUnits, AttackType attackType, LayerMask targetLayer)
         {
-            Debug.Log($"StartDealDamage");
+            //Debug.Log($"StartDealDamage");
             _damageUnits = damageUnits;
             _dealingDamage = true;
             _hitLayer = targetLayer;
@@ -53,14 +53,34 @@ namespace Assets.Scripts.Runtime.Views.UIViews
         {
             //Debug.Log($"position of weapon ={transform.position} ");
             //Debug.DrawRay(transform.position, -transform.forward* _length, Color.yellow);
-            Debug.Log($"AAAAAAAAAAAAA");
+            //Debug.Log($"AAAAAAAAAAAAA");
+            //if (_dealingDamage)
+            //{
+            //    Debug.DrawRay(transform.position, -transform.forward * _length, Color.yellow);
+            //    Debug.Log($"AAAAAAAAAAAAA");
+            //    if (Physics.Raycast(transform.position, -transform.forward, out RaycastHit raycastHit, _length, _hitLayer))
+            //    {
+            //        Debug.Log($"AAAAAAAAAAAAA ={raycastHit.transform.gameObject}");
+            //        if (raycastHit.transform.TryGetComponent<IHittable>(out IHittable target) && _hittedObjects.Contains(target) == false)
+            //        {
+            //            _hittedObjects.Add(target);
+            //            target.BeginTakeDamage(_damageUnits);
+            //            _dealingDamage = false;
+            //        }
+
+            //    }
+            //}
+            //Debug.DrawRay(transform.position+new Vector3(0.1f,0f,0.1f), -transform.forward * _length, Color.yellow);
+            //Debug.DrawRay(transform.position + new Vector3(-0.1f, 0f, -0.1f), -transform.forward * _length, Color.yellow);
+            //Debug.DrawRay(transform.position + new Vector3(-0.1f, 0f, 0.1f), -transform.forward * _length, Color.yellow);
+            //Debug.DrawRay(transform.position, -transform.forward * _length, Color.yellow);
             if (_dealingDamage)
             {
                 Debug.DrawRay(transform.position, -transform.forward * _length, Color.yellow);
-                Debug.Log($"AAAAAAAAAAAAA");
+                //Debug.Log($"AAAAAAAAAAAAA");
                 if (Physics.Raycast(transform.position, -transform.forward, out RaycastHit raycastHit, _length, _hitLayer))
                 {
-                    Debug.Log($"AAAAAAAAAAAAA ={raycastHit.transform.gameObject}");
+                    //Debug.Log($"AAAAAAAAAAAAA ={raycastHit.transform.gameObject}");
                     if (raycastHit.transform.TryGetComponent<IHittable>(out IHittable target) && _hittedObjects.Contains(target) == false)
                     {
                         _hittedObjects.Add(target);
@@ -69,7 +89,54 @@ namespace Assets.Scripts.Runtime.Views.UIViews
                     }
 
                 }
+
+                if (Physics.Raycast(transform.position + new Vector3(0.1f, 0f, 0.1f), -transform.forward, out RaycastHit raycastHi1, _length, _hitLayer))
+                {
+                    //Debug.Log($"AAAAAAAAAAAAA ={raycastHit.transform.gameObject}");
+                    if (raycastHi1.transform.TryGetComponent<IHittable>(out IHittable target) && _hittedObjects.Contains(target) == false)
+                    {
+                        _hittedObjects.Add(target);
+                        target.BeginTakeDamage(_damageUnits);
+                        _dealingDamage = false;
+                    }
+
+                }
+                if (Physics.Raycast(transform.position + new Vector3(-0.1f, 0f, -0.1f), -transform.forward, out RaycastHit raycastHit2, _length, _hitLayer))
+                {
+                    //Debug.Log($"AAAAAAAAAAAAA ={raycastHit.transform.gameObject}");
+                    if (raycastHit2.transform.TryGetComponent<IHittable>(out IHittable target) && _hittedObjects.Contains(target) == false)
+                    {
+                        _hittedObjects.Add(target);
+                        target.BeginTakeDamage(_damageUnits);
+                        _dealingDamage = false;
+                    }
+
+                }
+                if (Physics.Raycast(transform.position + new Vector3(0f, 0f, -0.1f), -transform.forward, out RaycastHit raycastHit3, _length, _hitLayer))
+                {
+                    //Debug.Log($"AAAAAAAAAAAAA ={raycastHit.transform.gameObject}");
+                    if (raycastHit3.transform.TryGetComponent<IHittable>(out IHittable target) && _hittedObjects.Contains(target) == false)
+                    {
+                        _hittedObjects.Add(target);
+                        target.BeginTakeDamage(_damageUnits);
+                        _dealingDamage = false;
+                    }
+
+                }
+                //if (Physics.Raycast(transform.position, -transform.forward, out RaycastHit raycastHit1, _length, _hitLayer))
+                //{
+                //    Debug.Log($"AAAAAAAAAAAAA ={raycastHit.transform.gameObject}");
+                //    if (raycastHit1.transform.TryGetComponent<IHittable>(out IHittable target) && _hittedObjects.Contains(target) == false)
+                //    {
+                //        _hittedObjects.Add(target);
+                //        target.BeginTakeDamage(_damageUnits);
+                //        _dealingDamage = false;
+                //    }
+
+                //}
+
             }
+
 
         }
 

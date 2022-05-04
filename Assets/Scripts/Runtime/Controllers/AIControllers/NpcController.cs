@@ -41,11 +41,12 @@ namespace Assets.Scripts.Runtime.Controllers.AIControllers
         }
         private void UnRegisterNpcPresenter(NpcPresenter npc)
         {
-            Debug.Log("UnRegisterNpcPresenter");
+           
             if (_currentNpcs.Contains(npc))
                 _currentNpcs.Remove(npc);
             npc.OnDestroyController();
         }
+      
         private void HandleSpawnRequest(EnemySpawnEventArgs eventArgs)
         {
             foreach (var npc in eventArgs.SpawnSpots)

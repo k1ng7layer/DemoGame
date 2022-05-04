@@ -15,6 +15,8 @@ namespace Assets.Scripts.Runtime.Controllers
     {
         public CameraController cameraController { get; private set; }
         private static RootController _instance;
+        private bool _run;
+        private bool _init;
         [SerializeField] float _timeScale = 1;
         public static RootController Instance
         {
@@ -31,51 +33,79 @@ namespace Assets.Scripts.Runtime.Controllers
         private List<IController> _gameControllers;
         
 
-        
+        public void StartRootController(ControllersConfig config)
+        {
+            _gameControllers = config.GetControllers();
+            cameraController = config.GetCameraController();
+            _init = true;
+            _run = true;
+        }
+
         private void Awake()
         {
-            
             Time.timeScale = _timeScale;
             var rootAsset = Resources.Load<RootAsset>("Root/Root");
-            
+
             _gameControllers = rootAsset.controllersConfig.GetControllers();
             cameraController = rootAsset.controllersConfig.GetCameraController();
+            _init = true;
+            if (_init)
+            {
+                _run = true;
+            }
+          
         }
 
 
 
         private void Start()
         {
-            ActionConfig.ConfigureActions();
-            foreach (var controller in _gameControllers)
+            if (_init)
             {
-                controller.InitializeController();
+                ActionConfig.ConfigureActions();
+                foreach (var controller in _gameControllers)
+                {
+                    controller.InitializeController();
+                }
             }
+          
         }
 
         private void Update()
         {
-            //Time.timeScale = _timeScale;
-            foreach (var controller in _gameControllers)
+            if (_run)
             {
-                controller.OnUpdateController();
+                //Time.timeScale = _timeScale;
+                foreach (var controller in _gameControllers)
+                {
+                    controller.OnUpdateController();
+                }
             }
+          
         }
 
         private void FixedUpdate()
         {
-            foreach (var controller in _gameControllers)
+            if (_run)
             {
-                controller.OnFixedUpdateController();
+                foreach (var controller in _gameControllers)
+                {
+                    controller.OnFixedUpdateController();
+                }
             }
+           
         }
 
         private void LateUpdate()
         {
-            foreach (var controller in _gameControllers)
+            if (_run)
             {
-                controller.OnLateUpdateController();
+                foreach (var controller in _gameControllers)
+                {
+                    controller.OnLateUpdateController();
+                }
             }
+        
         }
 
         private void OnDestroy()

@@ -39,7 +39,7 @@ namespace Assets.Scripts.Runtime.Models
 
             if (Camera != null && target != null)
             {
-                Debug.Log($"speed = {FollowSpeed}, angle = {Angle}, offset = {Offset}");
+                //Debug.Log($"speed = {FollowSpeed}, angle = {Angle}, offset = {Offset}");
               
                 Vector3 targetPosition = target.transform.position + Offset;
                 Camera.transform.position = Vector3.SmoothDamp(Camera.transform.position, targetPosition, ref _velocity, FollowSpeed*Time.deltaTime);
@@ -49,10 +49,12 @@ namespace Assets.Scripts.Runtime.Models
             }
         }
 
-        public override void FollowTarget(GameObject obj)
-        {
-            target = obj;
-            FollowTarget();
-        }
+     
+
+        //public override void FollowTarget(GameObject obj)
+        //{
+        //    target = obj;
+        //    FollowTarget();
+        //}
     }
 }

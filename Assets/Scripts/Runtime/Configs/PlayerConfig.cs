@@ -1,4 +1,5 @@
 using Assets.Scripts.Runtime.Controllers;
+using Assets.Scripts.Runtime.Controllers.Interactions;
 using Assets.Scripts.Runtime.Inventory;
 using Assets.Scripts.Runtime.Models;
 using Assets.Scripts.Runtime.Views;
@@ -20,9 +21,6 @@ namespace Assets.Scripts.Runtime.Configs
         [Header("Player Inventory Parameters")]
         [SerializeField] protected InventoryDTO playerInventoryData;
 
-        [Header("StateMachineConfig")]
-        [SerializeField] StateMachineConfig _stateMchineConfig;
-
         [Header("Player Initial Stats")]
         [SerializeField] private float _initialHP;
 
@@ -41,7 +39,11 @@ namespace Assets.Scripts.Runtime.Configs
         public abstract MovementModel BuildMovementModel(Rigidbody rigidbody);
         public abstract InputTypeBase BuildInputType();
         public abstract InventoryManagerBase GetInventoryManager();
+        public abstract InteractionController GetInteractionController();
         
     }
 }
+
+        
+
 

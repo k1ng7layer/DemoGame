@@ -55,7 +55,7 @@ namespace Assets.Scripts.Runtime.Controllers.Combat
                     _combatModel = new RangedCombatModel(_inventoryManager, _playerTransform, weaponCombatModel,_targetLayers);
                     break;
                 case WeaponAttackType.MELEE:
-                    Debug.Log($"_combatModel = {weaponCombatModel}, _targetLayers = {_targetLayers},_inventoryManager = {_inventoryManager} ");
+                    //Debug.Log($"_combatModel = {weaponCombatModel}, _targetLayers = {_targetLayers},_inventoryManager = {_inventoryManager} ");
                     _combatModel = new MeleeCombaModel(weaponCombatModel, _targetLayers, _inventoryManager);
                     break;
                 default:

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d47096ab5a14ff345b2a8b707b405df5, type: 3}
   m_Name: EnemyGuard
   m_EditorClassIdentifier: 
-  _weapon: {fileID: 11400000, guid: aa356ae04e8f99143a2bf4f4e847f9f5, type: 2}
+  _weapon: {fileID: 11400000, guid: 5f1dc69ba07a47d42a8c20f1d0caf580, type: 2}
   _hpBarViewPrefab: {fileID: 6646237334758405284, guid: bdd51d3c77c8ab34d825ea6cd4f59884, type: 3}
   _statusCanvasPrefab: {fileID: 1328331010618050001, guid: 676e25bf3af201648bcef0d1e0c38045, type: 3}
   _maxHp: 300

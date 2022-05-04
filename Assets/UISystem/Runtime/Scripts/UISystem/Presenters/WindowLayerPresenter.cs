@@ -14,7 +14,7 @@ namespace UISystem.Presenters
         public UIWindow DefaultWindow { get; set; }
         public override void Init()
         {
-            Debug.Log($"Init of windows layer presenter");
+            //Debug.Log($"Init of windows layer presenter");
             base.Init();
 
             foreach (var window in registeredObjects.Values)
@@ -25,13 +25,13 @@ namespace UISystem.Presenters
             DefaultWindow = FindUI("pauseMenu");
             CommonActionsSet();
             ActiveWindow = registeredObjects.Values.FirstOrDefault(x => x.isVisibleOnStart == true);
-            Debug.Log($"Active window = {ActiveWindow}");
+            //Debug.Log($"Active window = {ActiveWindow}");
         }
 
 
         public void OpenNewWindow(string id)
         {
-            Debug.Log($" DefaultWindow = {DefaultWindow}, ActiveWindow = {ActiveWindow}");
+            //Debug.Log($" DefaultWindow = {DefaultWindow}, ActiveWindow = {ActiveWindow}");
             if (ActiveWindow!=null)
                 ActiveWindow.Close();
 
@@ -49,19 +49,19 @@ namespace UISystem.Presenters
 
         private void SwitchActiveWindow()
         {
-            Debug.Log($" DefaultWindow = {DefaultWindow}, ActiveWindow = {ActiveWindow}");
+            //Debug.Log($" DefaultWindow = {DefaultWindow}, ActiveWindow = {ActiveWindow}");
 
             if (ActiveWindow == DefaultWindow)
             {
 
                 ActiveWindow.Close();
                 ActiveWindow = null;
-                Debug.Log($"CloseActiveWindow, DefaultWindow = {DefaultWindow}, ActiveWindow = {ActiveWindow}");
+                //Debug.Log($"CloseActiveWindow, DefaultWindow = {DefaultWindow}, ActiveWindow = {ActiveWindow}");
 
             }
             else
             {
-                Debug.Log($"OpenActiveWindow, DefaultWindow = {DefaultWindow}, ActiveWindow = {ActiveWindow}");
+                //Debug.Log($"OpenActiveWindow, DefaultWindow = {DefaultWindow}, ActiveWindow = {ActiveWindow}");
                 DefaultWindow.Open();
                 ActiveWindow = DefaultWindow;
             }

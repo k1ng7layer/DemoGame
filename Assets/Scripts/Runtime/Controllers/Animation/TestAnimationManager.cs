@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using UnityEngine;
 using System.Reflection;
 using System.Reflection.Emit;
-using UnityEngine.Events;
-using UnityEditor.Events;
+
+
 
 namespace Assets.Scripts.Runtime.Controllers.Animation
 {
@@ -17,7 +17,7 @@ namespace Assets.Scripts.Runtime.Controllers.Animation
         private static TestAnimationManager _instance;
         private List<Action> _callbacks; 
         public MonoBehaviour monoBehaviour;
-        [SerializeField]private UnityEvent unityEvent;
+        
         [SerializeField] TestUnityEvent testUnityEvent;
         public static TestAnimationManager Instance
         {
@@ -59,7 +59,7 @@ namespace Assets.Scripts.Runtime.Controllers.Animation
             //animationEvent.time = time;
             //animationEvent.functionName = "Test";
             //clip.AddEvent(animationEvent);
-            var method = unityEvent.GetPersistentMethodName(0);
+           
         }
         //public void AddCallBack(Action action)
         //{
@@ -79,18 +79,7 @@ namespace Assets.Scripts.Runtime.Controllers.Animation
         //}
         public void AddCallBack(Action action)
         {
-            UnityAction unityAction = new UnityAction(Test);
-            TestUnityEvent testUnityEvent = new TestUnityEvent();
-            //testUnityEvent.Register(0,)
-            testUnityEvent.AddListener(unityAction);
-            AnimationEvent animationEvent = new AnimationEvent();
-            animationEvent.time = 0.5f;
-            var clip = animator.runtimeAnimatorController.animationClips.Where(c => c.name == "Withdrawing Sword").FirstOrDefault();
-            //animationEvent.functionName = unityEvent.GetPersistentMethodName(0);
-            animationEvent.functionName = testUnityEvent.GetPersistentMethodName(0);
-            //animationEvent.functionName = "Test";
-            clip.AddEvent(animationEvent);
-
+         
 
         }
         public void CreateMethod(Action action, object target)

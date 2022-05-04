@@ -14,6 +14,7 @@ namespace Assets.Scripts.Runtime
         public abstract event Action OnInventoryOpen;
         public abstract event Action OnAttack;
         public abstract event Action OnDrawWeapon;
+        public abstract event Action OnUseButtonPressed;
         public float vertical { get; protected set; }
         public float horizontal { get; protected set; }
         public bool jump;

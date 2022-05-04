@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Runtime.Configs.LevelConfigs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ namespace Assets.Scripts.Runtime.Configs
     {
         //public PlayerConfig playerConfig;
         public ControllersConfig controllersConfig;
+        public SceneData sceneData;
         //public UIConfig uIConfig;
 
     }

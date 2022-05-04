@@ -90,7 +90,7 @@ namespace Assets.Scripts.Runtime.Models
             {
                 if (_currentDirection.magnitude > 0.1f)
                 {
-                    var force = new Vector3(0f, jumpforce, 0f) + _rb.transform.forward * jumpforce/4;
+                    var force = new Vector3(0f, jumpforce, 0f) + _rb.transform.forward * jumpforce;
                     _rb.AddForce(force);
                     Velocity = _rb.velocity;
                     _canJump = false;
@@ -171,9 +171,12 @@ namespace Assets.Scripts.Runtime.Models
                 Vector3 moveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
                 _rb.transform.rotation = Quaternion.Euler(0f, angle, 0f);
                 _currentDirection = moveDirection;
-                _rb.MovePosition(_rb.transform.position + moveDirection * speed * Time.fixedDeltaTime);
+                //_rb.MovePosition(_rb.transform.position + moveDirection * speed * Time.fixedDeltaTime);
+                
+                Vector3 move = _rb.transform.forward * moveDirection.magnitude;
+                _rb.transform.Translate(moveDirection * speed* Time.deltaTime,Space.World);
                 Velocity = _rb.velocity;
-                _animator.SetFloat("Movement", direction.normalized.magnitude* speed, LocomotionSmoothTime, Time.fixedDeltaTime);
+                _animator.SetFloat("Movement", direction.normalized.magnitude* speed, LocomotionSmoothTime, Time.deltaTime);
             }
             
         }

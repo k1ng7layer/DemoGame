@@ -20,7 +20,7 @@ namespace AIBehaviour
         public override NodeState Evaluate()
         {
 
-            Debug.Log($"TakingDamage = {_takingDamage}");
+            //Debug.Log($"TakingDamage = {_takingDamage}");
             if (_takingDamage)
                 return NodeState.FAILURE;
                 

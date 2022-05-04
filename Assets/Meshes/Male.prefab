@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 1246851294391157577}
   m_Layer: 8
   m_Name: Male
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -121,10 +121,10 @@ MonoBehaviour:
   _attackTiming_Clip1_BEGIN: 1.21
   _attackTiming_Clip1_END: 1.31
   _attackClip2: {fileID: -203655887218126122, guid: d8dd70dcd3fbb6f41b4908f6896466fc, type: 3}
-  _attackTiming_Clip2_BEGIN: 0.89
+  _attackTiming_Clip2_BEGIN: 0.82
   _attackTiming_Clip2_END: 1
   _jumpAttackClip: {fileID: -203655887218126122, guid: 00a5d180b83b5fb4f90e7c58420084c2, type: 3}
-  _attackTiming_jumpAttackClip_BEGIN: 1.78
+  _attackTiming_jumpAttackClip_BEGIN: 1.72
   _attackTiming_jumpAttackClip_END: 2
   _animator: {fileID: 0}
   animator: {fileID: 6563551697782795891}

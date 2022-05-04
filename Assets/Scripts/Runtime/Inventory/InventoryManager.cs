@@ -70,6 +70,7 @@ namespace Assets.Scripts.Runtime.Inventory
             UIActionContainer.ResolveAction<ItemEquipRequestAction>().AddListener(EquipItem);
             UIActionContainer.ResolveAction<ItemDescriptonRequestAction>().AddListener(DisplayItemDescription);
             UIActionContainer.ResolveAction<HideEquipedItemAction>().AddListener(HandleItemHideAction);
+            UIActionContainer.ResolveAction<ItemAddInInventoryRequestAction>().AddListener(HandleItemAddRequest);
         }
             
         public override void OnDestroyController()
@@ -78,11 +79,12 @@ namespace Assets.Scripts.Runtime.Inventory
             UIActionContainer.ResolveAction<ItemEquipRequestAction>().RemoveListener(EquipItem);
             UIActionContainer.ResolveAction<ItemDescriptonRequestAction>().RemoveListener(DisplayItemDescription);
             UIActionContainer.ResolveAction<HideEquipedItemAction>().RemoveListener(HandleItemHideAction);
+            UIActionContainer.ResolveAction<ItemAddInInventoryRequestAction>().RemoveListener(HandleItemAddRequest);
         }
         public override void OpenInventory()
         {
 
-            OpenLootWindowEventArgs eventArgs = new OpenLootWindowEventArgs(_inventoryItems);
+            OpenInventoryWindowEventArgs eventArgs = new OpenInventoryWindowEventArgs(_inventoryItems);
             ActionContainer.ResolveAction<OpenPlayerInventoryAction>().Dispatch(eventArgs);
         }
         protected override void RemoveItem(int id)
@@ -124,6 +126,7 @@ namespace Assets.Scripts.Runtime.Inventory
             _inventoryItems[eventArgs.ItemA_Index] = itemB;
             _inventoryItems[eventArgs.ItemB_Index] = temp;
         }
+
         protected override void EquipItem(ItemEquipRequestEventArgs eventArgs)
         {
             var item = _inventoryItems.Where(i => i.Item.Id == eventArgs.ItemId).FirstOrDefault();
@@ -261,8 +264,25 @@ namespace Assets.Scripts.Runtime.Inventory
         {
             
         }
+        private void HandleItemAddRequest(ItemAddInInventoryRequestEventArgs args)
+        {
+            
+            if (_inventoryItems.Count < _inventoryCapacity)
+            {
+                TryAddItem(args.RequestedItem.Item, 1);
+            }
+               
+        }
     }
 }
+              
+
+               
+                  
+                
+               
+               
+                    
 
 
         

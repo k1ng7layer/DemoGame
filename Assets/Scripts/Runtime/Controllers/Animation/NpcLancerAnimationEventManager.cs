@@ -25,7 +25,7 @@ namespace Assets.Scripts.Runtime.Controllers.Animation
         private void Start()
         {
             _animator = GetComponent<Animator>();
-            var weaponDrawClip = _animator.runtimeAnimatorController.animationClips.Where(c => c.name == _drawWeaponClip.name).FirstOrDefault();
+            var weaponDrawClip = _drawWeaponClip;
             AnimationEvent weaponDrawEvent = new AnimationEvent();
             weaponDrawEvent.time = _weaponSpawnTiming;
             weaponDrawEvent.functionName = "HandleSpawnWeapon";
@@ -34,7 +34,7 @@ namespace Assets.Scripts.Runtime.Controllers.Animation
 
 
             _animator = GetComponent<Animator>();
-            var weaponThrow = _animator.runtimeAnimatorController.animationClips.Where(c => c.name == _weaponThrowClip.name).FirstOrDefault();
+            var weaponThrow = _weaponThrowClip;
             AnimationEvent weaponThrowEvent = new AnimationEvent();
             weaponThrowEvent.time = _weaponThrowTiming;
             weaponThrowEvent.functionName = "HandleThrowWeapon";
@@ -44,13 +44,19 @@ namespace Assets.Scripts.Runtime.Controllers.Animation
 
         private void HandleSpawnWeapon(int hashCode)
         {
-            Debug.Log("SPAWN WEAPON");
-            OnWeaponDraw?.Invoke();
+            
+            if (_animator.GetInstanceID() == hashCode)
+            {
+                //Debug.Log($"SPAWN WEAPON IN {_animator.GetInstanceID()} by {hashCode}");
+                OnWeaponDraw?.Invoke();
+            }
+                   
         }
 
         private void HandleThrowWeapon(int hashCode)
         {
-            OnStartDealingDamage?.Invoke(AttackType.STAND);
+            if (_animator.GetInstanceID() == hashCode)
+                OnStartDealingDamage?.Invoke(AttackType.STAND);
         }
 
     }

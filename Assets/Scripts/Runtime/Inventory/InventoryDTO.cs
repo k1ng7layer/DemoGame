@@ -11,6 +11,7 @@ namespace Assets.Scripts.Runtime.Inventory
     public class InventoryDTO:ScriptableObject
     {
         [SerializeField]private List<InventoryItem> _inventoryItems = new List<InventoryItem>();
+        public List<InventoryItem> InventoryItems => _inventoryItems;
         public List<InventoryItem> GetInventoryItems() => _inventoryItems;
         public int Capacity;
     }

@@ -104,10 +104,10 @@ namespace Assets.Scripts.Runtime.Controllers
         private void OpenLootWindow(OpenLootWindowEventArgs eventArgs)
         {
             OpenWindow("lootWindow");
-            DisplayLootItemsEventArgs displayArgs = new DisplayLootItemsEventArgs(eventArgs.Loot, ui_Config.singleItemCellPrefab.gameObject, _mouseFollower);
+            DisplayLootItemsEventArgs displayArgs = new DisplayLootItemsEventArgs(eventArgs.Loot, _mouseFollower);
             UIActionContainer.ResolveAction<DisplayLootItemsAction>().Dispatch(displayArgs);
         }
-        private void OpenPlayerInventoryWindow(OpenLootWindowEventArgs eventArgs)
+        private void OpenPlayerInventoryWindow(OpenInventoryWindowEventArgs eventArgs)
         {
             if (_isInventoryOpen)
             {

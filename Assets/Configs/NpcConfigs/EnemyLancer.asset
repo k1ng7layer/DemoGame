@@ -15,7 +15,7 @@ MonoBehaviour:
   _weapon: {fileID: 11400000, guid: f7ce8def5404ce24da82f4f4c155d3e9, type: 2}
   _hpBarViewPrefab: {fileID: 6646237334758405284, guid: bdd51d3c77c8ab34d825ea6cd4f59884, type: 3}
   _statusCanvasPrefab: {fileID: 1328331010618050001, guid: 676e25bf3af201648bcef0d1e0c38045, type: 3}
-  _maxHp: 200
+  _maxHp: 250
   _behaviourTreeConfig: {fileID: 11400000, guid: 5ab1ad624534f604bbaeeb03d012ccd1, type: 2}
   _npcInventory: {fileID: 0}
   _targetLayers:

@@ -29,14 +29,14 @@ namespace Assets.Scripts.Runtime.Models
         {
             _target = target;
             _enabled = enable;
-            Debug.Log($"NavMeshTargetChaseModelNavMeshTargetChaseModel = {enable}");
+            //Debug.Log($"NavMeshTargetChaseModelNavMeshTargetChaseModel = {enable}");
             //_navMeshAgent.nextPosition = target.position;
             //_navMeshAgent.SetDestination(_target.transform.position);
             //var dir = _navMeshAgent.nextPosition = _rigidBody.transform.position;
             //_rigidBody.velocity = dir.normalized*10f;
-            Debug.Log($"_rigidBody velocity = {_rigidBody.velocity}");
-            Debug.Log($"Destination = {_navMeshAgent.destination}");
-                 Debug.Log($"NavMesh Target =  = {_target.name}");
+            //Debug.Log($"_rigidBody velocity = {_rigidBody.velocity}");
+            //Debug.Log($"Destination = {_navMeshAgent.destination}");
+            //     Debug.Log($"NavMesh Target =  = {_target.name}");
             //var move = Vector3.SmoothDamp(_rigidBody.transform.position, _navMeshAgent.nextPosition, ref _velocity, 10f);
             //_rigidBody.MovePosition(_rigidBody.transform.position + move);
           

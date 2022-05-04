@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Runtime.Configs;
+using Assets.Scripts.Runtime.Controllers.Interactions;
 using Assets.Scripts.Runtime.Inventory;
 using Assets.Scripts.Runtime.Models;
 using System;
@@ -31,6 +32,11 @@ namespace Assets.Scripts.Runtime.Controllers.PlayerControllers
             //    _rb = playerPrefab.gameObject.AddComponent<Rigidbody>();
             //}
             return new RigidBodyMovementModel(rigidbody);
+        }
+
+        public override InteractionController GetInteractionController()
+        {
+            return new InteractionController(SpawnedPlayerViewObject.transform);
         }
 
         public override InventoryManagerBase GetInventoryManager()

@@ -23,7 +23,7 @@ namespace Assets.Scripts.Runtime.Controllers
         }
         public void InitializeController()
         {
-            Debug.Log("SDSDSDSDD");
+            //Debug.Log("SDSDSDSDD");
             UIActionContainer.ResolveAction<UIOpenAction>().AddListener(SetTimeScale);
         }
 

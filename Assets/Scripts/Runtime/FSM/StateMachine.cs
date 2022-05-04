@@ -48,7 +48,7 @@ namespace Assets.Scripts.Runtime.FSM
             if(_currentState!=null)
                 _currentState.OnStateUpdate();
 
-            Debug.Log($"Current State = {_currentState}");
+            //Debug.Log($"Current State = {_currentState}");
         }
         public void FixedUpdateStateMachine()
         {
