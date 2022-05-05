@@ -12,7 +12,7 @@ using UnityEngine;
 namespace Assets.Scripts.Runtime.Controllers
 {
 
-    public class RootController:MonoBehaviour
+    public class RootController : MonoBehaviour
     {
         public CameraController cameraController { get; private set; }
         private static RootController _instance;
@@ -20,7 +20,8 @@ namespace Assets.Scripts.Runtime.Controllers
         private bool _init;
         [SerializeField] private ControllersConfig _config;
         [SerializeField] float _timeScale = 1;
-        [SerializeField] bool _developStart;
+       
+        private SceneStarter _sceneStarter;
         public static RootController Instance
         {
             get
@@ -34,64 +35,42 @@ namespace Assets.Scripts.Runtime.Controllers
         }
 
         private List<IController> _gameControllers;
-        
-
         public void StartRootController()
         {
-            _gameControllers = _config.GetControllers();
-            cameraController = _config.GetCameraController();
-            _init = true;
-            _run = true;
-           
+            if (!_init)
+            {
+                _gameControllers = _config.GetControllers();
+                cameraController = _config.GetCameraController();
+                foreach (var item in _gameControllers)
+                {
+                    ActionConfig.ConfigureActions();
+                    item.InitializeController();
+                }
+                _init = true;
+                _run = true;
+            }
         }
-        private void OnLevelWasLoaded(int level)
-        {
-            _developStart = false;
-        }
-
         public void SetUpController(ControllersConfig config)
         {
             _config = config;
-        
+
         }
 
+        private IEnumerator WaitForSceneStarterLoaded()
+        {
+            while (_sceneStarter==null)
+            {
+                _sceneStarter = FindObjectOfType<SceneStarter>();
+                yield return null;
+            }
+        }
         private void Awake()
         {
-            var sceneStarter = FindObjectOfType<SceneStarter>();
-
-            if (sceneStarter == null&&_developStart==true)
-                StartRootController();
-            //DontDestroyOnLoad(this.gameObject);
-
-            //Time.timeScale = 0f;            //Time.timeScale = _timeScale;
-            //var rootAsset = Resources.Load<RootAsset>("Root/Root");
-
-            //_gameControllers = rootAsset.controllersConfig.GetControllers();
-            //cameraController = rootAsset.controllersConfig.GetCameraController();
-            //_init = true;
-            //_run = true;
             if (_init)
             {
-                //Time.timeScale = 1f;
+               
             }
-          
-        }
-
-
-
-        private void Start()
-        {
-            if (_run)
-            {
-                ActionConfig.ConfigureActions();
-                foreach (var controller in _gameControllers)
-                {
-                    controller.InitializeController();
-                }
-            }
-          
-        }
-
+        } 
         private void Update()
         {
             if (_run)
@@ -156,3 +135,16 @@ namespace Assets.Scripts.Runtime.Controllers
 
     }
 }
+
+
+       
+
+      
+
+           
+          
+          
+
+
+
+    

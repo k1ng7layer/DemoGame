@@ -14,22 +14,16 @@ namespace Assets.Scripts.Runtime.Configs.LevelConfigs
 
         public void InitializeScene(ControllersConfig config)
         {
-            var findedController = FindObjectOfType<RootController>();
-            if (findedController != null)
+            rootController = FindObjectOfType<RootController>();
+       
+            if (rootController != null)
             {
-                Destroy(findedController.gameObject);
-                rootController = null;
-            }
-              
-            if (rootController == null)
-            {
-                GameObject obj = new GameObject("RootController");
-                rootController = obj.AddComponent<RootController>();
                 rootController.SetUpController(config);
                 rootController.StartRootController();
             }
-                
+
         }
     }
 }
+                
 

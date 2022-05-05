@@ -29,25 +29,17 @@ namespace Assets.Scripts.Runtime.FSM
             _combatManager = combatManager;
             _animator = animator;
         }
-
-
         public override void OnStateEnter()
         {
             _combatManager.OnAttack += HandleAttack;
             RootController.Instance.RunCoroutine(StuckAvoidRoutine());
-            //if (_movementModel.IsGrounded)
-            //{
             if (!_jumped)
             {
                 _movementModel.Jump(260f);
                 _jumped = true;
-                Debug.Log($"FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
+               
                 _animator.SetTrigger("Jump");
             }
-           
-            //}
-             
-           
         }
 
         public override void OnStateExit()
@@ -59,9 +51,6 @@ namespace Assets.Scripts.Runtime.FSM
 
         public override void OnStateFixedUpdate()
         {
-            Debug.Log($"_movementModel.IsGrounded ==== {_movementModel.IsGrounded}");
-            //Debug.Log($"_movementModel.Velocity ==== {_movementModel}");
-            Debug.Log($"UPDATE JUMPINGSTATE, velocity = {_movementModel.Velocity}");
             if (attack)
             {
                 attack = false;
@@ -69,7 +58,6 @@ namespace Assets.Scripts.Runtime.FSM
             }
             if (!_movementModel.IsGrounded)
                 _stateMachine.ChangeState("Jump");
-
         }
 
         public override void OnStateLateUpdate()
@@ -83,21 +71,25 @@ namespace Assets.Scripts.Runtime.FSM
         }
         private void HandleAttack(int a)
         {
-
-
-            Debug.Log($"ATTACK IN JUMP");
-
             attack = true;
         }
-
         public override void OnStateUpdate()
         {
        
 
-            //if (_movementModel.IsGrounded)
-            //{
-            //    _stateMachine.ChangeState("Walk");
-            //}
         }
     }
 }
+
+
+           
+            
+        
+
+             
+           
+
+
+            
+
+
